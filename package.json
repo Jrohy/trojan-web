@@ -7,6 +7,7 @@
     "serve": "vue-cli-service serve",
     "serve:dev": "cross-env API_TYPE=dev vue-cli-service serve",
     "build": "vue-cli-service build",
+    "analyze": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "dll": "webpack -p --progress --config ./webpack.dll.conf.js"
@@ -16,7 +17,6 @@
     "core-js": "^2.6.5",
     "crypto-js": "^3.2.1",
     "element-ui": "^2.9.2",
-    "moment": "^2.24.0",
     "nprogress": "^0.2.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",

@@ -6,21 +6,6 @@
             @click="toggleNavCollapse"
         >
         </span>
-        <el-breadcrumb separator="/">
-            <transition-group name="breadcrumb">
-                <!-- 防止面包屑导航出现 首页/首页， v-if="route.name!='home'" -->
-                <template v-for="(route,i) in crumbList">
-                    <el-breadcrumb-item
-                        :key="route.name"
-                        :to="{name:route.name}"
-                        v-if="route.name!='home' && route.meta.name!='首页'"
-                        :class="{'is-last-link':i==crumbList.length-1}"
-                    >
-                        {{route.meta.name}}
-                    </el-breadcrumb-item>
-                </template>
-            </transition-group>
-        </el-breadcrumb>
         <div class="aside__top--right">
             <div class="user-msg">
                 <el-dropdown trigger="click" placement="top">
@@ -32,10 +17,11 @@
                         <el-dropdown-item @click.native="dialogVisible=true">修改密码</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
-                <el-dialog :modal="false" title="k8s-manager版本" :visible.sync="versionVisible" :width="dialogWidth">
-                    <p> {{ versionList.version }} </p>
-                    <p> {{ versionList.buildDate }} </p>
-                    <p> {{ versionList.goVersion }} </p>
+                <el-dialog :modal="false" title="trojan管理程序版本" :visible.sync="versionVisible" :width="dialogWidth">
+                    <p> version: {{ versionList.version }} </p>
+                    <p> gitVersion: {{ versionList.gitVersion.slice(0,7) }} </p>
+                    <p> buildDate: {{ versionList.buildDate }} </p>
+                    <p> goVersion: {{ versionList.goVersion }} </p>
                     <div slot="footer" class="dialog-footer">
                         <el-button type="primary" @click="versionVisible = false">确 定</el-button>
                     </div>
@@ -67,7 +53,7 @@ import { mapState } from 'vuex'
 import CryptoJS from 'crypto-js'
 import { sleep } from '@/utils/common'
 import { resetPass } from '@/api/permission'
-// import { getVersion } from '@/api/k8s'
+import { version } from '@/api/common'
 
 export default {
     data() {
@@ -82,7 +68,8 @@ export default {
             versionList: {
                 version: '',
                 buildDate: '',
-                getVersion: ''
+                gitVersion: '',
+                goVersion: ''
             },
             pwdType: 'password',
             dialogVisible: false,
@@ -103,7 +90,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['isSidebarNavCollapse', 'crumbList'])
+        ...mapState(['isSidebarNavCollapse'])
     },
     created() {
         this.setDialogWidth()
@@ -125,9 +112,11 @@ export default {
             } else {
                 this.dialogWidth = '25%'
             }
+            this.$store.commit('SET_WIDTH', this.dialogWidth)
         },
         async systemVersion() {
-            // this.versionList = await getVersion()
+            let result = await version()
+            this.versionList = result.Data
         },
         async changePass() {
             let formData = new FormData()

@@ -7,5 +7,9 @@ export default {
     },
     toggleNavCollapse(state) {
         state.isSidebarNavCollapse = !state.isSidebarNavCollapse
+        localStorage.setItem('isSidebarNavCollapse', state.isSidebarNavCollapse)
+    },
+    SET_WIDTH(state, width) {
+        state.dialogWidth = width
     }
 }
