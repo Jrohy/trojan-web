@@ -1,14 +1,15 @@
+const User = () => import('@/views/user')
 
 const dynamicRoutes = [
-    // {
-    //     path: '/k8s',
-    //     component: K8s,
-    //     name: 'k8s-manage',
-    //     meta: {
-    //         name: 'k8s管理',
-    //         icon: 'example'
-    //     }
-    // }
+    {
+        path: '/user',
+        component: User,
+        name: 'user',
+        meta: {
+            name: '用户管理',
+            icon: 'example'
+        }
+    }
 ]
 
 export default dynamicRoutes

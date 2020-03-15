@@ -64,10 +64,7 @@ instance.interceptors.response.use(
         return response.data
     },
     err => {
-        if (err && err.response) {
-        } else {
-            err.message = '连接服务器失败'
-        }
+        Message.error('连接服务器失败')
         NProgress.done()
         return Promise.reject(err.response)
     }
