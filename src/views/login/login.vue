@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">trojan 管理平台</h3>
+        <h3 class="title"> {{title}} </h3>
       </div>
 
       <el-form-item prop="username">
@@ -92,15 +92,16 @@ export default {
             },
             loading: false,
             capsTooltip: false,
-            passwordType: 'password'
+            passwordType: 'password',
+            title: ''
         }
     },
     created() {
         check().then((res) => {
-            console.log(res)
             if (res.code === 201) {
                 this.$router.replace('/register')
             }
+            this.title = res.title
         })
     },
     mounted() {

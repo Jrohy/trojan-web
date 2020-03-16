@@ -7,7 +7,7 @@ const dynamicRoutes = [
         name: 'user',
         meta: {
             name: '用户管理',
-            icon: 'example'
+            icon: 'user'
         }
     }
 ]
