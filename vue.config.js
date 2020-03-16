@@ -146,15 +146,15 @@ module.exports = {
                     outputPath: './vendor'
                 }),
                 // 开启压缩
-                new CompressionWebpackPlugin({
-                    filename: '[path].gz[query]',
-                    algorithm: 'gzip',
-                    test: new RegExp(
-                        '\\.(' + productionGzipExtensions.join('|') + ')$'
-                    ),
-                    threshold: 10240,
-                    minRatio: 0.8
-                })
+                // new CompressionWebpackPlugin({
+                //     filename: '[path].gz[query]',
+                //     algorithm: 'gzip',
+                //     test: new RegExp(
+                //         '\\.(' + productionGzipExtensions.join('|') + ')$'
+                //     ),
+                //     threshold: 10240,
+                //     minRatio: 0.8
+                // })
             )
             if (process.env.npm_lifecycle_event === 'analyze') {
                 config.plugins.push(new BundleAnalyzerPlugin())
