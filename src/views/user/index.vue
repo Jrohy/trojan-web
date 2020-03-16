@@ -5,8 +5,8 @@
         <el-button-group>
             <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">刷新</el-button>
             <el-button type="primary" icon="el-icon-plus" @click.native="addUserVisible=true">添加</el-button>
-            <el-button type="primary" icon="el-icon-refresh-left" @click.native="handlePatchRestart()">重置流量</el-button>
-            <el-button type="danger" icon="el-icon-delete" @click.native="patchButton=true;deleteVisible=true">删除</el-button>
+            <el-button type="primary" icon="el-icon-refresh-left" @click.native="patchButton=true;commonType=1;commonVisible=true">重置流量</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click.native="patchButton=true;commonType=0;commonVisible=true">删除</el-button>
         </el-button-group>
     </el-form-item>
     </el-form>
@@ -50,7 +50,7 @@
                 编辑
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="userItem=scope.row; quotaVisible=true">限制流量</el-dropdown-item>
-                    <el-dropdown-item>重置流量</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; commonVisible=true">重置流量</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <el-button
@@ -60,7 +60,7 @@
             <el-button
             size="mini"
             type="text"
-            @click.native="userItem=scope.row;deleteVisible=true"
+            @click.native="userItem=scope.row;commonType=0;patchButton=false;commonVisible=true"
             >删除</el-button>
         </template>
         </el-table-column>
@@ -73,15 +73,17 @@
             <el-button type="primary" @click="handleAddUser()">确 定</el-button>
         </div>
     </el-dialog>
-    <el-dialog :title="deleteText" :visible.sync="deleteVisible" :width="dialogWidth">
-        {{ deleteUser }}
+    <el-dialog :title="commonTitle" :visible.sync="commonVisible" :width="dialogWidth">
+        {{ editUser }}
         <div slot="footer" class="dialog-footer">
-            <el-button @click="deleteVisible = false">取 消</el-button>
-            <el-button type="primary" @click="deleteVisible = false; patchButton ? handlePatchDelete(): handleDelete()">确 定</el-button>
+            <el-button @click="commonVisible = false">取 消</el-button>
+            <el-button type="primary" @click="commonVisible = false; patchButton ? handlePatchOpera(): handleOpera()">确 定</el-button>
         </div>
     </el-dialog>
     <el-dialog :title="quotaText" :visible.sync="quotaVisible" :width="dialogWidth">
-        <el-input-number v-model="quota" :min="0" :precision="0" size="mini"></el-input-number>
+        <el-tooltip effect="dark" content="-1代表无流量限制" placement="top">
+            <el-input-number v-model="quota" :min="-1" :precision="0" size="mini"></el-input-number>
+        </el-tooltip>
         <el-select v-model="quotaUnit" placeholder="请选择" size="mini" style="margin-left: 5px; width:80px">
             <el-option
             v-for="item in quotaOptions"
@@ -91,8 +93,8 @@
             </el-option>
         </el-select>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="quotaVisible = false">取 消</el-button>
-            <el-button type="primary" @click="quotaVisible = false; handleSetQuota()">确 定</el-button>
+            <el-button @click="quotaVisible=false">取 消</el-button>
+            <el-button type="primary" @click="quotaVisible=false; handleSetQuota()">确 定</el-button>
         </div>
     </el-dialog>
   </div>
@@ -100,7 +102,7 @@
 
 <script>
 import { userList, addUser, delUser } from '@/api/user'
-import { setQuota } from '@/api/data'
+import { setQuota, cleanData } from '@/api/data'
 import { readablizeBytes } from '@/utils/common'
 import { mapState } from 'vuex'
 export default {
@@ -111,11 +113,13 @@ export default {
             multipleSelection: [],
             clientHeight: 0,
             addUserVisible: false,
-            deleteVisible: false,
+            commonVisible: false,
             quotaVisible: false,
             patchButton: false,
+            // 确认框类型: 0删除, 1重置流量
+            commonType: 0,
             userItem: null,
-            quota: 0,
+            quota: -1,
             quotaUnit: 'MB',
             quotaOptions: [
                 {
@@ -133,16 +137,24 @@ export default {
     },
     computed: {
         ...mapState(['dialogWidth']),
-        deleteText: function() {
+        commonTitle: function() {
+            let text = ''
             if (this.patchButton) {
-                return '确定批量删除以下用户?'
+                if (this.commonType === 0) {
+                    text = '确定批量删除以下用户?'
+                } else if (this.commonType === 1) {
+                    text = '确定重置以下用户流量?'
+                }
             } else if (this.userItem !== null) {
-                return '确定删除用户 ' + this.userItem.Username + ' ?'
-            } else {
-                return ''
+                if (this.commonType === 0) {
+                    text = '确定删除用户 ' + this.userItem.Username + ' ?'
+                } else if (this.commonType === 1) {
+                    text = '确定重置用户 ' + this.userItem.Username + ' 的流量?'
+                }
             }
+            return text
         },
-        deleteUser: function() {
+        editUser: function() {
             if (this.patchButton) {
                 let result = ''
                 for (let i = 0; i < this.multipleSelection.length; i++) {
@@ -191,7 +203,8 @@ export default {
             return (a.Download + a.Upload) - (b.Download + b.Upload)
         },
         async handleSetQuota() {
-            if (this.quotaUnit === 'MB') {
+            if (this.quota === -1) {
+            } else if (this.quotaUnit === 'MB') {
                 this.quota = this.quota * 1024 * 1024
             } else if (this.quotaUnit === 'GB') {
                 this.quota = this.quota * 1024 * 1024 * 1024
@@ -212,13 +225,21 @@ export default {
             this.quota = 0
             this.refresh()
         },
-        async handlePatchDelete() {
+        async handlePatchOpera() {
+            let successText = ''
+            let result = null
             for (let i = 0; i < this.multipleSelection.length; i++) {
                 this.userItem = this.multipleSelection[i]
-                let result = await delUser(this.userItem.ID)
+                if (this.commonType === 0) {
+                    result = await delUser(this.userItem.ID)
+                    successText = `删除用户${this.userItem.Username}成功!`
+                } else if (this.commonType === 1) {
+                    result = await cleanData(this.userItem.ID)
+                    successText = `重置用户${this.userItem.Username}流量成功!`
+                }
                 if (result.Msg === 'success') {
                     this.$message({
-                        message: `删除用户${this.userItem.Username}成功!`,
+                        message: successText,
                         type: 'success'
                     })
                     this.userItem = null
@@ -226,14 +247,21 @@ export default {
                     this.$message.error(result.Msg)
                 }
             }
-            this.patchButton = false
             this.refresh()
         },
-        async handleDelete() {
-            let result = await delUser(this.userItem.ID)
+        async handleOpera() {
+            let successText = ''
+            let result = null
+            if (this.commonType === 0) {
+                result = await delUser(this.userItem.ID)
+                successText = `删除用户${this.userItem.Username}成功!`
+            } else if (this.commonType === 1) {
+                result = await cleanData(this.userItem.ID)
+                successText = `重置用户${this.userItem.Username}流量成功!`
+            }
             if (result.Msg === 'success') {
                 this.$message({
-                    message: `删除用户${this.userItem.Username}成功!`,
+                    message: successText,
                     type: 'success'
                 })
             } else {
