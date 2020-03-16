@@ -17,7 +17,7 @@
                         <b>trojan 用户数</b>
                     </el-col>
                     <el-col :span="10" :offset="valueOffset">
-                        {{ userList.length }}
+                        <el-link type='primary' @click.native="navigate('/user')">{{ userList.length }}</el-link>
                     </el-col>
                 </el-row>
                 <el-divider></el-divider>

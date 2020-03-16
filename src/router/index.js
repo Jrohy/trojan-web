@@ -42,7 +42,7 @@ export const DynamicRoutes = [
                 name: 'home',
                 meta: {
                     name: '首页',
-                    icon: 'tree'
+                    icon: 'nested'
                 }
             }
         ]

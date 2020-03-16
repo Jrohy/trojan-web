@@ -56,6 +56,7 @@
             <el-button
             size="mini"
             type="text"
+            @click.native="userItem=scope.row;handleShare()"
             >分享</el-button>
             <el-button
             size="mini"
@@ -97,6 +98,10 @@
             <el-button type="primary" @click="quotaVisible=false; handleSetQuota()">确 定</el-button>
         </div>
     </el-dialog>
+    <el-dialog title="trojan分享连接" :visible.sync="qrcodeVisible" :width="dialogWidth" @close="closeQRCode">
+        <div id="qrcode" ref="qrcode" class="qrcodeCenter"></div>
+        <p class="qrcodeCenter"> {{ shareLink }} </p>
+    </el-dialog>
   </div>
 </template>
 
@@ -105,16 +110,19 @@ import { userList, addUser, delUser } from '@/api/user'
 import { setQuota, cleanData } from '@/api/data'
 import { readablizeBytes } from '@/utils/common'
 import { mapState } from 'vuex'
+import QRCode from 'qrcodejs2'
 export default {
     data() {
         return {
             domain: '',
+            shareLink: '',
             dataList: [],
             multipleSelection: [],
             clientHeight: 0,
             addUserVisible: false,
             commonVisible: false,
             quotaVisible: false,
+            qrcodeVisible: false,
             patchButton: false,
             // 确认框类型: 0删除, 1重置流量
             commonType: 0,
@@ -201,6 +209,24 @@ export default {
         },
         totalSort(a, b) {
             return (a.Download + a.Upload) - (b.Download + b.Upload)
+        },
+        handleShare() {
+            this.shareLink = `trojan://${this.userItem.Password}@${this.domain}:443`
+            this.$nextTick(() => {
+                this.createQRCode()
+            })
+            this.qrcodeVisible = true
+        },
+        createQRCode() {
+            // eslint-disable-next-line
+            new QRCode('qrcode', {
+                width: 200,
+                height: 200,
+                text: this.shareLink
+            })
+        },
+        closeQRCode() {
+            this.$refs.qrcode.innerHTML = ''
         },
         async handleSetQuota() {
             if (this.quota === -1) {
@@ -304,3 +330,10 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.qrcodeCenter {
+    margin: 0 auto;
+    width: 200px;
+}
+</style>

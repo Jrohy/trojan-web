@@ -15,8 +15,18 @@
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item @click.native="systemVersion(); versionVisible=true">系统版本</el-dropdown-item>
                         <el-dropdown-item @click.native="dialogVisible=true">修改密码</el-dropdown-item>
+                        <el-tooltip effect="dark" content="修改登录页标题" placement="left">
+                            <el-dropdown-item @click.native="getTitle(); loginVisible=true">修改标题</el-dropdown-item>
+                        </el-tooltip>
                     </el-dropdown-menu>
                 </el-dropdown>
+                <el-dialog :modal="false" title="修改登录页标题" :visible.sync="loginVisible" :width="dialogWidth">
+                    <el-input type="text" v-model="title" placeholder="输入登录页标题" @keyup.enter.native="handleLoginInfo"/>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="loginVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="handleLoginInfo()">确 定</el-button>
+                    </div>
+                </el-dialog>
                 <el-dialog :modal="false" title="trojan管理程序版本" :visible.sync="versionVisible" :width="dialogWidth">
                     <p> version: {{ versionList.version }} </p>
                     <p> gitVersion: {{ versionList.gitVersion.slice(0,7) }} </p>
@@ -52,8 +62,8 @@
 import { mapState } from 'vuex'
 import CryptoJS from 'crypto-js'
 import { sleep } from '@/utils/common'
-import { resetPass } from '@/api/permission'
-import { version } from '@/api/common'
+import { resetPass, check } from '@/api/permission'
+import { version, setLoginInfo } from '@/api/common'
 
 export default {
     data() {
@@ -74,7 +84,9 @@ export default {
             pwdType: 'password',
             dialogVisible: false,
             versionVisible: false,
+            loginVisible: false,
             dialogWidth: '25%',
+            title: '',
             form: {
                 password1: '',
                 password2: ''
@@ -113,6 +125,25 @@ export default {
                 this.dialogWidth = '25%'
             }
             this.$store.commit('SET_WIDTH', this.dialogWidth)
+        },
+        async getTitle() {
+            let result = await check()
+            this.title = result.title
+        },
+        async handleLoginInfo() {
+            let formData = new FormData()
+            formData.set('title', this.title)
+            let result = await setLoginInfo(formData)
+            if (result.Msg === 'success') {
+                this.$message({
+                    message: '修复登录页标题成功!',
+                    type: 'success'
+                })
+                this.userItem = null
+            } else {
+                this.$message.error(result.Msg)
+            }
+            this.loginVisible = false
         },
         async systemVersion() {
             let result = await version()
