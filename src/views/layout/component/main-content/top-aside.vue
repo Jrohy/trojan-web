@@ -100,7 +100,10 @@ export default {
         }
     },
     computed: {
-        ...mapState(['isSidebarNavCollapse'])
+        ...mapState(['isSidebarNavCollapse', 'docTitle'])
+    },
+    created() {
+        document.title = this.docTitle
     },
     mounted() {
         this.setDialogWidth()
@@ -134,6 +137,8 @@ export default {
                     type: 'success'
                 })
                 this.userItem = null
+                document.title = this.title
+                this.$store.commit('SET_TITLE', this.title)
             } else {
                 this.$message.error(result.Msg)
             }

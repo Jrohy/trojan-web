@@ -97,7 +97,7 @@
             <el-button type="primary" @click="quotaVisible=false; handleSetQuota()">确 定</el-button>
         </div>
     </el-dialog>
-    <el-dialog title="trojan分享连接" :visible.sync="qrcodeVisible" :width="dialogWidth" @close="closeQRCode">
+    <el-dialog title="trojan分享链接" :visible.sync="qrcodeVisible" :width="dialogWidth" @close="closeQRCode">
         <div id="qrcode" ref="qrcode" class="qrcodeCenter"></div>
         <p class="qrcodeCenter"> {{ shareLink }} </p>
     </el-dialog>
