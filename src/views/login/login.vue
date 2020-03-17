@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import CryptoJS from 'crypto-js'
 import { check, login } from '@/api/permission'
 export default {
@@ -97,12 +98,18 @@ export default {
         }
     },
     created() {
+        document.title = this.docTitle
         check().then((res) => {
             if (res.code === 201) {
                 this.$router.replace('/register')
             }
-            this.title = res.title
+            this.title = res.data.title
+            document.title = this.title
+            this.$store.commit('SET_TITLE', this.title)
         })
+    },
+    computed: {
+        ...mapState(['docTitle'])
     },
     mounted() {
         this.$refs.password.focus()

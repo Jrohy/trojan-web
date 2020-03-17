@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { register, check } from '@/api/permission'
 import CryptoJS from 'crypto-js'
 export default {
@@ -54,7 +55,11 @@ export default {
             pwdType: 'password'
         }
     },
+    computed: {
+        ...mapState(['docTitle'])
+    },
     created() {
+        document.title = this.docTitle
         check().then((res) => {
             if (res.code === 200) {
                 this.$router.replace('/login')
