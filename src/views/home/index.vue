@@ -176,8 +176,8 @@ export default {
                     result += splitInfo[1] + '分 '
                     result += splitInfo[2] + '秒'
                 } else if (splitInfo.length === 2) {
-                    result += splitInfo[1] + '分 '
-                    result += splitInfo[2] + '秒'
+                    result += splitInfo[0] + '分 '
+                    result += splitInfo[1] + '秒'
                 }
             }
             return result
