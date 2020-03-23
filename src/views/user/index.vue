@@ -327,8 +327,12 @@ export default {
         },
         async getUserList() {
             let result = await userList()
-            this.dataList = result.Data.userList
-            this.domain = result.Data.domain
+            if (result.Msg === 'success') {
+                this.dataList = result.Data.userList
+                this.domain = result.Data.domain
+            } else {
+                this.$message.error(result.Msg)
+            }
         }
     }
 }

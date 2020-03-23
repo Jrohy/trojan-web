@@ -143,16 +143,20 @@ export default {
         },
         async getUserList() {
             let result = await userList()
-            let data = result.Data
-            this.userList = data.userList
-            let download = 0; let upload = 0
-            for (let i = 0; i < this.userList.length; i++) {
-                download += this.userList[i].Download
-                upload += this.userList[i].Upload
+            if (result.Msg === 'success') {
+                let data = result.Data
+                this.userList = data.userList
+                let download = 0; let upload = 0
+                for (let i = 0; i < this.userList.length; i++) {
+                    download += this.userList[i].Download
+                    upload += this.userList[i].Upload
+                }
+                this.downloadData = readablizeBytes(download)
+                this.uploadData = readablizeBytes(upload)
+                this.totalData = readablizeBytes(download + upload)
+            } else {
+                this.$message.error(result.Msg)
             }
-            this.downloadData = readablizeBytes(download)
-            this.uploadData = readablizeBytes(upload)
-            this.totalData = readablizeBytes(download + upload)
         },
         async getVersion() {
             let result = await version()
