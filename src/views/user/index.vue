@@ -299,6 +299,10 @@ export default {
                 this.$message.error('用户名或密码不能为空!')
                 return
             }
+            if (this.addUser.username === 'admin') {
+                this.$message.error('不能创建用户名为admin的用户!')
+                return
+            }
             let formData = new FormData()
             formData.set('username', this.addUser.username)
             formData.set('password', btoa(this.addUser.password))
