@@ -125,7 +125,7 @@ export default {
         },
         async getTitle() {
             let result = await check()
-            this.title = result.title
+            this.title = result.data.title
         },
         async handleLoginInfo() {
             let formData = new FormData()
