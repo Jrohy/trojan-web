@@ -15,5 +15,8 @@ export default {
     },
     SET_WIDTH(state, width) {
         state.dialogWidth = width
+    },
+    SET_NPROGRESS(state, bool) {
+        state.nprogress = bool
     }
 }

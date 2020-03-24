@@ -45,7 +45,11 @@ var instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
     function(config) {
-        NProgress.start()
+        if (store.state.nprogress) {
+            NProgress.start()
+        } else {
+            store.commit('SET_NPROGRESS', true)
+        }
         // 请求头添加token
         if (store.state.UserToken) {
             config.headers.Authorization = `Bearer ${store.state.UserToken}`

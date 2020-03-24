@@ -2,6 +2,38 @@
    <div>
     <el-row>
         <el-col :span='24'>
+            <el-card shadow="always" style="margin-bottom: 10px">
+                <el-row>
+                    <el-col :sm="24" :md="12">
+                        <el-row>
+                            <el-col :span="12" style="text-align: center">
+                                <el-progress type="dashboard" :percentage="cpu.percentage" :color="cpu.color"></el-progress>
+                                <div>CPU</div>
+                            </el-col>
+                            <el-col :span="12" style="text-align: center">
+                                <el-progress type="dashboard" :percentage="memory.percentage" :color="memory.color"></el-progress>
+                                <div>内存: {{memory.used}}/{{memory.total}}</div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-row>
+                            <el-col :span="12" style="text-align: center">
+                                <el-progress type="dashboard" :percentage="swap.percentage" :color="swap.color"></el-progress>
+                                <div>swap: {{swap.used}}/{{swap.total}}</div>
+                            </el-col>
+                            <el-col :span="12" style="text-align: center">
+                                <el-progress type="dashboard" :percentage="disk.percentage" :color="disk.color"></el-progress>
+                                <div>硬盘: {{disk.used}}/{{disk.total}}</div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+            </el-card>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-col :span='24'>
             <el-card>
                 <el-row>
                     <el-col :span="7" :offset="keyOffset">
@@ -37,21 +69,21 @@
             <el-card shadow="hover">
                 <i v-if="iconShow" :class="uploadIcon" class="home-icon"></i>
                 上传:
-                <el-tag effect="dark" size="mini">{{ uploadData }}</el-tag>
+                <el-tag effect="dark" size="mini" type="success">{{ uploadData }}</el-tag>
             </el-card>
         </el-col>
         <el-col :span='7' :offset='1'>
             <el-card shadow="hover">
                 <i v-if="iconShow" :class="downloadIcon" class="home-icon"></i>
                 下载:
-                <el-tag effect="dark" size="mini">{{ downloadData }}</el-tag>
+                <el-tag effect="dark" size="mini" type="success">{{ downloadData }}</el-tag>
             </el-card>
         </el-col>
         <el-col :span='7' :offset='1'>
             <el-card shadow="hover">
                 <i v-if="iconShow" :class="totalIcon" class="home-icon"></i>
                 总流量:
-                <el-tag effect="dark" size="mini">{{ totalData }}</el-tag>
+                <el-tag effect="dark" size="mini" type="success">{{ totalData }}</el-tag>
             </el-card>
         </el-col>
     </el-row>
@@ -59,13 +91,14 @@
 </template>
 
 <script>
-import { version } from '@/api/common'
+import { version, serverInfo } from '@/api/common'
 import { userList } from '@/api/user'
 import { readablizeBytes } from '@/utils/common'
 
 export default {
     data() {
         return {
+            timer: null,
             iconShow: true,
             trojanVersion: '',
             trojanRuntime: '',
@@ -103,7 +136,11 @@ export default {
                 'lollipop',
                 'ice-cream-square',
                 'ice-cream-round'
-            ]
+            ],
+            cpu: { percentage: 0, color: '' },
+            memory: { percentage: 0, used: 0, total: 0, color: '' },
+            swap: { percentage: 0, used: 0, total: 0, color: '' },
+            disk: { percentage: 0, used: 0, total: 0, color: '' }
         }
     },
     created() {
@@ -113,11 +150,18 @@ export default {
         this.randomIcon()
     },
     mounted() {
+        this.getServerInfo()
+        this.timer = setInterval(() => {
+            this.getServerInfo()
+        }, 5000)
         window.onresize = () => {
             return (() => {
                 this.setOffset()
             })()
         }
+    },
+    destroyed() {
+        clearInterval(this.timer)
     },
     methods: {
         randomIcon() {
@@ -140,6 +184,35 @@ export default {
         },
         navigate(path) {
             this.$router.push({ path: path })
+        },
+        getServerInfo() {
+            this.$store.commit('SET_NPROGRESS', false)
+            serverInfo().then((res) => {
+                let data = res.Data
+                this.cpu.percentage = parseInt(data.cpu[0].toFixed(2))
+                this.cpu.color = this.computeColor(this.cpu.percentage)
+                this.memory = this.computePercent(data.memory)
+                this.swap = this.computePercent(data.swap)
+                this.disk = this.computePercent(data.disk)
+            })
+        },
+        computePercent(data) {
+            let percent = parseInt(data.usedPercent.toFixed(2))
+            return {
+                percentage: percent,
+                used: readablizeBytes(data.used),
+                total: readablizeBytes(data.total),
+                color: this.computeColor(percent)
+            }
+        },
+        computeColor(percent) {
+            if (percent < 80) {
+                return '#67C23A'
+            } else if (percent < 90) {
+                return '#E6A23C'
+            } else {
+                return '#F56C6C'
+            }
         },
         async getUserList() {
             let result = await userList()
