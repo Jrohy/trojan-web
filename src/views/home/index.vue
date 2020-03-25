@@ -2,7 +2,7 @@
    <div>
     <el-row>
         <el-col :span='24'>
-            <el-card shadow="always" style="margin-bottom: 10px">
+            <el-card shadow="hover">
                 <el-row>
                     <el-col :sm="24" :md="12">
                         <el-row>
@@ -33,34 +33,30 @@
         </el-col>
     </el-row>
     <el-row>
-        <el-col :span='24'>
-            <el-card>
-                <el-row>
-                    <el-col :span="7" :offset="keyOffset">
-                        <b>trojan 版本</b>
-                    </el-col>
-                    <el-col :span="10" :offset="valueOffset">
-                        {{ trojanVersion }}
-                    </el-col>
-                </el-row>
-                <el-divider></el-divider>
-                <el-row>
-                    <el-col :span="7" :offset="keyOffset">
-                        <b>trojan 用户数</b>
-                    </el-col>
-                    <el-col :span="10" :offset="valueOffset">
-                        <el-link type='primary' @click.native="navigate('/user')">{{ userList.length }}</el-link>
-                    </el-col>
-                </el-row>
-                <el-divider></el-divider>
-                <el-row>
-                    <el-col :span="7" :offset="keyOffset">
-                        <b>trojan 已运行</b>
-                    </el-col>
-                    <el-col :span="10" :offset="valueOffset">
-                        {{ trojanRuntime }}
-                    </el-col>
-                </el-row>
+        <el-col :sm="24" :md="12">
+            <el-card class="home-card" shadow="hover">
+                    trojan 版本: {{ trojanVersion }}
+            </el-card>
+        </el-col>
+        <el-col :sm="24" :md="12">
+            <el-card class="home-card" shadow="hover">
+                    trojan 用户数: <el-link type='primary' @click.native="navigate('/user')">{{ userList.length }}</el-link>
+            </el-card>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-col :sm="24" :md="12">
+            <el-card class="home-card" shadow="hover">
+                    trojan 已运行: {{ trojanRuntime }}
+            </el-card>
+        </el-col>
+        <el-col :sm="24" :md="12">
+            <el-card class="home-card" shadow="hover">
+                    <el-tooltip class="item" effect="dark" content="load1, load5, load15" placement="top-start">
+                        <div>
+                            服务器负载: {{ load }}
+                        </div>
+                    </el-tooltip>
             </el-card>
         </el-col>
     </el-row>
@@ -140,7 +136,8 @@ export default {
             cpu: { percentage: 0, color: '' },
             memory: { percentage: 0, used: 0, total: 0, color: '' },
             swap: { percentage: 0, used: 0, total: 0, color: '' },
-            disk: { percentage: 0, used: 0, total: 0, color: '' }
+            disk: { percentage: 0, used: 0, total: 0, color: '' },
+            load: ''
         }
     },
     created() {
@@ -150,10 +147,13 @@ export default {
         this.randomIcon()
     },
     mounted() {
+        this.$store.commit('SET_NPROGRESS', false)
         this.getServerInfo()
         this.timer = setInterval(() => {
             this.getServerInfo()
-        }, 5000)
+            this.getVersion()
+            this.getUserList()
+        }, 6000)
         window.onresize = () => {
             return (() => {
                 this.setOffset()
@@ -161,6 +161,7 @@ export default {
         }
     },
     destroyed() {
+        this.$store.commit('SET_NPROGRESS', true)
         clearInterval(this.timer)
     },
     methods: {
@@ -186,18 +187,18 @@ export default {
             this.$router.push({ path: path })
         },
         getServerInfo() {
-            this.$store.commit('SET_NPROGRESS', false)
             serverInfo().then((res) => {
                 let data = res.Data
-                this.cpu.percentage = parseInt(data.cpu[0].toFixed(2))
+                this.cpu.percentage = parseFloat(data.cpu[0].toFixed(2))
                 this.cpu.color = this.computeColor(this.cpu.percentage)
                 this.memory = this.computePercent(data.memory)
                 this.swap = this.computePercent(data.swap)
                 this.disk = this.computePercent(data.disk)
+                this.load = data.load.load1 + ', ' + data.load.load5 + ', ' + data.load.load15
             })
         },
         computePercent(data) {
-            let percent = parseInt(data.usedPercent.toFixed(2))
+            let percent = parseFloat(data.usedPercent.toFixed(2))
             return {
                 percentage: percent,
                 used: readablizeBytes(data.used),
@@ -267,5 +268,9 @@ export default {
 .home-icon {
     font-size: 32px;
     padding: 0;
+}
+.home-card {
+    // margin-top:10px;
+    padding:3px;
 }
 </style>
