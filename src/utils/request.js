@@ -47,8 +47,6 @@ instance.interceptors.request.use(
     function(config) {
         if (store.state.nprogress) {
             NProgress.start()
-        } else {
-            store.commit('SET_NPROGRESS', true)
         }
         // 请求头添加token
         if (store.state.UserToken) {
