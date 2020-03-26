@@ -35,28 +35,54 @@
     <el-row>
         <el-col :sm="24" :md="12">
             <el-card class="home-card" shadow="hover">
-                    trojan 版本: {{ trojanVersion }}
+                <el-row>
+                    <el-col :span="10">
+                        <b> trojan 版本: </b>
+                    </el-col>
+                    <el-col :span="12" style="padding-top:1px">
+                        {{ trojanVersion }}
+                    </el-col>
+                </el-row>
             </el-card>
         </el-col>
         <el-col :sm="24" :md="12">
             <el-card class="home-card" shadow="hover">
-                    trojan 用户数: <el-link type='primary' @click.native="navigate('/user')">{{ userList.length }}</el-link>
+                <el-row>
+                    <el-col :span="10">
+                        <b>trojan 用户数:</b>
+                    </el-col>
+                    <el-col :span="12" style="padding-top:1px">
+                        <el-link type='primary' @click.native="navigate('/user')">{{ userList.length }}</el-link>
+                    </el-col>
+                </el-row>
             </el-card>
         </el-col>
     </el-row>
     <el-row>
         <el-col :sm="24" :md="12">
             <el-card class="home-card" shadow="hover">
-                    trojan 已运行: {{ trojanRuntime }}
+                <el-row>
+                    <el-col :span="10">
+                        <b>trojan 已运行:</b>
+                    </el-col>
+                    <el-col :span="12"  style="padding-top:1px">
+                        {{ trojanRuntime }}
+                    </el-col>
+                </el-row>
             </el-card>
         </el-col>
         <el-col :sm="24" :md="12">
             <el-card class="home-card" shadow="hover">
-                    <el-tooltip class="item" effect="dark" content="load1, load5, load15" placement="top-start">
-                        <div>
-                            服务器负载: {{ load }}
-                        </div>
+                <el-row>
+                    <el-col :span="10">
+                        <b>服务器负载:</b>
+                    </el-col>
+                    <el-tooltip class="item" effect="dark" content="load1, load5, load15" placement="left-end">
+                        <el-col :span="12" style="padding-top:1px">
+                            {{ load }}
+                        </el-col>
                     </el-tooltip>
+                </el-row>
             </el-card>
         </el-col>
     </el-row>
@@ -78,7 +104,7 @@
         <el-col :span='7' :offset='1'>
             <el-card shadow="hover">
                 <i v-if="iconShow" :class="totalIcon" class="home-icon"></i>
-                总流量:
+                总共:
                 <el-tag effect="dark" size="mini" type="success">{{ totalData }}</el-tag>
             </el-card>
         </el-col>
