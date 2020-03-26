@@ -66,7 +66,7 @@ instance.interceptors.response.use(
         return response.data
     },
     err => {
-        if (err.response === undefined) {
+        if (store.state.nprogress && err.response === undefined) {
             Message.error('连接服务器失败')
         }
         NProgress.done()
