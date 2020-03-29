@@ -9,6 +9,10 @@ export default {
         state.isSidebarNavCollapse = !state.isSidebarNavCollapse
         localStorage.setItem('isSidebarNavCollapse', state.isSidebarNavCollapse)
     },
+    SET_ADMIN(state, bool) {
+        state.isAdmin = bool
+        localStorage.setItem('isAdmin', bool)
+    },
     SET_TITLE(state, docTitle) {
         state.docTitle = docTitle
         localStorage.setItem('docTitle', state.docTitle)

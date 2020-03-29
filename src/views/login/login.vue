@@ -57,22 +57,22 @@ import { check, login } from '@/api/permission'
 export default {
     data() {
         const validateUsername = (rule, value, callback) => {
-            if (value.length < 5) {
-                callback(new Error('请输入正确的用户名'))
+            if (value.length < 1) {
+                callback(new Error('请输入用户名'))
             } else {
                 callback()
             }
         }
         const validatePass = (rule, value, callback) => {
-            if (value.length < 5) {
-                callback(new Error('密码不能小于5位'))
+            if (value.length < 1) {
+                callback(new Error('请输入密码'))
             } else {
                 callback()
             }
         }
         return {
             loginForm: {
-                username: 'admin',
+                username: '',
                 password: ''
             },
             loginRules: {
@@ -133,6 +133,11 @@ export default {
             this.loginForm.password = CryptoJS.SHA224(this.loginForm.password).toString()
             let data = await login(this.loginForm)
             let token = data.token
+            let isAdmin = false
+            if (this.loginForm.username === 'admin') {
+                isAdmin = true
+            }
+            this.$store.commit('SET_ADMIN', isAdmin)
             this.$store.commit('LOGIN_IN', token)
             this.$router.replace('/')
         }
