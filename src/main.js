@@ -20,14 +20,14 @@ Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
     if (!store.state.UserToken) {
-        if (to.matched.length > 0 && !to.matched.some(record => record.meta.requiresAuth)) {
+        if (to.matched.length > 0) {
             next()
         } else {
             next({ path: '/login' })
         }
     } else {
-        if (!store.state.permission.permissionList) {
-            store.dispatch('permission/FETCH_PERMISSION').then(() => {
+        if (store.state.menu.sidebarMenu.length === 0) {
+            store.dispatch('menu/GEN_MENU').then(() => {
                 next({ path: to.path })
             })
         } else {
@@ -41,7 +41,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from, next) => {
-    store.commit('permission/SET_CURRENT_MENU', to.name)
+    store.commit('menu/SET_CURRENT_MENU', to.name)
 })
 
 /* eslint-disable no-new */

@@ -1,5 +1,5 @@
-import permission from './modules/permission'
+import menu from './modules/menu'
 
 export default {
-    permission
+    menu
 }

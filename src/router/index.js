@@ -24,19 +24,17 @@ export default new Router({
 })
 
 /* 准备动态添加的路由 */
-export const DynamicRoutes = [
+export const MainRoutes = [
     {
         path: '',
         component: Layout,
         name: 'container',
         redirect: 'home',
         meta: {
-            requiresAuth: true,
             name: '首页'
         },
         children: [
             {
-                id: 1,
                 path: 'home',
                 component: Home,
                 name: 'home',
