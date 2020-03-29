@@ -14,8 +14,8 @@
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item @click.native="systemVersion(); versionVisible=true">系统版本</el-dropdown-item>
-                        <el-dropdown-item @click.native="getTitle(); loginVisible=true">修改标题</el-dropdown-item>
-                        <el-dropdown-item @click.native="dialogVisible=true">修改密码</el-dropdown-item>
+                        <el-dropdown-item @click.native="getTitle(); loginVisible=true" v-if="isAdmin">修改标题</el-dropdown-item>
+                        <el-dropdown-item @click.native="dialogVisible=true" v-if="isAdmin">修改密码</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
                 <el-dialog :modal="false" title="修改登录页标题" :visible.sync="loginVisible" :width="dialogWidth">
@@ -100,7 +100,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['isSidebarNavCollapse', 'docTitle'])
+        ...mapState(['isSidebarNavCollapse', 'docTitle', 'isAdmin'])
     },
     created() {
         document.title = this.docTitle
