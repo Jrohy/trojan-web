@@ -1,6 +1,6 @@
 <template>
    <div>
-    <el-row>
+    <el-row v-if="isAdmin">
         <el-col :span='24'>
             <el-card shadow="hover">
                 <el-row>
@@ -71,7 +71,7 @@
                 </el-row>
             </el-card>
         </el-col>
-        <el-col :sm="24" :md="12">
+        <el-col :sm="24" :md="12" v-if="isAdmin">
             <el-card class="home-card" shadow="hover">
                 <el-row>
                     <el-col :span="10">
@@ -116,6 +116,7 @@
 import { version, serverInfo } from '@/api/common'
 import { userList } from '@/api/user'
 import { readablizeBytes } from '@/utils/common'
+import { mapState } from 'vuex'
 
 export default {
     data() {
@@ -166,6 +167,9 @@ export default {
             load: ''
         }
     },
+    computed: {
+        ...mapState(['isAdmin'])
+    },
     created() {
         this.setOffset()
         this.getVersion()
@@ -174,9 +178,13 @@ export default {
     },
     mounted() {
         this.$store.commit('SET_NPROGRESS', false)
-        this.getServerInfo()
-        this.timer = setInterval(() => {
+        if (this.isAdmin) {
             this.getServerInfo()
+        }
+        this.timer = setInterval(() => {
+            if (this.isAdmin) {
+                this.getServerInfo()
+            }
             this.getVersion()
             this.getUserList()
         }, 6000)

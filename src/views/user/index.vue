@@ -4,9 +4,9 @@
     <el-form-item size="mini">
         <el-button-group>
             <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">刷新</el-button>
-            <el-button type="primary" icon="el-icon-plus" @click.native="addUserVisible=true">添加</el-button>
-            <el-button type="primary" icon="el-icon-refresh-left" @click.native="patchButton=true;commonType=1;commonVisible=true">重置流量</el-button>
-            <el-button type="danger" icon="el-icon-delete" @click.native="patchButton=true;commonType=0;commonVisible=true">删除</el-button>
+            <el-button type="primary" icon="el-icon-plus" @click.native="addUserVisible=true" v-if="isAdmin">添加</el-button>
+            <el-button type="primary" icon="el-icon-refresh-left" @click.native="patchButton=true;commonType=1;commonVisible=true" v-if="isAdmin">重置流量</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click.native="patchButton=true;commonType=0;commonVisible=true" v-if="isAdmin">删除</el-button>
         </el-button-group>
     </el-form-item>
     </el-form>
@@ -14,7 +14,7 @@
     :data="dataList" style="width: 100%" :height="clientHeight" @selection-change="handleSelectionChange">
         <el-table-column
         type="selection"
-        width="55">
+        width="55" v-if="isAdmin">
         </el-table-column>
         <el-table-column
         label="用户名"
@@ -45,7 +45,7 @@
         label="操作"
         width="140">
         <template slot-scope="scope">
-            <el-dropdown  size="mini" split-button type="text">
+            <el-dropdown  size="mini" split-button type="text" v-if="isAdmin">
                 编辑
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="userItem=scope.row; quotaVisible=true">限制流量</el-dropdown-item>
@@ -58,6 +58,7 @@
             @click.native="userItem=scope.row;handleShare()"
             >分享</el-button>
             <el-button
+            v-if="isAdmin"
             size="mini"
             type="text"
             @click.native="userItem=scope.row;commonType=0;patchButton=false;commonVisible=true"
@@ -143,7 +144,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['dialogWidth']),
+        ...mapState(['dialogWidth', 'isAdmin']),
         commonTitle: function() {
             let text = ''
             if (this.patchButton) {
