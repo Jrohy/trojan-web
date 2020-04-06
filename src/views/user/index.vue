@@ -11,7 +11,7 @@
     </el-form-item>
     </el-form>
     <el-table
-    :data="dataList" style="width: 100%" :height="clientHeight" @selection-change="handleSelectionChange">
+    :data="dataList.filter(data => !search || data.Username.toLowerCase().includes(search.toLowerCase()))" style="width: 100%" :height="clientHeight" @selection-change="handleSelectionChange">
         <el-table-column
         type="selection"
         width="55" v-if="isAdmin">
@@ -42,8 +42,14 @@
         :formatter="quotaFormatter">
         </el-table-column>
         <el-table-column
-        label="操作"
-        width="140">
+        width="170"
+        align="center">
+        <template slot="header">
+        <el-input
+            v-model="search"
+            size="small"
+            placeholder="输入用户名搜索"/>
+        </template>
         <template slot-scope="scope">
             <el-dropdown  size="mini" split-button type="text" v-if="isAdmin">
                 编辑
@@ -115,6 +121,7 @@ import QRCode from 'qrcodejs2'
 export default {
     data() {
         return {
+            search: '',
             domain: '',
             shareLink: '',
             dataList: [],
