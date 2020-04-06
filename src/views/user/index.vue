@@ -4,9 +4,9 @@
     <el-form-item size="mini">
         <el-button-group>
             <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">刷新</el-button>
-            <el-button type="primary" icon="el-icon-plus" @click.native="addUserVisible=true" v-if="isAdmin">添加</el-button>
-            <el-button type="primary" icon="el-icon-refresh-left" @click.native="patchButton=true;commonType=1;commonVisible=true" v-if="isAdmin">重置流量</el-button>
-            <el-button type="danger" icon="el-icon-delete" @click.native="patchButton=true;commonType=0;commonVisible=true" v-if="isAdmin">删除</el-button>
+            <el-button type="primary" icon="el-icon-plus" @click.native="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">添加</el-button>
+            <el-button type="primary" icon="el-icon-refresh-left" @click.native="patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">重置流量</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click.native="patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">删除</el-button>
         </el-button-group>
     </el-form-item>
     </el-form>
@@ -49,7 +49,8 @@
                 编辑
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="userItem=scope.row; quotaVisible=true">限制流量</el-dropdown-item>
-                    <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; commonVisible=true">重置流量</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">重置流量</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; userInfo.username=userItem.Username; userInfo.password=userItem.Password; commonType=3; userVisible=true">修改账密</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <el-button
@@ -61,24 +62,24 @@
             v-if="isAdmin"
             size="mini"
             type="text"
-            @click.native="userItem=scope.row;commonType=0;patchButton=false;commonVisible=true"
+            @click.native="userItem=scope.row;commonType=0;patchButton=false;confirmVisible=true"
             >删除</el-button>
         </template>
         </el-table-column>
     </el-table>
-    <el-dialog title="新增trojan用户" :visible.sync="addUserVisible" :width="dialogWidth">
-        <el-input type="text" v-model="addUser.username" placeholder="输入用户名"/>
-        <el-input type="text" v-model="addUser.password" placeholder="输入密码"/>
+    <el-dialog :title="commonTitle" :visible.sync="userVisible" :width="dialogWidth">
+        <el-input type="text" v-model="userInfo.username" placeholder="输入用户名"/>
+        <el-input type="text" v-model="userInfo.password" placeholder="输入密码"/>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="addUserVisible = false">取 消</el-button>
-            <el-button type="primary" @click="handleAddUser()">确 定</el-button>
+            <el-button @click="userVisible = false">取 消</el-button>
+            <el-button type="primary" @click="commonType === 2? handleAddUser(): handleUpdateUser()">确 定</el-button>
         </div>
     </el-dialog>
-    <el-dialog :title="commonTitle" :visible.sync="commonVisible" :width="dialogWidth">
+    <el-dialog :title="commonTitle" :visible.sync="confirmVisible" :width="dialogWidth">
         {{ editUser }}
         <div slot="footer" class="dialog-footer">
-            <el-button @click="commonVisible = false">取 消</el-button>
-            <el-button type="primary" @click="commonVisible = false; patchButton ? handlePatchOpera(): handleOpera()">确 定</el-button>
+            <el-button @click="confirmVisible = false">取 消</el-button>
+            <el-button type="primary" @click="confirmVisible = false; patchButton ? handlePatchOpera(): handleOpera()">确 定</el-button>
         </div>
     </el-dialog>
     <el-dialog :title="quotaText" :visible.sync="quotaVisible" :width="dialogWidth">
@@ -106,7 +107,7 @@
 </template>
 
 <script>
-import { userList, addUser, delUser } from '@/api/user'
+import { userList, addUser, delUser, updateUser } from '@/api/user'
 import { setQuota, cleanData } from '@/api/data'
 import { readablizeBytes } from '@/utils/common'
 import { mapState } from 'vuex'
@@ -119,12 +120,12 @@ export default {
             dataList: [],
             multipleSelection: [],
             clientHeight: 0,
-            addUserVisible: false,
-            commonVisible: false,
+            userVisible: false,
+            confirmVisible: false,
             quotaVisible: false,
             qrcodeVisible: false,
             patchButton: false,
-            // 确认框类型: 0删除, 1重置流量
+            // 确认框类型: 0删除, 1重置流量, 2新增用户, 3修改用户
             commonType: 0,
             userItem: null,
             quota: -1,
@@ -137,7 +138,7 @@ export default {
                     value: 'GB'
                 }
             ],
-            addUser: {
+            userInfo: {
                 username: '',
                 password: ''
             }
@@ -153,12 +154,14 @@ export default {
                 } else if (this.commonType === 1) {
                     text = '确定重置以下用户流量?'
                 }
-            } else if (this.userItem !== null) {
-                if (this.commonType === 0) {
-                    text = '确定删除用户 ' + this.userItem.Username + ' ?'
-                } else if (this.commonType === 1) {
-                    text = '确定重置用户 ' + this.userItem.Username + ' 的流量?'
+            } else if (this.commonType !== 2 && this.userItem !== null) {
+                switch (this.commonType) {
+                case 0: text = '确定删除用户 ' + this.userItem.Username + ' ?'; break
+                case 1: text = '确定重置用户 ' + this.userItem.Username + ' 的流量?'; break
+                case 3: text = '修改用户 ' + this.userItem.Username + ' 的用户名和密码'; break
                 }
+            } else {
+                text = '新增trojan用户'
             }
             return text
         },
@@ -295,30 +298,57 @@ export default {
             }
             this.refresh()
         },
-        async handleAddUser() {
-            if (this.addUser.username === '' || this.addUser.password === '') {
+        async handleUpdateUser() {
+            if (this.userInfo.username === '' || this.userInfo.password === '') {
                 this.$message.error('用户名或密码不能为空!')
                 return
             }
-            if (this.addUser.username === 'admin') {
+            if (this.userInfo.username === 'admin') {
                 this.$message.error('不能创建用户名为admin的用户!')
                 return
             }
             let formData = new FormData()
-            formData.set('username', this.addUser.username)
-            formData.set('password', btoa(this.addUser.password))
-            let result = await addUser(formData)
+            formData.set('id', this.userItem.ID)
+            formData.set('username', this.userInfo.username)
+            formData.set('password', btoa(this.userInfo.password))
+            let result = await updateUser(formData)
             if (result.Msg === 'success') {
                 this.$message({
-                    message: `新增用户${this.addUser.username}成功!`,
+                    message: `修改用户${this.userInfo.username}成功!`,
                     type: 'success'
                 })
-                this.addUser.username = ''
-                this.addUser.password = ''
+                this.userInfo.username = ''
+                this.userInfo.password = ''
             } else {
                 this.$message.error(result.Msg)
             }
-            this.addUserVisible = false
+            this.userVisible = false
+            this.refresh()
+        },
+        async handleAddUser() {
+            if (this.userInfo.username === '' || this.userInfo.password === '') {
+                this.$message.error('用户名或密码不能为空!')
+                return
+            }
+            if (this.userInfo.username === 'admin') {
+                this.$message.error('不能创建用户名为admin的用户!')
+                return
+            }
+            let formData = new FormData()
+            formData.set('username', this.userInfo.username)
+            formData.set('password', btoa(this.userInfo.password))
+            let result = await addUser(formData)
+            if (result.Msg === 'success') {
+                this.$message({
+                    message: `新增用户${this.userInfo.username}成功!`,
+                    type: 'success'
+                })
+                this.userInfo.username = ''
+                this.userInfo.password = ''
+            } else {
+                this.$message.error(result.Msg)
+            }
+            this.userVisible = false
             this.refresh()
         },
         refresh() {
