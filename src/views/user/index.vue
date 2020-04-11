@@ -5,8 +5,8 @@
         <el-button-group>
             <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">刷新</el-button>
             <el-button type="primary" icon="el-icon-plus" @click.native="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">添加</el-button>
-            <el-button type="primary" icon="el-icon-refresh-left" @click.native="patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">重置流量</el-button>
-            <el-button type="danger" icon="el-icon-delete" @click.native="patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">删除</el-button>
+            <el-button type="primary" icon="el-icon-refresh-left" @click.native="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">重置流量</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click.native="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">删除</el-button>
         </el-button-group>
     </el-form-item>
     </el-form>
@@ -84,7 +84,7 @@
     <el-dialog :title="commonTitle" :visible.sync="confirmVisible" :width="dialogWidth">
         {{ editUser }}
         <div slot="footer" class="dialog-footer">
-            <el-button @click="confirmVisible = false">取 消</el-button>
+            <el-button @click="confirmVisible = false;copySelection=[];">取 消</el-button>
             <el-button type="primary" @click="confirmVisible = false; patchButton ? handlePatchOpera(): handleOpera()">确 定</el-button>
         </div>
     </el-dialog>
@@ -126,6 +126,7 @@ export default {
             shareLink: '',
             dataList: [],
             multipleSelection: [],
+            copySelection: [],
             clientHeight: 0,
             userVisible: false,
             confirmVisible: false,
@@ -155,28 +156,30 @@ export default {
         ...mapState(['dialogWidth', 'isAdmin']),
         commonTitle: function() {
             let text = ''
-            if (this.patchButton) {
-                if (this.commonType === 0) {
-                    text = '确定批量删除以下用户?'
-                } else if (this.commonType === 1) {
-                    text = '确定重置以下用户流量?'
-                }
-            } else if (this.commonType !== 2 && this.userItem !== null) {
-                switch (this.commonType) {
-                case 0: text = '确定删除用户 ' + this.userItem.Username + ' ?'; break
-                case 1: text = '确定重置用户 ' + this.userItem.Username + ' 的流量?'; break
-                case 3: text = '修改用户 ' + this.userItem.Username + ' 的用户名和密码'; break
-                }
-            } else {
+            if (this.commonType === 2) {
                 text = '新增trojan用户'
+            } else if (this.commonType === 3) {
+                text = '修改用户 ' + this.userItem.Username + ' 的用户名和密码'
+            } else if (this.commonType === 0) {
+                if (this.patchButton) {
+                    text = '确定批量删除以下用户?'
+                } else if (this.userItem !== null) {
+                    text = '确定删除用户 ' + this.userItem.Username + ' ?'
+                }
+            } else if (this.commonType === 1) {
+                if (this.patchButton) {
+                    text = '确定重置以下用户流量?'
+                } else if (this.userItem !== null) {
+                    text = '确定重置用户 ' + this.userItem.Username + ' 的流量?'
+                }
             }
             return text
         },
         editUser: function() {
             if (this.patchButton) {
                 let result = ''
-                for (let i = 0; i < this.multipleSelection.length; i++) {
-                    result += ', ' + this.multipleSelection[i].Username
+                for (let i = 0; i < this.copySelection.length; i++) {
+                    result += ', ' + this.copySelection[i].Username
                 }
                 return result.substring(1)
             } else {
@@ -264,8 +267,8 @@ export default {
         async handlePatchOpera() {
             let successText = ''
             let result = null
-            for (let i = 0; i < this.multipleSelection.length; i++) {
-                this.userItem = this.multipleSelection[i]
+            for (let i = 0; i < this.copySelection.length; i++) {
+                this.userItem = this.copySelection[i]
                 if (this.commonType === 0) {
                     result = await delUser(this.userItem.ID)
                     successText = `删除用户${this.userItem.Username}成功!`
