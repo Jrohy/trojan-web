@@ -8,7 +8,8 @@ const dynamicRoutes = [
         name: 'user',
         meta: {
             name: '用户管理',
-            icon: 'user'
+            icon: 'user',
+            admin: false
         }
     },
     {
@@ -17,7 +18,8 @@ const dynamicRoutes = [
         name: 'trojan',
         meta: {
             name: 'trojan管理',
-            icon: 'table'
+            icon: 'table',
+            admin: true
         }
     }
 ]
