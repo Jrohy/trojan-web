@@ -5,6 +5,8 @@ export default {
     set UserToken(value) {
         localStorage.setItem('token', value)
     },
+    loglevel: localStorage.hasOwnProperty('loglevel') ? parseInt(localStorage.getItem('loglevel')) : 1,
+    line: localStorage.hasOwnProperty('line') ? parseInt(localStorage.getItem('line')) : 300,
     docTitle: localStorage.hasOwnProperty('docTitle') ? localStorage.getItem('docTitle') : '',
     dialogWidth: '25%',
     nprogress: true,

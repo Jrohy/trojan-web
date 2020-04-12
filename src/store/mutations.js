@@ -22,5 +22,13 @@ export default {
     },
     SET_NPROGRESS(state, bool) {
         state.nprogress = bool
+    },
+    SET_LINE(state, line) {
+        state.line = line
+        localStorage.setItem('line', state.line)
+    },
+    SET_LOGLEVEL(state, loglevel) {
+        state.loglevel = loglevel
+        localStorage.setItem('loglevel', state.loglevel)
     }
 }
