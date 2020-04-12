@@ -218,7 +218,8 @@ export default {
             const textarea = document.getElementById('logshow')
             textarea.innerText = ''
             let prefix = process.env.NODE_ENV === 'production' ? '/' : '/ws'
-            this.ws = new WebSocket(`ws://${location.host}${prefix}/trojan/log?line=${this.line}&token=${store.state.UserToken}`)
+            let protocol = document.location.protocol === 'http:' ? 'ws' : 'wss'
+            this.ws = new WebSocket(`${protocol}://${location.host}${prefix}/trojan/log?line=${this.line}&token=${store.state.UserToken}`)
             this.ws.onopen = function () {
                 console.log('ws connected!')
             }
@@ -227,7 +228,6 @@ export default {
             }
             this.ws.onerror = function(e) {
                 console.log('ws error: ' + e)
-                console.log(e)
                 self.$message.warning({
                     message: '授权失败，请重新登录'
                 })
