@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
         <h3 class="title"> {{title}} </h3>
@@ -56,40 +56,10 @@ import CryptoJS from 'crypto-js'
 import { check, login } from '@/api/permission'
 export default {
     data() {
-        const validateUsername = (rule, value, callback) => {
-            if (value.length < 1) {
-                callback(new Error('请输入用户名'))
-            } else {
-                callback()
-            }
-        }
-        const validatePass = (rule, value, callback) => {
-            if (value.length < 1) {
-                callback(new Error('请输入密码'))
-            } else {
-                callback()
-            }
-        }
         return {
             loginForm: {
                 username: '',
                 password: ''
-            },
-            loginRules: {
-                username: [
-                    {
-                        required: true,
-                        trigger: 'blur',
-                        validator: validateUsername
-                    }
-                ],
-                password: [
-                    {
-                        required: true,
-                        trigger: 'blur',
-                        validator: validatePass
-                    }
-                ]
             },
             loading: false,
             capsTooltip: false,
@@ -130,6 +100,10 @@ export default {
             this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
         },
         async handleLogin() {
+            if (this.loginForm.username === '' || this.loginForm.password === '') {
+                this.$message.error('用户名或密码不能为空!')
+                return
+            }
             this.loginForm.password = CryptoJS.SHA224(this.loginForm.password).toString()
             let data = await login(this.loginForm)
             let token = data.token
