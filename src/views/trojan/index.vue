@@ -144,16 +144,18 @@ export default {
     },
     methods: {
         async setLoglevel() {
-            let formData = new FormData()
-            formData.set('level', this.loglevel)
-            let result = await setLoglevel(formData)
-            if (result.Msg === 'success') {
-                this.$message({
-                    message: `设置日志等级成功!`,
-                    type: 'success'
-                })
-            } else {
-                this.$message.error(result.Msg)
+            try {
+                let formData = new FormData()
+                formData.set('level', this.loglevel)
+                let result = await setLoglevel(formData)
+                if (result.Msg === 'success') {
+                    this.$message({
+                        message: `设置日志等级成功!`,
+                        type: 'success'
+                    })
+                }
+            } catch (e) {
+                this.getLog()
             }
         },
         async getLoglevel() {
