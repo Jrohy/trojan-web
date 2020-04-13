@@ -103,6 +103,7 @@ export default {
         }
     },
     mounted() {
+        this.$store.commit('SET_NOERROR', true)
         this.mainStyle.height = (document.body.clientHeight - 130) + 'px'
         const textarea = document.getElementById('logshow')
         // 监听这个dom的scroll事件
@@ -136,6 +137,7 @@ export default {
         }
     },
     destroyed() {
+        this.$store.commit('SET_NOERROR', false)
         clearInterval(this.timer)
         this.timer = null
         this.ws.close()
@@ -163,14 +165,16 @@ export default {
             }
         },
         async start() {
-            let result = await start()
-            if (result.Msg === 'success') {
-                this.$message({
-                    message: `启动trojan成功!`,
-                    type: 'success'
-                })
-            } else {
-                this.$message.error(result.Msg)
+            try {
+                let result = await start()
+                if (result.Msg === 'success') {
+                    this.$message({
+                        message: `启动trojan成功!`,
+                        type: 'success'
+                    })
+                }
+            } catch (e) {
+                this.getLog()
             }
         },
         async stop() {
@@ -180,30 +184,32 @@ export default {
                     message: `停止trojan成功!`,
                     type: 'success'
                 })
-            } else {
-                this.$message.error(result.Msg)
             }
         },
         async restart() {
-            let result = await restart()
-            if (result.Msg === 'success') {
-                this.$message({
-                    message: `重启trojan成功!`,
-                    type: 'success'
-                })
-            } else {
-                this.$message.error(result.Msg)
+            try {
+                let result = await restart()
+                if (result.Msg === 'success') {
+                    this.$message({
+                        message: `重启trojan成功!`,
+                        type: 'success'
+                    })
+                }
+            } catch (e) {
+                this.getLog()
             }
         },
         async update() {
-            let result = await update()
-            if (result.Msg === 'success') {
-                this.$message({
-                    message: `更新trojan成功!`,
-                    type: 'success'
-                })
-            } else {
-                this.$message.error(result.Msg)
+            try {
+                let result = await update()
+                if (result.Msg === 'success') {
+                    this.$message({
+                        message: `更新trojan成功!`,
+                        type: 'success'
+                    })
+                }
+            } catch (e) {
+                this.getLog()
             }
         },
         getLog() {

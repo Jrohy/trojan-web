@@ -23,6 +23,9 @@ export default {
     SET_NPROGRESS(state, bool) {
         state.nprogress = bool
     },
+    SET_NOERROR(state, bool) {
+        state.noerror = bool
+    },
     SET_LINE(state, line) {
         state.line = line
         localStorage.setItem('line', state.line)

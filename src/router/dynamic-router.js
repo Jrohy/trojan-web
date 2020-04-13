@@ -3,16 +3,6 @@ const Trojan = () => import('@/views/trojan')
 
 const dynamicRoutes = [
     {
-        path: '/user',
-        component: User,
-        name: 'user',
-        meta: {
-            name: '用户管理',
-            icon: 'user',
-            admin: false
-        }
-    },
-    {
         path: '/trojan',
         component: Trojan,
         name: 'trojan',
@@ -20,6 +10,16 @@ const dynamicRoutes = [
             name: 'trojan管理',
             icon: 'table',
             admin: true
+        }
+    },
+    {
+        path: '/user',
+        component: User,
+        name: 'user',
+        meta: {
+            name: '用户管理',
+            icon: 'user',
+            admin: false
         }
     }
 ]
