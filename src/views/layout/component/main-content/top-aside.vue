@@ -283,18 +283,4 @@ export default {
         }
     }
 }
-.breadcrumb-enter,
-.breadcrumb-leave-active {
-    opacity: 0;
-    transform: translateX(20px);
-}
-
-.breadcrumb-enter-active,
-.breadcrumb-leave-active {
-    transition: all 0.6s;
-}
-
-.breadcrumb-leave-active {
-    position: absolute;
-}
 </style>
