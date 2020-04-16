@@ -236,13 +236,6 @@ export default {
             }
             this.ws.onerror = function(e) {
                 console.log('ws error: ' + e)
-                self.$message.warning({
-                    message: '授权失败，请重新登录'
-                })
-                self.$store.commit('LOGIN_OUT')
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
             }
             this.ws.onclose = function(e) {
                 console.log('ws closed')
