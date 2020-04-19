@@ -2,9 +2,7 @@ import Vue from 'vue'
 import App from '@/App'
 import store from '@/store/index'
 import router from '@/router/index'
-
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import ELEMENT from 'element-ui'
 import './styles/index.scss'
 
 import * as globalFilter from './filters/filters'
@@ -14,7 +12,7 @@ for (var key in globalFilter) {
     Vue.filter(key, globalFilter[key])
 }
 
-Vue.use(ElementUI)
+Vue.use(ELEMENT)
 
 Vue.config.productionTip = false
 
