@@ -4,9 +4,9 @@ const path = require('path')
 const webpack = require('webpack')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 // 导入compression-webpack-plugin
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
+// const CompressionWebpackPlugin = require('compression-webpack-plugin')
 // 定义压缩文件类型
-const productionGzipExtensions = ['js', 'css']
+// const productionGzipExtensions = ['js', 'css']
 
 function resolve(dir) {
     return path.join(__dirname, dir)
@@ -49,6 +49,14 @@ module.exports = {
     chainWebpack: config => {
         // 移除 prefetch 插件,解决组件懒加载失效的问题
         config.plugins.delete('prefetch')
+        // 用cdn方式引入
+        config.externals({
+            'vue': 'Vue',
+            'vuex': 'Vuex',
+            'vue-router': 'VueRouter',
+            'axios': 'axios',
+            'element-ui': 'ELEMENT'
+        })
         // 添加新的svg-sprite-loader处理svgIcon
         config.module
             .rule('svgIcon')

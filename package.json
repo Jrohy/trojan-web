@@ -13,15 +13,9 @@
     "dll": "webpack -p --progress --config ./webpack.dll.conf.js"
   },
   "dependencies": {
-    "axios": "^0.19.0",
-    "core-js": "^2.6.5",
     "crypto-js": "^3.2.1",
-    "element-ui": "^2.13.0",
     "nprogress": "^0.2.0",
-    "qrcodejs2": "0.0.2",
-    "vue": "^2.6.10",
-    "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
+    "qrcodejs2": "0.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",
@@ -43,7 +37,7 @@
     "sass-loader": "^7.3.1",
     "svg-sprite-loader": "^3.9.2",
     "vue-template-compiler": "^2.6.11",
-    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-bundle-analyzer": "^3.7.0",
     "webpack-cli": "^3.3.11"
   }
 }
