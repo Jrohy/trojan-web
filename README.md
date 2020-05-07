@@ -2,7 +2,7 @@
 
 [trojan管理程序](https://github.com/Jrohy/trojan)前端页面  
 
-基于vue-cli3.0进行搭建, 并使用了vue全家桶vue vuex axios vue-router和elementui
+基于vue-cli4.0进行搭建, 并使用了vue全家桶vue vuex axios vue-router和elementui
 
 ### 项目启动步骤
 1. 安装包  
