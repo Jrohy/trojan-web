@@ -56,7 +56,7 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="userItem=scope.row; quotaVisible=true">限制流量</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">重置流量</el-dropdown-item>
-                    <el-dropdown-item @click.native="userItem=scope.row; userInfo.username=userItem.Username; userInfo.password=userItem.Password; commonType=3; userVisible=true">修改账密</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; handelEditUser()">修改账密</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <el-button
@@ -232,6 +232,12 @@ export default {
                 this.createQRCode()
             })
             this.qrcodeVisible = true
+        },
+        handelEditUser() {
+            this.userInfo.username = this.userItem.Username
+            this.userInfo.password = atob(this.userItem.Password)
+            this.commonType = 3
+            this.userVisible = true
         },
         createQRCode() {
             // eslint-disable-next-line
