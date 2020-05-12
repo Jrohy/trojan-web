@@ -75,7 +75,7 @@
     </el-table>
     <el-dialog :title="commonTitle" :visible.sync="userVisible" :width="dialogWidth">
         <el-input type="text" v-model="userInfo.username" placeholder="输入用户名"/>
-        <el-input type="text" v-model="userInfo.password" placeholder="输入密码"/>
+        <el-input type="text" v-model="userInfo.password" placeholder="输入密码" @keyup.enter.native="commonType === 2? handleAddUser(): handleUpdateUser()"/>
         <div slot="footer" class="dialog-footer">
             <el-button @click="userVisible = false">取 消</el-button>
             <el-button type="primary" @click="commonType === 2? handleAddUser(): handleUpdateUser()">确 定</el-button>

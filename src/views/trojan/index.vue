@@ -150,7 +150,7 @@ export default {
                 let result = await setLoglevel(formData)
                 if (result.Msg === 'success') {
                     this.$message({
-                        message: `设置日志等级成功!`,
+                        message: '设置日志等级成功!',
                         type: 'success'
                     })
                 }
@@ -171,7 +171,7 @@ export default {
                 let result = await start()
                 if (result.Msg === 'success') {
                     this.$message({
-                        message: `启动trojan成功!`,
+                        message: '启动trojan成功!',
                         type: 'success'
                     })
                 }
@@ -183,7 +183,7 @@ export default {
             let result = await stop()
             if (result.Msg === 'success') {
                 this.$message({
-                    message: `停止trojan成功!`,
+                    message: '停止trojan成功!',
                     type: 'success'
                 })
             }
@@ -193,7 +193,7 @@ export default {
                 let result = await restart()
                 if (result.Msg === 'success') {
                     this.$message({
-                        message: `重启trojan成功!`,
+                        message: '重启trojan成功!',
                         type: 'success'
                     })
                 }
@@ -206,7 +206,7 @@ export default {
                 let result = await update()
                 if (result.Msg === 'success') {
                     this.$message({
-                        message: `更新trojan成功!`,
+                        message: '更新trojan成功!',
                         type: 'success'
                     })
                 }
