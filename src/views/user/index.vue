@@ -23,7 +23,7 @@
         </el-table-column>
         <el-table-column
         label="密码"
-        prop="Password">
+        :formatter="passwordFormatter">
         </el-table-column>
         <el-table-column
         label="上传流量"
@@ -115,7 +115,7 @@
 <script>
 import { userList, addUser, delUser, updateUser } from '@/api/user'
 import { setQuota, cleanData } from '@/api/data'
-import { readablizeBytes } from '@/utils/common'
+import { readablizeBytes, isValidIP } from '@/utils/common'
 import { mapState } from 'vuex'
 import QRCode from 'qrcodejs2'
 export default {
@@ -202,6 +202,9 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val
         },
+        passwordFormatter(row, column) {
+            return atob(row.Password)
+        },
         quotaFormatter(row, column) {
             return row.Quota === -1 ? '无' : readablizeBytes(row.Quota)
         },
@@ -224,7 +227,7 @@ export default {
             return (a.Download + a.Upload) - (b.Download + b.Upload)
         },
         handleShare() {
-            this.shareLink = `trojan://${this.userItem.Password}@${this.domain}:443`
+            this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:443`
             this.$nextTick(() => {
                 this.createQRCode()
             })
@@ -370,7 +373,14 @@ export default {
             let result = await userList()
             if (result.Msg === 'success') {
                 this.dataList = result.Data.userList
-                this.domain = result.Data.domain
+                if (result.Data.domain !== '') {
+                    this.domain = result.Data.domain
+                } else {
+                    const hostname = window.location.hostname
+                    if (!isValidIP(hostname)) {
+                        this.domain = hostname
+                    }
+                }
             } else {
                 this.$message.error(result.Msg)
             }
