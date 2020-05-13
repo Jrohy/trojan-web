@@ -72,10 +72,11 @@ export default {
         check().then((res) => {
             if (res.code === 201) {
                 this.$router.replace('/register')
+            } else {
+                this.title = res.data.title
+                document.title = this.title
+                this.$store.commit('SET_TITLE', this.title)
             }
-            this.title = res.data.title
-            document.title = this.title
-            this.$store.commit('SET_TITLE', this.title)
         })
     },
     computed: {
