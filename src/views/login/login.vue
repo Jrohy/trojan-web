@@ -113,7 +113,7 @@ export default {
             }
             this.$store.commit('SET_ADMIN', isAdmin)
             this.$store.commit('LOGIN_IN', token)
-            this.$router.replace('/')
+            this.$router.replace('/').catch(e => {})
         }
     }
 }
