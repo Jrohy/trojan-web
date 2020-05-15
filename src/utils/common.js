@@ -2,9 +2,9 @@ export function readablizeBytes(bytes) {
     if (bytes === 0) {
         return '0'
     }
-    let s = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
-    let e = Math.floor(Math.log(bytes) / Math.log(1024))
-    let r = bytes / Math.pow(1024, Math.floor(e))
+    const s = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
+    const e = Math.floor(Math.log(bytes) / Math.log(1024))
+    const r = bytes / Math.pow(1024, Math.floor(e))
     return ((r + '').indexOf('.') !== -1 ? r.toFixed(2) : r) + ' ' + s[e]
 }
 

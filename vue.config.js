@@ -15,10 +15,10 @@ const proxyTargetMap = {
     prod: 'https://xxx.xxx.com/',
     dev: 'http://67.218.149.57'
 }
-let proxyTarget = proxyTargetMap[process.env.API_TYPE] || proxyTargetMap.prod
-let wsTarget = proxyTarget.replace('http', 'ws')
-let publicPath = process.env.NODE_ENV === 'production' ? '/' : '/'
-let dllPublishPath = publicPath === '/' ? '/vendor' : publicPath + '/vendor'
+const proxyTarget = proxyTargetMap[process.env.API_TYPE] || proxyTargetMap.prod
+const wsTarget = proxyTarget.replace('http', 'ws')
+const publicPath = process.env.NODE_ENV === 'production' ? '/' : '/'
+const dllPublishPath = publicPath === '/' ? '/vendor' : publicPath + '/vendor'
 module.exports = {
     publicPath: publicPath,
     outputDir: 'dist',
@@ -51,10 +51,10 @@ module.exports = {
         config.plugins.delete('prefetch')
         // 用cdn方式引入
         config.externals({
-            'vue': 'Vue',
-            'vuex': 'Vuex',
+            vue: 'Vue',
+            vuex: 'Vuex',
             'vue-router': 'VueRouter',
-            'axios': 'axios',
+            axios: 'axios',
             'element-ui': 'ELEMENT'
         })
         // 添加新的svg-sprite-loader处理svgIcon
@@ -158,7 +158,7 @@ module.exports = {
                     publicPath: dllPublishPath,
                     // dll最终输出的目录
                     outputPath: './vendor'
-                }),
+                })
                 // 开启压缩
                 // new CompressionWebpackPlugin({
                 //     filename: '[path].gz[query]',

@@ -257,10 +257,10 @@ export default {
             } else if (this.quotaUnit === 'GB') {
                 this.quota = this.quota * 1024 * 1024 * 1024
             }
-            let formData = new FormData()
+            const formData = new FormData()
             formData.set('id', this.userItem.ID)
             formData.set('quota', this.quota)
-            let result = await setQuota(formData)
+            const result = await setQuota(formData)
             if (result.Msg === 'success') {
                 this.$message({
                     message: `设置用户${this.userItem.Username}流量限制成功!`,
@@ -326,11 +326,11 @@ export default {
                 this.$message.error('不能创建用户名为admin的用户!')
                 return
             }
-            let formData = new FormData()
+            const formData = new FormData()
             formData.set('id', this.userItem.ID)
             formData.set('username', this.userInfo.username)
             formData.set('password', btoa(this.userInfo.password))
-            let result = await updateUser(formData)
+            const result = await updateUser(formData)
             if (result.Msg === 'success') {
                 this.$message({
                     message: `修改用户${this.userInfo.username}成功!`,
@@ -353,10 +353,10 @@ export default {
                 this.$message.error('不能创建用户名为admin的用户!')
                 return
             }
-            let formData = new FormData()
+            const formData = new FormData()
             formData.set('username', this.userInfo.username)
             formData.set('password', btoa(this.userInfo.password))
-            let result = await addUser(formData)
+            const result = await addUser(formData)
             if (result.Msg === 'success') {
                 this.$message({
                     message: `新增用户${this.userInfo.username}成功!`,
@@ -376,7 +376,7 @@ export default {
             this.getUserList()
         },
         async getUserList() {
-            let result = await userList()
+            const result = await userList()
             if (result.Msg === 'success') {
                 this.dataList = result.Data.userList
                 if (result.Data.domain !== '') {
