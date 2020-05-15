@@ -164,7 +164,7 @@ export default {
                 })
                 await sleep(1000 * 2)
                 this.$store.commit('LOGIN_OUT')
-                this.$router.replace('/login')
+                this.$router.replace('/login').catch(e => {})
             } catch (e) {
                 console.log(e)
             }

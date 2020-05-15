@@ -62,7 +62,8 @@ export default {
         document.title = this.docTitle
         check().then((res) => {
             if (res.code === 200) {
-                this.$router.replace('/login')
+                this.$store.commit('LOGIN_OUT')
+                this.$router.replace('/login').catch(e => {})
             }
         })
     },
@@ -76,7 +77,7 @@ export default {
                 formData.set('password', CryptoJS.SHA224(this.form.password1).toString())
             }
             await register(formData)
-            this.$router.replace('/login')
+            this.$router.replace('/login').catch(e => {})
         }
     }
 }
