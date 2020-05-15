@@ -71,7 +71,7 @@ export default {
         document.title = this.docTitle
         check().then((res) => {
             if (res.code === 201) {
-                this.$router.replace('/register')
+                this.$router.replace('/register').catch(e => {})
             } else {
                 this.title = res.data.title
                 document.title = this.title
