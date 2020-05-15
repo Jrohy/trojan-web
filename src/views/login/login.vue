@@ -106,8 +106,8 @@ export default {
                 return
             }
             this.loginForm.password = CryptoJS.SHA224(this.loginForm.password).toString()
-            let data = await login(this.loginForm)
-            let token = data.token
+            const data = await login(this.loginForm)
+            const token = data.token
             let isAdmin = false
             if (this.loginForm.username === 'admin') {
                 isAdmin = true

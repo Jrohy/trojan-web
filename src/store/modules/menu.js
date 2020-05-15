@@ -21,8 +21,8 @@ export default {
     },
     actions: {
         GEN_MENU({ commit, rootState }) {
-            let MainContainer = MainRoutes.find(v => v.path === '')
-            let children = MainContainer.children
+            const MainContainer = MainRoutes.find(v => v.path === '')
+            const children = MainContainer.children
             let dr = dynamicRouter
             if (!rootState.isAdmin) {
                 dr = dr.filter(v => v.meta.admin === false)

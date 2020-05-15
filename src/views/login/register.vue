@@ -68,7 +68,7 @@ export default {
     },
     methods: {
         async register() {
-            let formData = new FormData()
+            const formData = new FormData()
             if (this.form.password1 !== this.form.password2) {
                 this.$message.error('两次输入不一致!')
                 return

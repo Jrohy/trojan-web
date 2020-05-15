@@ -200,13 +200,13 @@ export default {
     },
     methods: {
         randomIcon() {
-            let size = this.foodIcon.length
+            const size = this.foodIcon.length
             this.downloadIcon = 'el-icon-' + this.foodIcon[Math.floor(Math.random() * size)]
             this.uploadIcon = 'el-icon-' + this.foodIcon[Math.floor(Math.random() * size)]
             this.totalIcon = 'el-icon-' + this.foodIcon[Math.floor(Math.random() * size)]
         },
         setOffset() {
-            let clientWith = document.body.clientWidth
+            const clientWith = document.body.clientWidth
             if (clientWith < 1000) {
                 this.keyOffset = 1
                 this.valueOffset = 2
@@ -222,7 +222,7 @@ export default {
         },
         getServerInfo() {
             serverInfo().then((res) => {
-                let data = res.Data
+                const data = res.Data
                 this.cpu.percentage = parseFloat(data.cpu[0].toFixed(2))
                 this.cpu.color = this.computeColor(this.cpu.percentage)
                 this.memory = this.computePercent(data.memory)
@@ -232,7 +232,7 @@ export default {
             })
         },
         computePercent(data) {
-            let percent = parseFloat(data.usedPercent.toFixed(2))
+            const percent = parseFloat(data.usedPercent.toFixed(2))
             return {
                 percentage: percent,
                 used: readablizeBytes(data.used),
@@ -250,9 +250,9 @@ export default {
             }
         },
         async getUserList() {
-            let result = await userList()
+            const result = await userList()
             if (result.Msg === 'success') {
-                let data = result.Data
+                const data = result.Data
                 this.userList = data.userList
                 let download = 0; let upload = 0
                 for (let i = 0; i < this.userList.length; i++) {
@@ -267,22 +267,22 @@ export default {
             }
         },
         async getVersion() {
-            let result = await version()
-            let data = result.Data
+            const result = await version()
+            const data = result.Data
             this.trojanVersion = data.trojanVersion
             this.trojanRuntime = this.parseRuntime(data.trojanRuntime)
         },
         parseRuntime(runtime) {
             let result = ''
             if (runtime.indexOf('-') !== -1) {
-                let splitInfo = runtime.split('-')
+                const splitInfo = runtime.split('-')
                 result += splitInfo[0] + '天 '
-                let timeInfo = splitInfo[1].split(':')
+                const timeInfo = splitInfo[1].split(':')
                 result += timeInfo[0] + '时 '
                 result += timeInfo[1] + '分 '
                 result += timeInfo[2] + '秒'
             } else {
-                let splitInfo = runtime.split(':')
+                const splitInfo = runtime.split(':')
                 if (splitInfo.length === 3) {
                     result += splitInfo[0] + '时 '
                     result += splitInfo[1] + '分 '

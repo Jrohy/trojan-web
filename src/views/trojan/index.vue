@@ -145,9 +145,9 @@ export default {
     methods: {
         async setLoglevel() {
             try {
-                let formData = new FormData()
+                const formData = new FormData()
                 formData.set('level', this.loglevel)
-                let result = await setLoglevel(formData)
+                const result = await setLoglevel(formData)
                 if (result.Msg === 'success') {
                     this.$message({
                         message: '设置日志等级成功!',
@@ -159,7 +159,7 @@ export default {
             }
         },
         async getLoglevel() {
-            let result = await getLoglevel()
+            const result = await getLoglevel()
             if (result.Msg === 'success') {
                 this.loglevel = result.Data.loglevel
             } else {
@@ -168,7 +168,7 @@ export default {
         },
         async start() {
             try {
-                let result = await start()
+                const result = await start()
                 if (result.Msg === 'success') {
                     this.$message({
                         message: '启动trojan成功!',
@@ -180,7 +180,7 @@ export default {
             }
         },
         async stop() {
-            let result = await stop()
+            const result = await stop()
             if (result.Msg === 'success') {
                 this.$message({
                     message: '停止trojan成功!',
@@ -190,7 +190,7 @@ export default {
         },
         async restart() {
             try {
-                let result = await restart()
+                const result = await restart()
                 if (result.Msg === 'success') {
                     this.$message({
                         message: '重启trojan成功!',
@@ -203,7 +203,7 @@ export default {
         },
         async update() {
             try {
-                let result = await update()
+                const result = await update()
                 if (result.Msg === 'success') {
                     this.$message({
                         message: '更新trojan成功!',
@@ -216,7 +216,7 @@ export default {
         },
         getLog() {
             this.isFollow = true
-            let self = this
+            const self = this
             if (this.ws != null) {
                 this.ws.close()
                 clearInterval(this.timer)
@@ -225,8 +225,8 @@ export default {
             }
             const textarea = document.getElementById('logshow')
             textarea.innerText = ''
-            let prefix = process.env.NODE_ENV === 'production' ? '/' : '/ws'
-            let protocol = document.location.protocol === 'http:' ? 'ws' : 'wss'
+            const prefix = process.env.NODE_ENV === 'production' ? '/' : '/ws'
+            const protocol = document.location.protocol === 'http:' ? 'ws' : 'wss'
             this.ws = new WebSocket(`${protocol}://${location.host}${prefix}/trojan/log?line=${this.line}&token=${store.state.UserToken}`)
             this.ws.onopen = function () {
                 console.log('ws connected!')

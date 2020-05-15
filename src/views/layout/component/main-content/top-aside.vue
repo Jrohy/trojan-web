@@ -113,7 +113,7 @@ export default {
     },
     methods: {
         setDialogWidth() {
-            let clientWith = document.body.clientWidth
+            const clientWith = document.body.clientWidth
             if (clientWith < 600) {
                 this.dialogWidth = '80%'
             } else if (clientWith >= 600 && clientWith < 1000) {
@@ -124,13 +124,13 @@ export default {
             this.$store.commit('SET_WIDTH', this.dialogWidth)
         },
         async getTitle() {
-            let result = await check()
+            const result = await check()
             this.title = result.data.title
         },
         async handleLoginInfo() {
-            let formData = new FormData()
+            const formData = new FormData()
             formData.set('title', this.title)
-            let result = await setLoginInfo(formData)
+            const result = await setLoginInfo(formData)
             if (result.Msg === 'success') {
                 this.$message({
                     message: '修复登录页标题成功!',
@@ -145,11 +145,11 @@ export default {
             this.loginVisible = false
         },
         async systemVersion() {
-            let result = await version()
+            const result = await version()
             this.versionList = result.Data
         },
         async changePass() {
-            let formData = new FormData()
+            const formData = new FormData()
             if (this.form.password1 !== this.form.password2) {
                 this.$message.error('两次输入不一致!')
                 return
