@@ -196,7 +196,7 @@ export default {
     },
     created() {
         this.refresh()
-        this.clientHeight = document.body.clientHeight - 90
+        this.clientHeight = document.body.clientHeight - 100
     },
     methods: {
         handleSelectionChange(val) {
