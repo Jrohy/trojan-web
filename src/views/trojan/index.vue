@@ -33,7 +33,7 @@
             <el-switch v-model="isFollow"></el-switch>
         </el-form-item>
     </el-form>
-    <textarea id="logshow" readonly="readonly" style="width:100%; height:100%; background-color: black; color:white;" class="el-textarea__inner"></textarea>
+    <textarea id="logshow" readonly="readonly" class="el-textarea__inner"></textarea>
   </div>
 </template>
 
@@ -261,3 +261,14 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+#logshow {
+    width:100%;
+    height:100%;
+    padding: 10px;
+    background-color: black;
+    color:white;
+    font-size: 13px;
+}
+</style>

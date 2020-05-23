@@ -109,7 +109,7 @@ module.exports = {
         disableHostCheck: false,
         open: process.platform === 'darwin',
         host: 'localhost',
-        port: 8080,
+        port: 8324,
         https: false,
         hotOnly: false,
         // eslint-disable-next-line no-dupe-keys

@@ -5,10 +5,6 @@ export default {
     LOGIN_OUT(state) {
         state.UserToken = ''
     },
-    toggleNavCollapse(state) {
-        state.isSidebarNavCollapse = !state.isSidebarNavCollapse
-        localStorage.setItem('isSidebarNavCollapse', state.isSidebarNavCollapse)
-    },
     SET_ADMIN(state, bool) {
         state.isAdmin = bool
         localStorage.setItem('isAdmin', bool)
