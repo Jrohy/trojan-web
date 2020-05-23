@@ -4,6 +4,8 @@ import { Message } from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+NProgress.configure({ showSpinner: false }) // NProgress Configuration
+
 function validateStatus(status) {
     switch (status) {
     case 400:

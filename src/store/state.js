@@ -11,7 +11,5 @@ export default {
     dialogWidth: '25%',
     nprogress: true,
     noerror: false,
-    isAdmin: Object.prototype.hasOwnProperty.call(localStorage, 'isAdmin') ? localStorage.getItem('isAdmin') === 'true' : false,
-    /* 导航菜单是否折叠 */
-    isSidebarNavCollapse: Object.prototype.hasOwnProperty.call(localStorage, 'isSidebarNavCollapse') ? localStorage.getItem('isSidebarNavCollapse') === 'true' : false
+    isAdmin: Object.prototype.hasOwnProperty.call(localStorage, 'isAdmin') ? localStorage.getItem('isAdmin') === 'true' : false
 }

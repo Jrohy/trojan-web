@@ -3,7 +3,7 @@ import App from '@/App'
 import store from '@/store/index'
 import router from '@/router/index'
 import ELEMENT from 'element-ui'
-import './styles/index.scss'
+import '@/styles/index.scss' // global css
 
 import * as globalFilter from './filters/filters'
 import '@/icons'
@@ -16,30 +16,23 @@ Vue.use(ELEMENT)
 
 Vue.config.productionTip = false
 
+const whiteList = ['/login', '/register'] // no redirect whitelist
+
 router.beforeEach((to, from, next) => {
-    if (!store.state.UserToken) {
-        if (to.matched.length > 0) {
-            next()
+    if (store.state.UserToken) {
+        if (to.path === '/login') {
+            // if is logged in, redirect to the home page
+            next({ path: '/' })
         } else {
-            next({ path: '/login' })
+            next()
         }
     } else {
-        if (store.state.menu.sidebarMenu.length === 0) {
-            store.dispatch('menu/GEN_MENU').then(() => {
-                next({ path: to.path })
-            })
+        if (whiteList.indexOf(to.path) !== -1) {
+            next()
         } else {
-            if (to.path !== '/login') {
-                next()
-            } else {
-                next(from.fullPath)
-            }
+            next('/login')
         }
     }
-})
-
-router.afterEach((to, from, next) => {
-    store.commit('menu/SET_CURRENT_MENU', to.name)
 })
 
 /* eslint-disable no-new */

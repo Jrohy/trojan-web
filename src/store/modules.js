@@ -1,5 +1,5 @@
-import menu from './modules/menu'
+import app from './modules/app'
 
 export default {
-    menu
+    app
 }
