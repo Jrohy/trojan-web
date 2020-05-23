@@ -22,6 +22,7 @@ export default {
     transition: margin-left 0.25s;
     position: relative;
     box-sizing: border-box;
+    overflow: hidden;
     padding: 60px 20px 5px 20px;
 }
 </style>
