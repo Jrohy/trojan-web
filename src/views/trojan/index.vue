@@ -1,6 +1,6 @@
 <template>
   <div :style="mainStyle">
-    <el-form :inline="true" style="padding:15px 0 0 0;">
+    <el-form :inline="true" style="margin-top: 15px">
         <el-form-item  size="small">
             <el-button-group>
                 <el-button type="primary" icon="el-icon-refresh" @click="update()">更新</el-button>
@@ -104,7 +104,7 @@ export default {
     },
     mounted() {
         this.$store.commit('SET_NOERROR', true)
-        this.mainStyle.height = (document.body.clientHeight - 130) + 'px'
+        this.mainStyle.height = (document.body.clientHeight - 85) + 'px'
         const textarea = document.getElementById('logshow')
         // 监听这个dom的scroll事件
         textarea.addEventListener('scroll', () => {
@@ -264,8 +264,8 @@ export default {
 
 <style lang="scss" scoped>
 #logshow {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 92%;
     padding: 10px;
     background-color: black;
     color:white;
