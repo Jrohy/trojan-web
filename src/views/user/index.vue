@@ -45,10 +45,11 @@
         width="170"
         align="center">
         <template slot="header">
-        <el-input
-            v-model="search"
-            size="small"
-            placeholder="输入用户名搜索"/>
+            <el-input
+                v-model="search"
+                size="small"
+                placeholder="输入用户名搜索" v-if="isAdmin"/>
+            <div v-if="!isAdmin">操作</div>
         </template>
         <template slot-scope="scope">
             <el-dropdown  size="mini" split-button type="text" v-if="isAdmin">

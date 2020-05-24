@@ -17,9 +17,17 @@ Vue.use(ELEMENT)
 Vue.config.productionTip = false
 
 const whiteList = ['/login', '/register'] // no redirect whitelist
+const adminList = ['/trojan'] // need admin role
 
 router.beforeEach((to, from, next) => {
     if (store.state.UserToken) {
+        if (!store.state.isAdmin) {
+            router.options.routes.map((x) => {
+                if (adminList.indexOf(x.path) !== -1) {
+                    x.hidden = true
+                }
+            })
+        }
         if (to.path === '/login') {
             // if is logged in, redirect to the home page
             next({ path: '/' })
