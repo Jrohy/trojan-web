@@ -4,13 +4,7 @@ import store from '@/store/index'
 import router from '@/router/index'
 import ELEMENT from 'element-ui'
 import '@/styles/index.scss' // global css
-
-import * as globalFilter from './filters/filters'
 import '@/icons'
-
-for (var key in globalFilter) {
-    Vue.filter(key, globalFilter[key])
-}
 
 Vue.use(ELEMENT)
 
