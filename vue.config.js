@@ -53,9 +53,12 @@ module.exports = {
         config.externals({
             vue: 'Vue',
             vuex: 'Vuex',
+            'vue-i18n': 'VueI18n',
             'vue-router': 'VueRouter',
             axios: 'axios',
-            'element-ui': 'ELEMENT'
+            'element-ui': 'ELEMENT',
+            en: 'ELEMENT.lang.en',
+            'zh-cn': 'ELEMENT.lang.zhCN',
         })
         // 添加新的svg-sprite-loader处理svgIcon
         config.module
