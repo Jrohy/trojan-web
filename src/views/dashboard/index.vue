@@ -12,7 +12,7 @@
                             </el-col>
                             <el-col :span="12" style="text-align: center">
                                 <el-progress type="dashboard" :percentage="memory.percentage" :color="memory.color"></el-progress>
-                                <div>内存: {{memory.used}}/{{memory.total}}</div>
+                                <div>{{ $t('dashboard.memory') }}: {{memory.used}}/{{memory.total}}</div>
                             </el-col>
                         </el-row>
                     </el-col>
@@ -24,7 +24,7 @@
                             </el-col>
                             <el-col :span="12" style="text-align: center">
                                 <el-progress type="dashboard" :percentage="disk.percentage" :color="disk.color"></el-progress>
-                                <div>硬盘: {{disk.used}}/{{disk.total}}</div>
+                                <div>{{ $t('dashboard.disk') }}: {{disk.used}}/{{disk.total}}</div>
                             </el-col>
                         </el-row>
                     </el-col>
@@ -37,7 +37,7 @@
             <el-card class="home-card" shadow="hover">
                 <el-row>
                     <el-col :span="10">
-                        <b> trojan 版本: </b>
+                        <b>{{ $t('dashboard.trojanVersion') }}: </b>
                     </el-col>
                     <el-col :span="12" style="padding-top:1px">
                         {{ trojanVersion }}
@@ -49,7 +49,7 @@
             <el-card class="home-card" shadow="hover">
                 <el-row>
                     <el-col :span="10">
-                        <b>trojan 用户数:</b>
+                        <b>{{ $t('dashboard.trojanUser') }}:</b>
                     </el-col>
                     <el-col :span="12" style="padding-top:1px">
                         <el-link type='primary' @click.native="navigate('/user')">{{ userList.length }}</el-link>
@@ -63,7 +63,7 @@
             <el-card class="home-card" shadow="hover">
                 <el-row>
                     <el-col :span="10">
-                        <b>trojan 已运行:</b>
+                        <b>{{ $t('dashboard.trojanRuntime') }}:</b>
                     </el-col>
                     <el-col :span="12"  style="padding-top:1px">
                         {{ trojanRuntime }}
@@ -75,7 +75,7 @@
             <el-card class="home-card" shadow="hover">
                 <el-row>
                     <el-col :span="10">
-                        <b>服务器负载:</b>
+                        <b>{{ $t('dashboard.load') }}:</b>
                     </el-col>
                     <el-tooltip class="item" effect="dark" content="load1, load5, load15" placement="left-end">
                         <el-col :span="12" style="padding-top:1px">
@@ -90,21 +90,21 @@
         <el-col :span='7'>
             <el-card shadow="hover">
                 <i v-if="iconShow" :class="uploadIcon" class="home-icon"></i>
-                上传:
+                {{ $t('dashboard.upload') }}:
                 <el-tag effect="dark" size="mini" type="success">{{ uploadData }}</el-tag>
             </el-card>
         </el-col>
         <el-col :span='7' :offset='1'>
             <el-card shadow="hover">
                 <i v-if="iconShow" :class="downloadIcon" class="home-icon"></i>
-                下载:
+                {{ $t('dashboard.download') }}:
                 <el-tag effect="dark" size="mini" type="success">{{ downloadData }}</el-tag>
             </el-card>
         </el-col>
         <el-col :span='7' :offset='1'>
             <el-card shadow="hover">
                 <i v-if="iconShow" :class="totalIcon" class="home-icon"></i>
-                总共:
+                {{ $t('dashboard.total') }}:
                 <el-tag effect="dark" size="mini" type="success">{{ totalData }}</el-tag>
             </el-card>
         </el-col>
@@ -276,20 +276,20 @@ export default {
             let result = ''
             if (runtime.indexOf('-') !== -1) {
                 const splitInfo = runtime.split('-')
-                result += splitInfo[0] + '天 '
+                result += splitInfo[0] + `${this.$t('dashboard.day')} `
                 const timeInfo = splitInfo[1].split(':')
-                result += timeInfo[0] + '时 '
-                result += timeInfo[1] + '分 '
-                result += timeInfo[2] + '秒'
+                result += timeInfo[0] + `${this.$t('dashboard.hour')} `
+                result += timeInfo[1] + `${this.$t('dashboard.minute')} `
+                result += timeInfo[2] + `${this.$t('dashboard.second')} `
             } else {
                 const splitInfo = runtime.split(':')
                 if (splitInfo.length === 3) {
-                    result += splitInfo[0] + '时 '
-                    result += splitInfo[1] + '分 '
-                    result += splitInfo[2] + '秒'
+                    result += splitInfo[0] + `${this.$t('dashboard.hour')} `
+                    result += splitInfo[1] + `${this.$t('dashboard.minute')} `
+                    result += splitInfo[2] + `${this.$t('dashboard.second')} `
                 } else if (splitInfo.length === 2) {
-                    result += splitInfo[0] + '分 '
-                    result += splitInfo[1] + '秒'
+                    result += splitInfo[0] + `${this.$t('dashboard.minute')} `
+                    result += splitInfo[1] + `${this.$t('dashboard.second')} `
                 }
             }
             return result
