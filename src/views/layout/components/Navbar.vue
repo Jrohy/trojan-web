@@ -11,9 +11,11 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="systemVersion(); versionVisible=true">系统版本</el-dropdown-item>
-                    <el-dropdown-item @click.native="getTitle(); loginVisible=true" v-if="isAdmin">修改标题</el-dropdown-item>
-                    <el-dropdown-item @click.native="dialogVisible=true" v-if="isAdmin">修改密码</el-dropdown-item>
+                    <el-dropdown-item @click.native="systemVersion(); versionVisible=true">{{ $t('navbar.version') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="getTitle(); loginVisible=true" v-if="isAdmin">{{ $t('navbar.title') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="dialogVisible=true" v-if="isAdmin">{{ $t('navbar.password') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="handleSetLanguage('zh')" divided>中文</el-dropdown-item>
+                    <el-dropdown-item @click.native="handleSetLanguage('en')">English</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <el-dialog :modal="false" title="修改登录页标题" :visible.sync="loginVisible" :width="dialogWidth">
@@ -73,6 +75,15 @@ export default {
             }
         }
         return {
+            handleSetLanguage(lang) {
+                const successTip = lang === 'zh' ? '切换语言成功' : 'Switch Language Success'
+                this.$i18n.locale = lang
+                this.$store.dispatch('app/setLanguage', lang)
+                this.$message({
+                    message: successTip,
+                    type: 'success'
+                })
+            },
             versionList: {
                 version: '',
                 buildDate: '',

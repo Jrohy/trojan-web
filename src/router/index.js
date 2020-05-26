@@ -56,7 +56,7 @@ export const constantRoutes = [
             path: 'dashboard',
             name: 'Dashboard',
             component: () => import('@/views/dashboard/index'),
-            meta: { title: '首页', icon: 'dashboard' }
+            meta: { title: 'dashboard', icon: 'dashboard' }
         }]
     },
 
@@ -68,7 +68,7 @@ export const constantRoutes = [
                 path: '',
                 name: 'trojan',
                 component: () => import('@/views/trojan/index'),
-                meta: { title: 'trojan管理', icon: 'documentation' }
+                meta: { title: 'trojan', icon: 'documentation' }
             }
         ]
     },
@@ -80,7 +80,7 @@ export const constantRoutes = [
                 path: '',
                 name: 'user',
                 component: () => import('@/views/user/index'),
-                meta: { title: '用户管理', icon: 'user' }
+                meta: { title: 'user', icon: 'user' }
             }
         ]
     },
