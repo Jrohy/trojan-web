@@ -18,34 +18,34 @@
                     <el-dropdown-item @click.native="handleSetLanguage('en')">English</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
-            <el-dialog :modal="false" title="修改登录页标题" :visible.sync="loginVisible" :width="dialogWidth">
-                <el-input type="text" v-model="title" placeholder="输入登录页标题" @keyup.enter.native="handleLoginInfo"/>
+            <el-dialog :modal="false" :title="$t('navbar.changeTitle')" :visible.sync="loginVisible" :width="dialogWidth">
+                <el-input type="text" v-model="title" :placeholder="$t('navbar.inputTitle')" @keyup.enter.native="handleLoginInfo"/>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="loginVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="handleLoginInfo()">确 定</el-button>
+                    <el-button @click="loginVisible = false">{{ $t('cancel') }}</el-button>
+                    <el-button type="primary" @click="handleLoginInfo()">{{ $t('ok') }}</el-button>
                 </div>
             </el-dialog>
-            <el-dialog :modal="false" title="trojan管理程序版本" :visible.sync="versionVisible" :width="dialogWidth">
+            <el-dialog :modal="false" :title="$t('navbar.versionTitle')" :visible.sync="versionVisible" :width="dialogWidth">
                 <p> version: {{ versionList.version }} </p>
                 <p> gitVersion: {{ versionList.gitVersion.slice(0,7) }} </p>
                 <p> buildDate: {{ versionList.buildDate }} </p>
                 <p> goVersion: {{ versionList.goVersion }} </p>
                 <div slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="versionVisible = false">确 定</el-button>
+                    <el-button type="primary" @click="versionVisible = false">{{ $t('ok') }}</el-button>
                 </div>
             </el-dialog>
-            <el-dialog :modal="false" title="变更管理员密码" :visible.sync="dialogVisible" :width="dialogWidth">
+            <el-dialog :modal="false" :title="$t('navbar.passwordTitle')" :visible.sync="dialogVisible" :width="dialogWidth">
                 <el-form  :model="form" :rules="registerRules" ref="form" label-position="left">
                     <el-form-item prop="password1">
-                        <el-input name="password1" :type="pwdType" v-model="form.password1" placeholder="输入密码" show-password/>
+                        <el-input name="password1" :type="pwdType" v-model="form.password1" :placeholder="$t('inputPass')" show-password/>
                     </el-form-item>
                     <el-form-item prop="password2">
-                        <el-input name="password2" :type="pwdType" @keyup.enter.native="register" v-model="form.password2" placeholder="请再次输入密码" show-password/>
+                        <el-input name="password2" :type="pwdType" @keyup.enter.native="register" v-model="form.password2" :placeholder="$t('inputPassAgain')" show-password/>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="dialogVisible = false; changePass()">确 定</el-button>
+                    <el-button @click="dialogVisible = false">{{ $t('cancel') }}</el-button>
+                    <el-button type="primary" @click="dialogVisible = false; changePass()">{{ $t('ok') }}</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -69,7 +69,7 @@ export default {
     data() {
         const validatePass = (rule, value, callback) => {
             if (value.length < 5) {
-                callback(new Error('密码不能小于5位'))
+                callback(new Error(this.$t('passLessError')))
             } else {
                 callback()
             }
@@ -154,7 +154,7 @@ export default {
             const result = await setLoginInfo(formData)
             if (result.Msg === 'success') {
                 this.$message({
-                    message: '修复登录页标题成功!',
+                    message: this.$t('navbar.changeTitleSuccess'),
                     type: 'success'
                 })
                 this.userItem = null
@@ -172,7 +172,7 @@ export default {
         async changePass() {
             const formData = new FormData()
             if (this.form.password1 !== this.form.password2) {
-                this.$message.error('两次输入不一致!')
+                this.$message.error(this.$t('passDifferentError'))
                 return
             } else {
                 formData.set('password', CryptoJS.SHA224(this.form.password1).toString())
@@ -180,7 +180,7 @@ export default {
             try {
                 await resetPass(formData)
                 this.$message({
-                    message: '重置密码成功!',
+                    message: this.$t('navbar/resetSuccess'),
                     type: 'success'
                 })
                 await sleep(1000 * 2)
