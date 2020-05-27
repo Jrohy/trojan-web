@@ -45,7 +45,7 @@
         </el-form-item>
       </el-tooltip>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">{{ $t('login') }}</el-button>
     </el-form>
   </div>
 </template>
@@ -102,7 +102,7 @@ export default {
         },
         async handleLogin() {
             if (this.loginForm.username === '' || this.loginForm.password === '') {
-                this.$message.error('用户名或密码不能为空!')
+                this.$message.error(this.$t('inputNotNull'))
                 return
             }
             this.loginForm.password = CryptoJS.SHA224(this.loginForm.password).toString()

@@ -5,6 +5,8 @@ export default {
     inputPassAgain: 'input password again',
     passLessError: "password number can't less than 5",
     passDifferentError: 'The two inputs are inconsistent!',
+    setupPass: 'setup admin password',
+    inputNotNull: "username or password can't be null!",
     route: {
         dashboard: 'Dashboard',
         trojan: 'Trojan',
@@ -12,7 +14,7 @@ export default {
     },
     navbar: {
         version: 'System Version',
-        password: 'Change Password',
+        password: 'Reset Password',
         title: 'Change Title',
         changeTitle: 'Change login page title',
         changeTitleSuccess: 'Change title success!',

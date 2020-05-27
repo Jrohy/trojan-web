@@ -2,23 +2,23 @@
     <div class="register-container">
         <el-form class="register-form" :model="form" :rules="registerRules" ref="form" label-position="left">
             <div class="title-container">
-                <h3 class="title">设置admin密码</h3>
+                <h3 class="title">{{ $t('setupPass') }}</h3>
             </div>
             <el-form-item prop="password1">
                 <span class="svg-container">
                     <svg-icon icon-class="password" />
                 </span>
-                <el-input name="password1" :type="pwdType" v-model="form.password1" placeholder="输入密码" show-password/>
+                <el-input name="password1" :type="pwdType" v-model="form.password1" :placeholder="$t('inputPass')" show-password/>
             </el-form-item>
             <el-form-item prop="password2">
                 <span class="svg-container">
                     <svg-icon icon-class="password"></svg-icon>
                 </span>
-                <el-input name="password2" :type="pwdType" @keyup.enter.native="register" v-model="form.password2" placeholder="请再次输入密码" show-password/>
+                <el-input name="password2" :type="pwdType" @keyup.enter.native="register" v-model="form.password2" :placeholder="$t('inputPassAgain')" show-password/>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="register">
-                注册
+                {{ $t('register') }}
                 </el-button>
             </el-form-item>
         </el-form>
@@ -33,7 +33,7 @@ export default {
     data() {
         const validatePass = (rule, value, callback) => {
             if (value.length < 5) {
-                callback(new Error('密码不能小于5位'))
+                callback(new Error(this.$t('passLessError')))
             } else {
                 callback()
             }
@@ -71,7 +71,7 @@ export default {
         async register() {
             const formData = new FormData()
             if (this.form.password1 !== this.form.password2) {
-                this.$message.error('两次输入不一致!')
+                this.$message.error(this.$t('passDifferentError'))
                 return
             } else {
                 formData.set('password', CryptoJS.SHA224(this.form.password1).toString())
