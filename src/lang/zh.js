@@ -1,6 +1,8 @@
 export default {
     ok: '确定',
     cancel: '取消',
+    login: '登录',
+    register: '注册',
     log: '日志',
     terminal: '终端',
     refresh: '刷新',
@@ -10,6 +12,8 @@ export default {
     inputPassAgain: '请再次输入密码',
     passLessError: '密码不能小于5位',
     passDifferentError: '两次输入不一致!',
+    setupPass: '设置admin密码',
+    inputNotNull: '用户名或密码不能为空!',
     route: {
         dashboard: '首页',
         trojan: 'trojan管理',
