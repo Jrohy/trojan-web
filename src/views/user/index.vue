@@ -3,10 +3,10 @@
     <el-form :inline="true" label-width="80px" style="height: 29px;">
     <el-form-item size="mini">
         <el-button-group>
-            <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">刷新</el-button>
-            <el-button type="primary" icon="el-icon-plus" @click.native="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">添加</el-button>
-            <el-button type="primary" icon="el-icon-refresh-left" @click.native="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">重置流量</el-button>
-            <el-button type="danger" icon="el-icon-delete" @click.native="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">删除</el-button>
+            <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">{{ $t('refresh') }}</el-button>
+            <el-button type="primary" icon="el-icon-plus" @click.native="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">{{ $t('add') }}</el-button>
+            <el-button type="primary" icon="el-icon-refresh-left" @click.native="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">{{ $t('user.reset') }}</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click.native="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">{{ $t('delete') }}</el-button>
         </el-button-group>
     </el-form-item>
     </el-form>
@@ -17,28 +17,28 @@
         width="55" v-if="isAdmin">
         </el-table-column>
         <el-table-column
-        label="用户名"
+        :label="$t('username')"
         prop="Username"
         >
         </el-table-column>
         <el-table-column
-        label="密码"
+        :label="$t('password')"
         :formatter="passwordFormatter">
         </el-table-column>
         <el-table-column
-        label="上传流量"
+        :label="$t('user.upload')"
         :formatter="uploadFormatter" :sort-method="uploadSort" sortable>
         </el-table-column>
         <el-table-column
-        label="下载流量"
+        :label="$t('user.download')"
         :formatter="downloadFormatter" :sort-method="downloadSort" sortable>
         </el-table-column>
         <el-table-column
-        label="总流量"
+        :label="$t('user.total')"
         :formatter="totalFormatter" :sort-method="totalSort" sortable>
         </el-table-column>
         <el-table-column
-        label="流量限制"
+        :label="$t('user.quota')"
         :formatter="quotaFormatter">
         </el-table-column>
         <el-table-column
@@ -48,52 +48,52 @@
             <el-input
                 v-model="search"
                 size="small"
-                placeholder="输入用户名搜索" v-if="isAdmin"/>
-            <div v-if="!isAdmin">操作</div>
+                :placeholder="$t('user.search')" v-if="isAdmin"/>
+            <div v-if="!isAdmin">{{ $t('user.operate') }}</div>
         </template>
         <template slot-scope="scope">
             <el-dropdown  size="mini" split-button type="text" v-if="isAdmin">
-                编辑
+                {{ $t('edit') }}
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="userItem=scope.row; quotaVisible=true">限制流量</el-dropdown-item>
-                    <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">重置流量</el-dropdown-item>
-                    <el-dropdown-item @click.native="userItem=scope.row; handelEditUser()">修改账密</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; quotaVisible=true">{{ $t('user.limitData') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">{{ $t('user.reset') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; handelEditUser()">{{ $t('user.modifyUser') }}</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <el-button
             size="mini"
             type="text"
             @click.native="userItem=scope.row;handleShare()"
-            >分享</el-button>
+            >{{ $t('share') }}</el-button>
             <el-button
             v-if="isAdmin"
             size="mini"
             type="text"
             @click.native="userItem=scope.row;commonType=0;patchButton=false;confirmVisible=true"
-            >删除</el-button>
+            >{{ $t('delete') }}</el-button>
         </template>
         </el-table-column>
     </el-table>
     <el-dialog :title="commonTitle" :visible.sync="userVisible" :width="dialogWidth">
-        <el-input type="text" v-model="userInfo.username" placeholder="输入用户名"/>
-        <el-input type="text" v-model="userInfo.password" placeholder="输入密码" @keyup.enter.native="commonType === 2? handleAddUser(): handleUpdateUser()"/>
+        <el-input type="text" v-model="userInfo.username" :placeholder="$t('user.inputUsername')"/>
+        <el-input type="text" v-model="userInfo.password" :placeholder="$t('user.inputPassword')" @keyup.enter.native="commonType === 2? handleAddUser(): handleUpdateUser()"/>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="userVisible = false">取 消</el-button>
-            <el-button type="primary" @click="commonType === 2? handleAddUser(): handleUpdateUser()">确 定</el-button>
+            <el-button @click="userVisible = false">{{ $t('cancel') }}</el-button>
+            <el-button type="primary" @click="commonType === 2? handleAddUser(): handleUpdateUser()">{{ $t('ok') }}</el-button>
         </div>
     </el-dialog>
     <el-dialog :title="commonTitle" :visible.sync="confirmVisible" :width="dialogWidth">
         {{ editUser }}
         <div slot="footer" class="dialog-footer">
-            <el-button @click="confirmVisible = false;copySelection=[];">取 消</el-button>
-            <el-button type="primary" @click="confirmVisible = false; patchButton ? handlePatchOpera(): handleOpera()">确 定</el-button>
+            <el-button @click="confirmVisible = false;copySelection=[];">{{ $t('cancel') }}</el-button>
+            <el-button type="primary" @click="confirmVisible = false; patchButton ? handlePatchOpera(): handleOpera()">{{ $t('ok') }}</el-button>
         </div>
     </el-dialog>
     <el-dialog :title="quotaText" :visible.sync="quotaVisible" :width="dialogWidth">
-        <el-tooltip effect="dark" content="-1代表无流量限制" placement="top">
+        <el-tooltip effect="dark" :content="$t('user.meanUnlimit')" placement="top">
             <el-input-number v-model="quota" :min="-1" :precision="0" size="mini"></el-input-number>
         </el-tooltip>
-        <el-select v-model="quotaUnit" placeholder="请选择" size="mini" style="margin-left: 5px; width:80px">
+        <el-select v-model="quotaUnit" :placeholder="$t('choice')" size="mini" style="margin-left: 5px; width:80px">
             <el-option
             v-for="item in quotaOptions"
             :key="item.value"
@@ -102,11 +102,11 @@
             </el-option>
         </el-select>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="quotaVisible=false">取 消</el-button>
-            <el-button type="primary" @click="quotaVisible=false; handleSetQuota()">确 定</el-button>
+            <el-button @click="quotaVisible=false">{{ $t('cancel') }}</el-button>
+            <el-button type="primary" @click="quotaVisible=false; handleSetQuota()">{{ $t('ok') }}</el-button>
         </div>
     </el-dialog>
-    <el-dialog title="trojan分享链接" :visible.sync="qrcodeVisible" :width="dialogWidth" @close="closeQRCode">
+    <el-dialog :title="$t('user.shareLink')" :visible.sync="qrcodeVisible" :width="dialogWidth" @close="closeQRCode">
         <div id="qrcode" ref="qrcode" class="qrcodeCenter"></div>
         <p class="qrcodeCenter"> {{ shareLink }} </p>
     </el-dialog>
@@ -158,20 +158,20 @@ export default {
         commonTitle: function() {
             let text = ''
             if (this.commonType === 2) {
-                text = '新增trojan用户'
+                text = this.$t('user.addUser')
             } else if (this.commonType === 3) {
-                text = '修改用户 ' + this.userItem.Username + ' 的用户名和密码'
+                text = this.$t('user.modifyUser2') + this.userItem.Username + this.$t('user.userpass')
             } else if (this.commonType === 0) {
                 if (this.patchButton) {
-                    text = '确定批量删除以下用户?'
+                    text = this.$t('user.patchDelUser')
                 } else if (this.userItem !== null) {
-                    text = '确定删除用户 ' + this.userItem.Username + ' ?'
+                    text = this.$t('user.delUser') + this.userItem.Username + ' ?'
                 }
             } else if (this.commonType === 1) {
                 if (this.patchButton) {
-                    text = '确定重置以下用户流量?'
+                    text = this.$t('user.patchReset')
                 } else if (this.userItem !== null) {
-                    text = '确定重置用户 ' + this.userItem.Username + ' 的流量?'
+                    text = this.$t('user.resetUser') + this.userItem.Username + this.$t('user.data')
                 }
             }
             return text
@@ -189,7 +189,7 @@ export default {
         },
         quotaText: function() {
             if (this.userItem !== null) {
-                return `确定限制用户 ${this.userItem.Username} 的流量?`
+                return `${this.$t('user.limitUser')} ${this.userItem.Username} ${this.$t('user.data')}`
             } else {
                 return ''
             }
@@ -207,7 +207,7 @@ export default {
             return atob(row.Password)
         },
         quotaFormatter(row, column) {
-            return row.Quota === -1 ? '无' : readablizeBytes(row.Quota)
+            return row.Quota === -1 ? this.$t('user.unlimit') : readablizeBytes(row.Quota)
         },
         uploadFormatter(row, column) {
             return readablizeBytes(row.Upload)
@@ -264,7 +264,7 @@ export default {
             const result = await setQuota(formData)
             if (result.Msg === 'success') {
                 this.$message({
-                    message: `设置用户${this.userItem.Username}流量限制成功!`,
+                    message: `${this.user.setupUser}${this.userItem.Username}流量限制成功!`,
                     type: 'success'
                 })
                 this.userItem = null
