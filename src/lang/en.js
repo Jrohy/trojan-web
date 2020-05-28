@@ -37,5 +37,38 @@ export default {
         hour: ' hour',
         minute: ' minute',
         second: ' second'
+    },
+    trojan: {
+        restartSuccess: 'restart trojan success!',
+        startSuccess: 'start trojan success!',
+        stopSuccess: 'stop trojan success!',
+        updateSuccess: 'update trojan success!',
+        loglevelSuccess: 'set loglevel success!'
+    },
+    user: {
+        upload: 'upload',
+        download: 'download',
+        total: 'total',
+        quota: 'quota',
+        reset: 'reset data',
+        unlimit: 'unlimit',
+        search: 'search username',
+        limitData: 'limit data',
+        modifyUser: 'modify user',
+        shareLink: 'trojan share link',
+        meanUnlimit: '-1 mean unlimit',
+        inputUsername: 'username',
+        inputPassword: 'password',
+        operate: 'operate',
+        addUser: 'add trojan user',
+        patchDelUser: 'patch delete user?',
+        modifyUser2: 'modify user ',
+        userpass: 'username and password',
+        delUser: 'delete user ',
+        patchReset: 'patch reset data?',
+        resetUser: 'reset user ',
+        data: ' data?',
+        limitUser: 'limit user ',
+        setupUser: 'setup user '
     }
 }

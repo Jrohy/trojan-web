@@ -3,14 +3,14 @@
     <el-form :inline="true" style="margin-top: 15px">
         <el-form-item  size="small">
             <el-button-group>
-                <el-button type="primary" icon="el-icon-refresh" @click="update()">更新</el-button>
-                <el-button type="primary" icon="el-icon-video-play" @click="start()">启动</el-button>
-                <el-button type="primary" icon="el-icon-video-pause" @click="stop()">停止</el-button>
-                <el-button type="primary" icon="el-icon-refresh-right" @click="restart()">重启</el-button>
+                <el-button type="primary" icon="el-icon-refresh" @click="update()">{{ $t('update') }}</el-button>
+                <el-button type="primary" icon="el-icon-video-play" @click="start()">{{ $t('start') }}</el-button>
+                <el-button type="primary" icon="el-icon-video-pause" @click="stop()">{{ $t('stop') }}</el-button>
+                <el-button type="primary" icon="el-icon-refresh-right" @click="restart()">{{ $t('restart') }}</el-button>
             </el-button-group>
         </el-form-item>
-        <el-form-item  size="small" label="日志等级">
-            <el-select size="mini" v-model="loglevel" placeholder="请选择" filterable @change="setLoglevel()" style="width: 120px;">
+        <el-form-item  size="small" :label="$t('loglevel')">
+            <el-select size="mini" v-model="loglevel" :placeholder="$t('choice')" filterable @change="setLoglevel()" style="width: 120px;">
             <el-option
                 v-for="item in loglevelOptions"
                 :key="item.label"
@@ -19,8 +19,8 @@
             </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item  size="small" label="初始行数">
-            <el-select size="mini" v-model="line" placeholder="请选择" filterable @change="getLog()" style="width: 120px;">
+        <el-form-item  size="small" :label="$t('line')">
+            <el-select size="mini" v-model="line" :placeholder="$t('choice')" filterable @change="getLog()" style="width: 120px;">
             <el-option
                 v-for="item in logLineOptions"
                 :key="item.label"
@@ -29,7 +29,7 @@
             </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item  size="small" label="最新日志">
+        <el-form-item  size="small" :label="$t('latest')">
             <el-switch v-model="isFollow"></el-switch>
         </el-form-item>
     </el-form>
@@ -96,7 +96,7 @@ export default {
                     value: 5000
                 },
                 {
-                    label: '所有',
+                    label: this.$t('all'),
                     value: -1
                 }
             ]
@@ -150,7 +150,7 @@ export default {
                 const result = await setLoglevel(formData)
                 if (result.Msg === 'success') {
                     this.$message({
-                        message: '设置日志等级成功!',
+                        message: this.$t('trojan.loglevelSuccess'),
                         type: 'success'
                     })
                 }
@@ -171,7 +171,7 @@ export default {
                 const result = await start()
                 if (result.Msg === 'success') {
                     this.$message({
-                        message: '启动trojan成功!',
+                        message: this.$t('trojan.startSuccess'),
                         type: 'success'
                     })
                 }
@@ -183,7 +183,7 @@ export default {
             const result = await stop()
             if (result.Msg === 'success') {
                 this.$message({
-                    message: '停止trojan成功!',
+                    message: this.$t('trojan.stopSuccess'),
                     type: 'success'
                 })
             }
@@ -193,7 +193,7 @@ export default {
                 const result = await restart()
                 if (result.Msg === 'success') {
                     this.$message({
-                        message: '重启trojan成功!',
+                        message: this.$t('trojan.restartSuccess'),
                         type: 'success'
                     })
                 }
@@ -206,7 +206,7 @@ export default {
                 const result = await update()
                 if (result.Msg === 'success') {
                     this.$message({
-                        message: '更新trojan成功!',
+                        message: this.$t('trojan.updateSuccess'),
                         type: 'success'
                     })
                 }
