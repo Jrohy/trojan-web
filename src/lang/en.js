@@ -69,6 +69,13 @@ export default {
         resetUser: 'reset user ',
         data: ' data?',
         limitUser: 'limit user ',
-        setupUser: 'setup user '
+        limitUser2: 'limit user ',
+        setupUser: 'setup user ',
+        limitSuccess: ' data success!',
+        delUser1: 'delete user ',
+        success: ' success!',
+        resetUser1: 'reset user ',
+        limitAdmin: "can't create username is admin",
+        addUser2: 'add user '
     }
 }

@@ -264,7 +264,7 @@ export default {
             const result = await setQuota(formData)
             if (result.Msg === 'success') {
                 this.$message({
-                    message: `${this.user.setupUser}${this.userItem.Username}流量限制成功!`,
+                    message: `${this.$t('user.limitUser2')}${this.userItem.Username}${this.$t('user.limitSuccess')}`,
                     type: 'success'
                 })
                 this.userItem = null
@@ -281,10 +281,10 @@ export default {
                 this.userItem = this.copySelection[i]
                 if (this.commonType === 0) {
                     result = await delUser(this.userItem.ID)
-                    successText = `删除用户${this.userItem.Username}成功!`
+                    successText = `${this.$t('user.delUser1')}${this.userItem.Username}${this.$t('user.success')}`
                 } else if (this.commonType === 1) {
                     result = await cleanData(this.userItem.ID)
-                    successText = `重置用户${this.userItem.Username}流量成功!`
+                    successText = `${this.$t('user.resetUser1')}${this.userItem.Username}${this.$t('user.success')}`
                 }
                 if (result.Msg === 'success') {
                     this.$message({
@@ -303,10 +303,10 @@ export default {
             let result = null
             if (this.commonType === 0) {
                 result = await delUser(this.userItem.ID)
-                successText = `删除用户${this.userItem.Username}成功!`
+                successText = `${this.$t('user.delUser1')}${this.userItem.Username}${this.$t('user.success')}`
             } else if (this.commonType === 1) {
                 result = await cleanData(this.userItem.ID)
-                successText = `重置用户${this.userItem.Username}流量成功!`
+                successText = `${this.$t('user.resetUser1')}${this.userItem.Username}${this.$t('user.success')}`
             }
             if (result.Msg === 'success') {
                 this.$message({
@@ -320,11 +320,11 @@ export default {
         },
         async handleUpdateUser() {
             if (this.userInfo.username === '' || this.userInfo.password === '') {
-                this.$message.error('用户名或密码不能为空!')
+                this.$message.error(this.$t('inputNotNull'))
                 return
             }
             if (this.userInfo.username === 'admin') {
-                this.$message.error('不能创建用户名为admin的用户!')
+                this.$message.error(this.$t('user.limitAdmin'))
                 return
             }
             const formData = new FormData()
@@ -334,7 +334,7 @@ export default {
             const result = await updateUser(formData)
             if (result.Msg === 'success') {
                 this.$message({
-                    message: `修改用户${this.userInfo.username}成功!`,
+                    message: `${this.$t('user.modifyUser2')}${this.userInfo.username}${this.$t('user.success')}`,
                     type: 'success'
                 })
                 this.userInfo.username = ''
@@ -347,11 +347,11 @@ export default {
         },
         async handleAddUser() {
             if (this.userInfo.username === '' || this.userInfo.password === '') {
-                this.$message.error('用户名或密码不能为空!')
+                this.$message.error(this.$t('inputNotNull'))
                 return
             }
             if (this.userInfo.username === 'admin') {
-                this.$message.error('不能创建用户名为admin的用户!')
+                this.$message.error(this.$t('user.limitAdmin'))
                 return
             }
             const formData = new FormData()
@@ -360,7 +360,7 @@ export default {
             const result = await addUser(formData)
             if (result.Msg === 'success') {
                 this.$message({
-                    message: `新增用户${this.userInfo.username}成功!`,
+                    message: `${this.$t('user.addUser2')}${this.userInfo.username}${this.$t('user.success')}`,
                     type: 'success'
                 })
                 this.userInfo.username = ''

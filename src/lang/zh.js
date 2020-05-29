@@ -89,6 +89,12 @@ export default {
         resetUser: '确定重置用户 ',
         data: ' 的流量?',
         limitUser: '确定限制用户 ',
-        setupUser: '设置用户 '
+        limitUser2: '限制用户 ',
+        limitSuccess: '流量成功!',
+        delUser1: '删除用户',
+        success: '成功!',
+        resetUser1: '重置用户',
+        limitAdmin: '不能创建用户名为admin的用户!',
+        addUser2: '新增用户'
     }
 }
