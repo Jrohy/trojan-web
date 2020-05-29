@@ -58,7 +58,7 @@ module.exports = {
             axios: 'axios',
             'element-ui': 'ELEMENT',
             en: 'ELEMENT.lang.en',
-            'zh-cn': 'ELEMENT.lang.zhCN',
+            'zh-cn': 'ELEMENT.lang.zhCN'
         })
         // 添加新的svg-sprite-loader处理svgIcon
         config.module
