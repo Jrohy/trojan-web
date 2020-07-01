@@ -29,5 +29,9 @@ export default {
     SET_LOGLEVEL(state, loglevel) {
         state.loglevel = loglevel
         localStorage.setItem('loglevel', state.loglevel)
+    },
+    SET_TYPE(state, type) {
+        state.type = type
+        localStorage.setItem('type', state.type)
     }
 }

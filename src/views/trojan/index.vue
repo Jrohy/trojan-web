@@ -9,8 +9,18 @@
                 <el-button type="primary" icon="el-icon-refresh-right" @click="restart()">{{ $t('restart') }}</el-button>
             </el-button-group>
         </el-form-item>
+        <el-form-item  size="small" :label="$t('type')">
+            <el-select size="mini" v-model="type" :placeholder="$t('choice')" filterable @change="trojanSwitch()" style="width: 110px;">
+            <el-option
+                v-for="item in typeOptions"
+                :key="item.label"
+                :label="item.label"
+                :value="item.label">
+            </el-option>
+            </el-select>
+        </el-form-item>
         <el-form-item  size="small" :label="$t('loglevel')">
-            <el-select size="mini" v-model="loglevel" :placeholder="$t('choice')" filterable @change="setLoglevel()" style="width: 120px;">
+            <el-select size="mini" v-model="loglevel" :placeholder="$t('choice')" filterable @change="setLoglevel()" style="width: 110px;">
             <el-option
                 v-for="item in loglevelOptions"
                 :key="item.label"
@@ -20,7 +30,7 @@
             </el-select>
         </el-form-item>
         <el-form-item  size="small" :label="$t('line')">
-            <el-select size="mini" v-model="line" :placeholder="$t('choice')" filterable @change="getLog()" style="width: 120px;">
+            <el-select size="mini" v-model="line" :placeholder="$t('choice')" filterable @change="getLog()" style="width: 110px;">
             <el-option
                 v-for="item in logLineOptions"
                 :key="item.label"
@@ -40,7 +50,8 @@
 <script>
 import store from '@/store/index.js'
 import { mapState } from 'vuex'
-import { start, stop, restart, update, getLoglevel, setLoglevel } from '@/api/trojan'
+import { version } from '@/api/common'
+import { start, stop, restart, update, getLoglevel, setLoglevel, trojanSwitch } from '@/api/trojan'
 export default {
     data() {
         return {
@@ -52,6 +63,14 @@ export default {
             mainStyle: {
                 height: 0
             },
+            typeOptions: [
+                {
+                    label: 'trojan'
+                },
+                {
+                    label: 'trojan-go'
+                }
+            ],
             loglevelOptions: [
                 {
                     label: 'ALL',
@@ -116,9 +135,10 @@ export default {
         }, true)
         this.getLog()
         this.getLoglevel()
+        this.getTrojanType()
     },
     computed: {
-        ...mapState(['line', 'loglevel']),
+        ...mapState(['line', 'loglevel', 'type']),
         line: {
             get() {
                 return this.$store.state.line
@@ -133,6 +153,14 @@ export default {
             },
             set(val) {
                 this.$store.commit('SET_LOGLEVEL', val)
+            }
+        },
+        type: {
+            get() {
+                return this.$store.state.type
+            },
+            set(val) {
+                this.$store.commit('SET_TYPE', val)
             }
         }
     },
@@ -162,6 +190,14 @@ export default {
             const result = await getLoglevel()
             if (result.Msg === 'success') {
                 this.loglevel = result.Data.loglevel
+            } else {
+                this.$message.error(result.Msg)
+            }
+        },
+        async getTrojanType() {
+            const result = await version()
+            if (result.Msg === 'success') {
+                this.type = result.Data.trojanType
             } else {
                 this.$message.error(result.Msg)
             }
@@ -212,6 +248,25 @@ export default {
                 }
             } catch (e) {
                 this.getLog()
+            }
+        },
+        async trojanSwitch() {
+            try {
+                const formData = new FormData()
+                formData.set('type', this.type)
+                const result = await trojanSwitch(formData)
+                if (result.Msg === 'success') {
+                    this.$message({
+                        message: this.$t('trojan.switchSuccess'),
+                        type: 'success'
+                    })
+                }
+            } catch (e) {
+                this.getLog()
+                this.$message({
+                    message: this.$t('trojan.switchSuccess'),
+                    type: 'success'
+                })
             }
         },
         getLog() {
