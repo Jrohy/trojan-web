@@ -116,6 +116,7 @@
 <script>
 import { userList, addUser, delUser, updateUser } from '@/api/user'
 import { setQuota, cleanData } from '@/api/data'
+import { setDomain } from '@/api/trojan'
 import { readablizeBytes, isValidIP } from '@/utils/common'
 import { mapState } from 'vuex'
 import QRCode from 'qrcodejs2'
@@ -386,6 +387,16 @@ export default {
                     const hostname = window.location.hostname
                     if (!isValidIP(hostname)) {
                         this.domain = hostname
+                        const formData = new FormData()
+                        formData.set('domain', this.domain)
+                        this.$store.commit('SET_NPROGRESS', false)
+                        this.$store.commit('SET_NOERROR', true)
+                        try {
+                            await setDomain(formData)
+                        } catch (e) {
+                            this.$store.commit('SET_NPROGRESS', true)
+                            this.$store.commit('SET_NOERROR', false)
+                        }
                     }
                 }
             } else {

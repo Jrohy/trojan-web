@@ -43,7 +43,8 @@ export default {
         startSuccess: 'start trojan success!',
         stopSuccess: 'stop trojan success!',
         updateSuccess: 'update trojan success!',
-        loglevelSuccess: 'set loglevel success!'
+        loglevelSuccess: 'set loglevel success!',
+        switchSuccess: 'switch trojan type success!'
     },
     user: {
         upload: 'upload',

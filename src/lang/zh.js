@@ -17,6 +17,7 @@ export default {
     password: '密码',
     loglevel: '日志等级',
     all: '所有',
+    type: '类型',
     line: '初始行数',
     choice: '请选择',
     latest: '最新日志',
@@ -63,7 +64,8 @@ export default {
         startSuccess: '启动trojan成功!',
         stopSuccess: '停止trojan成功!',
         updateSuccess: '更新trojan成功!',
-        loglevelSuccess: '设置日志等级成功!'
+        loglevelSuccess: '设置日志等级成功!',
+        switchSuccess: '切换trojan类型成功!'
     },
     user: {
         upload: '上传流量',

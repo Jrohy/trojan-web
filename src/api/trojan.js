@@ -23,3 +23,11 @@ export function getLoglevel() {
 export function setLoglevel(data) {
     return request.post('/trojan/loglevel', data)
 }
+
+export function setDomain(data) {
+    return request.post('/trojan/domain', data)
+}
+
+export function trojanSwitch(data) {
+    return request.post('/trojan/switch', data)
+}
