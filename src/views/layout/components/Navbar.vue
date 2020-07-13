@@ -180,7 +180,7 @@ export default {
             try {
                 await resetPass(formData)
                 this.$message({
-                    message: this.$t('navbar/resetSuccess'),
+                    message: this.$t('navbar.resetSuccess'),
                     type: 'success'
                 })
                 await sleep(1000 * 2)
