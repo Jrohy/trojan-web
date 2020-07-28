@@ -125,6 +125,7 @@ export default {
         return {
             search: '',
             domain: '',
+            port: 0,
             shareLink: '',
             dataList: [],
             multipleSelection: [],
@@ -229,7 +230,7 @@ export default {
             return (a.Download + a.Upload) - (b.Download + b.Upload)
         },
         handleShare() {
-            this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:443`
+            this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:${this.port}`
             this.$nextTick(() => {
                 this.createQRCode()
             })
@@ -381,6 +382,7 @@ export default {
             const result = await userList()
             if (result.Msg === 'success') {
                 this.dataList = result.Data.userList
+                this.port = result.Data.port
                 if (result.Data.domain !== '') {
                     this.domain = result.Data.domain
                 } else {
