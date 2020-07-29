@@ -6,6 +6,7 @@
             <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">{{ $t('refresh') }}</el-button>
             <el-button type="primary" icon="el-icon-plus" @click.native="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">{{ $t('add') }}</el-button>
             <el-button type="primary" icon="el-icon-refresh-left" @click.native="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">{{ $t('user.reset') }}</el-button>
+            <el-button type="primary" icon="el-icon-scissors" @click.native="copySelection=multipleSelection;patchButton=true;quotaVisible=true" v-if="isAdmin">{{ $t('user.limitData') }}</el-button>
             <el-button type="danger" icon="el-icon-delete" @click.native="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">{{ $t('delete') }}</el-button>
         </el-button-group>
     </el-form-item>
@@ -55,7 +56,7 @@
             <el-dropdown  size="mini" split-button type="text" v-if="isAdmin">
                 {{ $t('edit') }}
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="userItem=scope.row; quotaVisible=true">{{ $t('user.limitData') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; patchButton=false; quotaVisible=true">{{ $t('user.limitData') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">{{ $t('user.reset') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; handelEditUser()">{{ $t('user.modifyUser') }}</el-dropdown-item>
                 </el-dropdown-menu>
@@ -90,6 +91,8 @@
         </div>
     </el-dialog>
     <el-dialog :title="quotaText" :visible.sync="quotaVisible" :width="dialogWidth">
+        {{ editUser }}
+        <el-divider v-if="editUser != ''"></el-divider>
         <el-tooltip effect="dark" :content="$t('user.meanUnlimit')" placement="top">
             <el-input-number v-model="quota" :min="-1" :precision="0" size="mini"></el-input-number>
         </el-tooltip>
@@ -190,10 +193,14 @@ export default {
             }
         },
         quotaText: function() {
-            if (this.userItem !== null) {
-                return `${this.$t('user.limitUser')} ${this.userItem.Username} ${this.$t('user.data')}`
+            if (this.patchButton) {
+                return `${this.$t('user.patchLimitUser')}`
             } else {
-                return ''
+                if (this.userItem !== null) {
+                    return `${this.$t('user.limitUser')} ${this.userItem.Username} ${this.$t('user.data')}`
+                } else {
+                    return ''
+                }
             }
         }
     },
@@ -253,6 +260,20 @@ export default {
         closeQRCode() {
             this.$refs.qrcode.innerHTML = ''
         },
+        async requestQuota() {
+            const formData = new FormData()
+            formData.set('id', this.userItem.ID)
+            formData.set('quota', this.quota)
+            const result = await setQuota(formData)
+            if (result.Msg === 'success') {
+                this.$message({
+                    message: `${this.$t('user.limitUser2')} ${this.userItem.Username} ${this.$t('user.limitSuccess')}`,
+                    type: 'success'
+                })
+            } else {
+                this.$message.error(result.Msg)
+            }
+        },
         async handleSetQuota() {
             if (this.quota === -1) {
             } else if (this.quotaUnit === 'MB') {
@@ -260,19 +281,15 @@ export default {
             } else if (this.quotaUnit === 'GB') {
                 this.quota = this.quota * 1024 * 1024 * 1024
             }
-            const formData = new FormData()
-            formData.set('id', this.userItem.ID)
-            formData.set('quota', this.quota)
-            const result = await setQuota(formData)
-            if (result.Msg === 'success') {
-                this.$message({
-                    message: `${this.$t('user.limitUser2')}${this.userItem.Username}${this.$t('user.limitSuccess')}`,
-                    type: 'success'
-                })
-                this.userItem = null
+            if (this.patchButton) {
+                for (let i = 0; i < this.copySelection.length; i++) {
+                    this.userItem = this.copySelection[i]
+                    await this.requestQuota()
+                }
             } else {
-                this.$message.error(result.Msg)
+                await this.requestQuota()
             }
+            this.userItem = null
             this.quota = 0
             this.refresh()
         },

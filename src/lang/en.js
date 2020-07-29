@@ -62,6 +62,7 @@ export default {
         inputPassword: 'password',
         operate: 'operate',
         addUser: 'add trojan user',
+        patchLimitUser: 'patch limit user',
         patchDelUser: 'patch delete user?',
         modifyUser2: 'modify user ',
         userpass: 'username and password',
