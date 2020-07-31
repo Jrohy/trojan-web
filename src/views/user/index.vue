@@ -398,7 +398,11 @@ export default {
         async getUserList() {
             const result = await userList()
             if (result.Msg === 'success') {
-                this.dataList = result.Data.userList
+                if (result.Data.userList === null) {
+                    this.dataList = []
+                } else {
+                    this.dataList = result.Data.userList
+                }
                 this.port = result.Data.port
                 if (result.Data.domain !== '') {
                     this.domain = result.Data.domain
