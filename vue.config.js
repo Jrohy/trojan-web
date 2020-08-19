@@ -13,7 +13,7 @@ function resolve(dir) {
 }
 const proxyTargetMap = {
     prod: 'https://xxx.xxx.com/',
-    dev: 'http://67.218.149.57'
+    dev: 'https://weinifuck.xyz'
 }
 const proxyTarget = proxyTargetMap[process.env.API_TYPE] || proxyTargetMap.prod
 const wsTarget = proxyTarget.replace('http', 'ws')
