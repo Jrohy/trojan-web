@@ -16,3 +16,7 @@ export function check() {
 export function resetPass(data) {
     return request.post('/auth/reset_pass', data)
 }
+// 获取请求用户名
+export function loginUser() {
+    return request.get('/auth/loginUser')
+}
