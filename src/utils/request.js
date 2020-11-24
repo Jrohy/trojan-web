@@ -31,9 +31,11 @@ function validateStatus(status) {
         })
         break
     case 500:
-        Message.warning({
-            message: '服务端错误'
-        })
+        if (!store.state.noerror) {
+            Message.warning({
+                message: '服务端错误'
+            })
+        }
         break
     }
     return status >= 200 && status < 300

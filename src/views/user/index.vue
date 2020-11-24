@@ -119,7 +119,7 @@
 <script>
 import { userList, addUser, delUser, updateUser } from '@/api/user'
 import { setQuota, cleanData } from '@/api/data'
-import { setDomain } from '@/api/trojan'
+import { setDomain, restart } from '@/api/trojan'
 import { readablizeBytes, isValidIP } from '@/utils/common'
 import { mapState } from 'vuex'
 import QRCode from 'qrcodejs2'
@@ -338,6 +338,7 @@ export default {
             this.refresh()
         },
         async handleUpdateUser() {
+            this.$store.commit('SET_NOERROR', true)
             if (this.userInfo.username === '' || this.userInfo.password === '') {
                 this.$message.error(this.$t('inputNotNull'))
                 return
@@ -352,12 +353,14 @@ export default {
             formData.set('password', btoa(this.userInfo.password))
             const result = await updateUser(formData)
             if (result.Msg === 'success') {
+                this.$store.commit('SET_NPROGRESS', false)
                 this.$message({
                     message: `${this.$t('user.modifyUser2')}${this.userInfo.username}${this.$t('user.success')}`,
                     type: 'success'
                 })
-                this.userInfo.username = ''
-                this.userInfo.password = ''
+                await restart().catch(e => {})
+                this.$store.commit('SET_NOERROR', false)
+                this.$store.commit('SET_NPROGRESS', true)
             } else {
                 this.$message.error(result.Msg)
             }
