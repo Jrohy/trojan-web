@@ -129,6 +129,7 @@ export default {
             search: '',
             domain: '',
             port: 0,
+            trojanType: 'trojan',
             shareLink: '',
             dataList: [],
             multipleSelection: [],
@@ -237,7 +238,7 @@ export default {
             return (a.Download + a.Upload) - (b.Download + b.Upload)
         },
         handleShare() {
-            this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:${this.port}`
+            this.shareLink = `${$this.trojanType}://${atob(this.userItem.Password)}@${this.domain}:${this.port}`
             this.$nextTick(() => {
                 this.createQRCode()
             })
@@ -407,6 +408,7 @@ export default {
                     this.dataList = result.Data.userList
                 }
                 this.port = result.Data.port
+                this.trojanType = result.Data.trojanType
                 if (result.Data.domain !== '') {
                     this.domain = result.Data.domain
                 } else {
