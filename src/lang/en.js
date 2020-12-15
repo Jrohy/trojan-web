@@ -51,6 +51,9 @@ export default {
         download: 'download',
         total: 'total',
         quota: 'quota',
+        expiryDate: 'expiryDate',
+        setExpire: 'setExpire',
+        cancelExpire: 'cancelExpire',
         reset: 'reset data',
         unlimit: 'unlimit',
         search: 'search username',
@@ -78,6 +81,16 @@ export default {
         success: ' success!',
         resetUser1: 'reset user ',
         limitAdmin: "can't create username is admin",
-        addUser2: 'add user '
+        addUser2: 'add user ',
+        week: 'a week',
+        month: 'a month',
+        season: 'one season',
+        halfYear: 'Half a year',
+        year: 'one year',
+        preset: 'preset',
+        days: 'days',
+        setExpireSuccess: 'setup expire success!',
+        cancelExpireSuccess: 'cancel expire success!',
+        remaining: 'remaining days'
     }
 }

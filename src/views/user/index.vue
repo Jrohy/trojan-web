@@ -43,6 +43,18 @@
         :formatter="quotaFormatter">
         </el-table-column>
         <el-table-column
+        :label="$t('user.expiryDate')">
+        <template slot-scope="scope">
+            <div v-if="scope.row.ExpiryDate === ''">{{ $t('user.unlimit') }}</div>
+            <el-popover trigger="hover" placement="top" v-else>
+            <p>{{ $t('user.remaining') }}: {{ calculateDay(scope.row.ExpiryDate) }}</p>
+            <div slot="reference" class="name-wrapper">
+                <el-tag size="medium">{{ scope.row.ExpiryDate === '' ? $t('user.unlimit') : scope.row.ExpiryDate }}</el-tag>
+            </div>
+            </el-popover>
+      </template>
+        </el-table-column>
+        <el-table-column
         width="170"
         align="center">
         <template slot="header">
@@ -59,6 +71,8 @@
                     <el-dropdown-item @click.native="userItem=scope.row; patchButton=false; quotaVisible=true">{{ $t('user.limitData') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">{{ $t('user.reset') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; handelEditUser()">{{ $t('user.modifyUser') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; expiryVisible=true" v-if="scope.row.ExpiryDate === ''">{{ $t('user.setExpire') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; cancelUserExpire()" v-else>{{ $t('user.cancelExpire') }}</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <el-button
@@ -113,16 +127,39 @@
         <div id="qrcode" ref="qrcode" class="qrcodeCenter"></div>
         <p class="qrcodeCenter"> {{ shareLink }} </p>
     </el-dialog>
+    <el-dialog :title="$t('user.setExpire')" :visible.sync="expiryVisible" :width="dialogWidth">
+        <el-form>
+            <el-form-item :label="$t('user.preset')">
+                <el-select size="mini" v-model="useDays" :placeholder="$t('choice')" filterable style="width: 130px;">
+                    <el-option
+                        v-for="item in expiryDateOptions"
+                        :key="item.label"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('user.days')">
+                <el-input-number size="small" v-model="useDays" :min=0></el-input-number>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="expiryVisible = false">{{ $t('cancel') }}</el-button>
+            <el-button type="primary" @click="expiryVisible=false; setUserExpire()">{{ $t('ok') }}</el-button>
+        </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { userList, addUser, delUser, updateUser } from '@/api/user'
+import { userList, addUser, delUser, updateUser, setExpire, cancelExpire } from '@/api/user'
 import { setQuota, cleanData } from '@/api/data'
 import { setDomain, restart } from '@/api/trojan'
 import { readablizeBytes, isValidIP } from '@/utils/common'
 import { mapState } from 'vuex'
 import QRCode from 'qrcodejs2'
+import dayjs from 'dayjs'
+
 export default {
     data() {
         return {
@@ -138,18 +175,42 @@ export default {
             confirmVisible: false,
             quotaVisible: false,
             qrcodeVisible: false,
+            expiryVisible: false,
             patchButton: false,
             // 确认框类型: 0删除, 1重置流量, 2新增用户, 3修改用户
             commonType: 0,
             userItem: null,
             quota: -1,
             quotaUnit: 'MB',
+            useDays: 7,
             quotaOptions: [
                 {
                     value: 'MB'
                 },
                 {
                     value: 'GB'
+                }
+            ],
+            expiryDateOptions: [
+                {
+                    label: this.$t('user.week'),
+                    value: 7
+                },
+                {
+                    label: this.$t('user.month'),
+                    value: 30
+                },
+                {
+                    label: this.$t('user.season'),
+                    value: 90
+                },
+                {
+                    label: this.$t('user.halfYear'),
+                    value: 183
+                },
+                {
+                    label: this.$t('user.year'),
+                    value: 365
                 }
             ],
             userInfo: {
@@ -218,6 +279,9 @@ export default {
         quotaFormatter(row, column) {
             return row.Quota === -1 ? this.$t('user.unlimit') : readablizeBytes(row.Quota)
         },
+        expiryFormatter(row, column) {
+            return row.ExpiryDate === '' ? this.$t('user.unlimit') : row.ExpiryDate
+        },
         uploadFormatter(row, column) {
             return readablizeBytes(row.Upload)
         },
@@ -259,6 +323,38 @@ export default {
         },
         closeQRCode() {
             this.$refs.qrcode.innerHTML = ''
+        },
+        calculateDay(day) {
+            return dayjs(day).diff(dayjs(dayjs().format('YYYY-MM-DD')), 'day')
+        },
+        async setUserExpire() {
+            const formData = new FormData()
+            formData.set('id', this.userItem.ID)
+            formData.set('useDays', this.useDays)
+            const result = await setExpire(formData)
+            if (result.Msg === 'success') {
+                this.$message({
+                    message: `${this.$t('user.setExpireSuccess')}`,
+                    type: 'success'
+                })
+            } else {
+                this.$message.error(result.Msg)
+            }
+            this.userItem = null
+            this.refresh()
+        },
+        async cancelUserExpire() {
+            const result = await cancelExpire(this.userItem.ID)
+            if (result.Msg === 'success') {
+                this.$message({
+                    message: `${this.$t('user.cancelExpireSuccess')}`,
+                    type: 'success'
+                })
+            } else {
+                this.$message.error(result.Msg)
+            }
+            this.userItem = null
+            this.refresh()
         },
         async requestQuota() {
             const formData = new FormData()

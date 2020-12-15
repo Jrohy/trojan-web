@@ -72,6 +72,9 @@ export default {
         download: '下载流量',
         total: '总流量',
         quota: '流量限制',
+        expiryDate: '到期日期',
+        setExpire: '设置限期',
+        cancelExpire: '取消限期',
         reset: '重置流量',
         unlimit: '无',
         search: '输入用户名搜索',
@@ -98,6 +101,16 @@ export default {
         success: '成功!',
         resetUser1: '重置用户',
         limitAdmin: '不能创建用户名为admin的用户!',
-        addUser2: '新增用户'
+        addUser2: '新增用户',
+        week: '单周',
+        month: '单月',
+        season: '单季',
+        halfYear: '半年',
+        year: '一年',
+        preset: '预设',
+        days: '天数',
+        setExpireSuccess: '设置用户限期成功!',
+        cancelExpireSuccess: '取消用户限期成功!',
+        remaining: '剩余天数'
     }
 }
