@@ -46,10 +46,12 @@ var instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? '/' : '/api',
     validateStatus
 })
+
+const progressWhiteList = ['/auth/loginUser'] // no progress whitelist
 // 添加请求拦截器
 instance.interceptors.request.use(
     function(config) {
-        if (store.state.nprogress) {
+        if (store.state.nprogress && progressWhiteList.indexOf(config.url) === -1) {
             NProgress.start()
         }
         // 请求头添加token

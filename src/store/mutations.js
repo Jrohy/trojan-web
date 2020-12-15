@@ -7,7 +7,6 @@ export default {
     },
     SET_ADMIN(state, bool) {
         state.isAdmin = bool
-        localStorage.setItem('isAdmin', bool)
     },
     SET_TITLE(state, docTitle) {
         state.docTitle = docTitle

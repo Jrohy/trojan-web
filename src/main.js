@@ -16,8 +16,11 @@ Vue.config.productionTip = false
 const whiteList = ['/login', '/register'] // no redirect whitelist
 const adminList = ['/trojan'] // need admin role
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
     if (store.state.UserToken) {
+        if (store.state.isAdmin === null) {
+            await store.dispatch('loginUser')
+        }
         if (!store.state.isAdmin) {
             router.options.routes.map((x) => {
                 if (adminList.indexOf(x.path) !== -1) {

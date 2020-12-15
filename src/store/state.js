@@ -12,5 +12,5 @@ export default {
     dialogWidth: '25%',
     nprogress: true,
     noerror: false,
-    isAdmin: Object.prototype.hasOwnProperty.call(localStorage, 'isAdmin') ? localStorage.getItem('isAdmin') === 'true' : false
+    isAdmin: null
 }

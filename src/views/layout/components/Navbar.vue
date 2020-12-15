@@ -62,7 +62,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import CryptoJS from 'crypto-js'
 import { sleep } from '@/utils/common'
-import { resetPass, check, loginUser } from '@/api/permission'
+import { resetPass, check } from '@/api/permission'
 import { version, setLoginInfo } from '@/api/common'
 
 export default {
@@ -116,19 +116,6 @@ export default {
     },
     created() {
         document.title = this.docTitle
-        loginUser().then((res) => {
-            if (res.code === 200) {
-                this.$store.commit('SET_ADMIN', res.data.username === 'admin')
-                if (this.isAdmin) {
-                    const adminList = ['/trojan'] // need admin role
-                    this.$router.options.routes.map((x) => {
-                        if (adminList.indexOf(x.path) !== -1) {
-                            x.hidden = false
-                        }
-                    })
-                }
-            }
-        })
     },
     mounted() {
         this.setDialogWidth()
