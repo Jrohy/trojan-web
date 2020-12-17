@@ -12,7 +12,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="systemVersion(); versionVisible=true">{{ $t('navbar.version') }}</el-dropdown-item>
-                    <el-dropdown-item @click.native="getTitle(); loginVisible=true" v-if="isAdmin">{{ $t('navbar.title') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="getTitle(); loginVisible=true" v-if="isAdmin" divided>{{ $t('navbar.title') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="dialogVisible=true" v-if="isAdmin">{{ $t('navbar.password') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="getResetDay(); resetDayVisible=true" v-if="isAdmin">{{ $t('navbar.resetDay') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="handleSetLanguage('zh')" divided>中文</el-dropdown-item>
