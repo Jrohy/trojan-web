@@ -37,9 +37,12 @@ export default {
         version: '系统版本',
         password: '修改密码',
         title: '修改标题',
+        resetDay: '修改重置日',
+        resetTitle: '修改流量重置日',
         changeTitle: '修改登录页标题',
         inputTitle: '输入登录页标题',
-        changeTitleSuccess: '修复登录页标题成功!',
+        changeTitleSuccess: '修改登录页标题成功!',
+        changeDaySuccess: '修改流量重置日成功!',
         versionTitle: 'trojan管理程序版本',
         passwordTitle: '变更管理员密码',
         resetSuccess: '重置密码成功!'
