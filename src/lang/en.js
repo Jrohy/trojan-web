@@ -32,6 +32,8 @@ export default {
         trojanVersion: 'Trojan Version',
         trojanUser: 'Trojan User',
         trojanRuntime: 'Trojan Runtime',
+        netSpeed: 'Network Speed',
+        netCount: 'Network Count',
         load: 'Load',
         upload: 'upload',
         download: 'download',

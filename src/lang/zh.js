@@ -53,6 +53,8 @@ export default {
         trojanVersion: 'trojan 版本',
         trojanUser: 'trojan 用户数',
         trojanRuntime: 'trojan 已运行',
+        netSpeed: '网速',
+        netCount: '连接数',
         load: '服务器负载',
         upload: '上传',
         download: '下载',

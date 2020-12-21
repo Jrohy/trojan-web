@@ -86,6 +86,36 @@
             </el-card>
         </el-col>
     </el-row>
+    <el-row>
+        <el-col :sm="24" :md="12" v-if="isAdmin">
+            <el-card class="home-card" shadow="hover">
+                <el-row>
+                    <el-col :span="10">
+                        <b>{{ $t('dashboard.netSpeed') }}:</b>
+                    </el-col>
+                    <el-col :span="12"  style="padding-top:1px">
+                        <i class="el-icon-top">{{ netSpeed.up }}</i>
+                        &nbsp;
+                        <i class="el-icon-bottom">{{ netSpeed.down }}</i>
+                    </el-col>
+                </el-row>
+            </el-card>
+        </el-col>
+        <el-col :sm="24" :md="12" v-if="isAdmin">
+            <el-card class="home-card" shadow="hover">
+                <el-row>
+                    <el-col :span="10">
+                        <b>{{ $t('dashboard.netCount') }}:</b>
+                    </el-col>
+                    <el-tooltip class="item" effect="dark" content="tcp / udp" placement="left-end">
+                        <el-col :span="12" style="padding-top:1px">
+                            {{ netCount }}
+                        </el-col>
+                    </el-tooltip>
+                </el-row>
+            </el-card>
+        </el-col>
+    </el-row>
     <el-row style="margin-top:10px">
         <el-col :span='7'>
             <el-card shadow="hover">
@@ -164,7 +194,9 @@ export default {
             memory: { percentage: 0, used: 0, total: 0, color: '' },
             swap: { percentage: 0, used: 0, total: 0, color: '' },
             disk: { percentage: 0, used: 0, total: 0, color: '' },
-            load: ''
+            load: '',
+            netSpeed: { up: '', down: '' },
+            netCount: ''
         }
     },
     computed: {
@@ -228,6 +260,9 @@ export default {
                 this.memory = this.computePercent(data.memory)
                 this.swap = this.computePercent(data.swap)
                 this.disk = this.computePercent(data.disk)
+                this.netSpeed.up = readablizeBytes(data.speed.Up) + '/s'
+                this.netSpeed.down = readablizeBytes(data.speed.Down) + '/s'
+                this.netCount = data.netCount.tcp + ' / ' + data.netCount.udp
                 this.load = data.load.load1 + ', ' + data.load.load5 + ', ' + data.load.load15
             })
         },
