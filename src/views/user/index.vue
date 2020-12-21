@@ -65,8 +65,10 @@
             <div v-if="!isAdmin">{{ $t('user.operate') }}</div>
         </template>
         <template slot-scope="scope">
-            <el-dropdown  size="mini" split-button type="text" v-if="isAdmin">
-                {{ $t('edit') }}
+            <el-dropdown v-if="isAdmin" style="margin-right: 5px;">
+                <span class="el-dropdown-link">
+                    {{ $t('edit') }}<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="userItem=scope.row; patchButton=false; quotaVisible=true">{{ $t('user.limitData') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">{{ $t('user.reset') }}</el-dropdown-item>
@@ -533,5 +535,13 @@ export default {
 .qrcodeCenter {
     margin: 0 auto;
     width: 200px;
+}
+.el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+    font-size: 12px;
+}
+.el-icon-arrow-down {
+    font-size: 10px;
 }
 </style>
