@@ -3,11 +3,11 @@
     <el-form :inline="true" label-width="80px" style="height: 29px;">
     <el-form-item size="mini">
         <el-button-group>
-            <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">{{ $t('refresh') }}</el-button>
-            <el-button type="primary" icon="el-icon-plus" @click.native="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">{{ $t('add') }}</el-button>
-            <el-button type="primary" icon="el-icon-refresh-left" @click.native="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">{{ $t('user.reset') }}</el-button>
-            <el-button type="primary" icon="el-icon-scissors" @click.native="copySelection=multipleSelection;patchButton=true;quotaVisible=true" v-if="isAdmin">{{ $t('user.limitData') }}</el-button>
-            <el-button type="danger" icon="el-icon-delete" @click.native="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">{{ $t('delete') }}</el-button>
+            <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">{{ textShow($t('refresh')) }}</el-button>
+            <el-button type="primary" icon="el-icon-plus" @click.native="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">{{ textShow($t('add')) }}</el-button>
+            <el-button type="primary" icon="el-icon-refresh-left" @click.native="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">{{ textShow($t('user.reset')) }}</el-button>
+            <el-button type="primary" icon="el-icon-scissors" @click.native="copySelection=multipleSelection;patchButton=true;quotaVisible=true" v-if="isAdmin">{{ textShow($t('user.limitData')) }}</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click.native="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">{{ textShow($t('delete')) }}</el-button>
         </el-button-group>
     </el-form-item>
     </el-form>
@@ -322,6 +322,13 @@ export default {
                 height: 200,
                 text: this.shareLink
             })
+        },
+        textShow(text) {
+            if (this.dialogWidth === '80%') {
+                return ''
+            } else {
+                return text
+            }
         },
         closeQRCode() {
             this.$refs.qrcode.innerHTML = ''

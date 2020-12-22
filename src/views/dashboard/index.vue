@@ -94,8 +94,7 @@
                         <b>{{ $t('dashboard.netSpeed') }}:</b>
                     </el-col>
                     <el-col :span="12"  style="padding-top:1px">
-                        <i class="el-icon-top">{{ netSpeed.up }}</i>
-                        &nbsp;
+                        <i class="el-icon-top" style="margin-right: 8px">{{ netSpeed.up }}</i>
                         <i class="el-icon-bottom">{{ netSpeed.down }}</i>
                     </el-col>
                 </el-row>
