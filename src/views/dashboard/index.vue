@@ -77,7 +77,7 @@
                     <el-col :span="10">
                         <b>{{ $t('dashboard.load') }}:</b>
                     </el-col>
-                    <el-tooltip class="item" effect="dark" content="load1, load5, load15" placement="left-end">
+                    <el-tooltip class="item" effect="dark" content="load1, load5, load15" placement="top-start">
                         <el-col :span="12" style="padding-top:1px">
                             {{ load }}
                         </el-col>
@@ -106,7 +106,7 @@
                     <el-col :span="10">
                         <b>{{ $t('dashboard.netCount') }}:</b>
                     </el-col>
-                    <el-tooltip class="item" effect="dark" content="tcp / udp" placement="left-end">
+                    <el-tooltip class="item" effect="dark" content="tcp / udp" placement="top-start">
                         <el-col :span="12" style="padding-top:1px">
                             {{ netCount }}
                         </el-col>
