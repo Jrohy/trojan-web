@@ -36,7 +36,9 @@
                 </div>
             </el-dialog>
             <el-dialog :modal="false" :title="$t('navbar.resetTitle')" :visible.sync="resetDayVisible" :width="dialogWidth">
-                <el-input-number size="small" v-model="resetDay" :min=1 :max=31></el-input-number>
+                <el-tooltip effect="dark" :content="$t('navbar.meanClose')" placement="top">
+                    <el-input-number size="small" v-model="resetDay" :min=0 :max=31></el-input-number>
+                </el-tooltip>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="resetDayVisible = false">{{ $t('cancel') }}</el-button>
                     <el-button type="primary" @click="handleResetDay()">{{ $t('ok') }}</el-button>

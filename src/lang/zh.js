@@ -45,7 +45,8 @@ export default {
         changeDaySuccess: '修改流量重置日成功!',
         versionTitle: 'trojan管理程序版本',
         passwordTitle: '变更管理员密码',
-        resetSuccess: '重置密码成功!'
+        resetSuccess: '重置密码成功!',
+        meanClose: '0代表关闭流量重置'
     },
     dashboard: {
         memory: '内存',

@@ -24,7 +24,8 @@ export default {
         inputTitle: 'input login page title',
         versionTitle: 'Trojan-manager Version',
         passwordTitle: 'change admin password',
-        resetSuccess: 'reset password success!'
+        resetSuccess: 'reset password success!',
+        meanClose: '0 mean close data reset'
     },
     dashboard: {
         memory: 'memory',
