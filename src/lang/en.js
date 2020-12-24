@@ -21,6 +21,7 @@ export default {
         changeTitle: 'Change login page title',
         changeTitleSuccess: 'Change title success!',
         changeDaySuccess: 'Change data reset day success!',
+        closeResetSuccess: 'Close data reset success!',
         inputTitle: 'input login page title',
         versionTitle: 'Trojan-manager Version',
         passwordTitle: 'change admin password',

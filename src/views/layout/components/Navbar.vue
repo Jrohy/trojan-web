@@ -170,10 +170,17 @@ export default {
             formData.set('day', this.resetDay)
             const result = await updateResetDay(formData)
             if (result.Msg === 'success') {
-                this.$message({
-                    message: this.$t('navbar.changeDaySuccess'),
-                    type: 'success'
-                })
+                if (this.resetDay === 0) {
+                    this.$message({
+                        message: this.$t('navbar.closeResetSuccess'),
+                        type: 'success'
+                    })
+                } else {
+                    this.$message({
+                        message: this.$t('navbar.changeDaySuccess'),
+                        type: 'success'
+                    })
+                }
             } else {
                 this.$message.error(result.Msg)
             }
