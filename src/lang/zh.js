@@ -118,5 +118,13 @@ export default {
         setExpireSuccess: '设置用户限期成功!',
         cancelExpireSuccess: '取消用户限期成功!',
         remaining: '剩余天数'
+    },
+    request: {
+        requestError: '请求出错',
+        authFail: '授权失败，请重新登录',
+        accessDenied: '拒绝访问',
+        notFound: '请求错误,未找到该资源',
+        serverError: '服务端错误',
+        connectError: '连接服务器失败'
     }
 }

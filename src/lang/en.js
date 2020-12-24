@@ -98,5 +98,13 @@ export default {
         setExpireSuccess: 'setup expire success!',
         cancelExpireSuccess: 'cancel expire success!',
         remaining: 'remaining days'
+    },
+    request: {
+        requestError: 'request error',
+        authFail: 'auth fail, please login again',
+        accessDenied: 'access denied',
+        notFound: '404 not found',
+        serverError: 'server error',
+        connectError: 'connect error'
     }
 }

@@ -2,6 +2,7 @@ import axios from 'axios'
 import store from '@/store/index.js'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress'
+import i18n from '@/lang'
 import 'nprogress/nprogress.css'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -9,11 +10,11 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 function validateStatus(status) {
     switch (status) {
     case 400:
-        Message.error('请求出错')
+        Message.error(i18n.t('request.requestError'))
         break
     case 401:
         Message.warning({
-            message: '授权失败，请重新登录'
+            message: i18n.t('request.authFail')
         })
         store.commit('LOGIN_OUT')
         setTimeout(() => {
@@ -22,18 +23,18 @@ function validateStatus(status) {
         return
     case 403:
         Message.warning({
-            message: '拒绝访问'
+            message: i18n.t('request.accessDenied')
         })
         break
     case 404:
         Message.warning({
-            message: '请求错误,未找到该资源'
+            message: i18n.t('request.notFound')
         })
         break
     case 500:
         if (!store.state.noerror) {
             Message.warning({
-                message: '服务端错误'
+                message: i18n.t('request.serverError')
             })
         }
         break
@@ -73,7 +74,7 @@ instance.interceptors.response.use(
     },
     err => {
         if (store.state.nprogress && err.response === undefined && !store.state.noerror) {
-            Message.error('连接服务器失败')
+            Message.error(i18n.t('request.connectError'))
         }
         NProgress.done()
         return Promise.reject(err.response)
