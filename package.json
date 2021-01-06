@@ -13,9 +13,9 @@
     "dll": "webpack -p --progress --config ./webpack.dll.conf.js"
   },
   "dependencies": {
-    "core-js": "^3.8.1",
+    "core-js": "^3.8.2",
     "crypto-js": "^3.2.1",
-    "dayjs": "^1.9.7",
+    "dayjs": "^1.10.2",
     "nprogress": "^0.2.0",
     "qrcodejs2": "0.0.2"
   },
@@ -39,7 +39,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.1.0",
     "eslint-plugin-vue": "^6.2.2",
-    "sass": "^1.30.0",
+    "sass": "^1.32.0",
     "sass-loader": "^8.0.2",
     "svg-sprite-loader": "^3.9.2",
     "vue-template-compiler": "^2.6.12",
