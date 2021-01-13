@@ -325,5 +325,6 @@ export default {
     background-color: black;
     color:white;
     font-size: 13px;
+    cursor: auto;
 }
 </style>

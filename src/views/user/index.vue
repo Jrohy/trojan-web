@@ -12,7 +12,7 @@
     </el-form-item>
     </el-form>
     <el-table
-    :data="dataList.filter(data => !search || data.Username.toLowerCase().includes(search.toLowerCase()))" style="width: 100%" :height="clientHeight" @selection-change="handleSelectionChange">
+    :data="dataList.filter(data => !search || data.Username.toLowerCase().includes(search.toLowerCase()))" :height="clientHeight" @selection-change="handleSelectionChange" class="tableShow">
         <el-table-column
         type="selection"
         width="55" v-if="isAdmin">
@@ -550,5 +550,15 @@ export default {
 }
 .el-icon-arrow-down {
     font-size: 10px;
+}
+.tableShow {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    &:hover {
+        ::-webkit-scrollbar {
+            display: inline;
+        }
+    }
 }
 </style>
