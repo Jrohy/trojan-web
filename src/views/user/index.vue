@@ -271,6 +271,11 @@ export default {
         this.refresh()
         this.clientHeight = document.body.clientHeight - 100
     },
+    mounted() {
+        window.onresize = () => {
+            this.clientHeight = document.body.clientHeight - 100
+        }
+    },
     methods: {
         handleSelectionChange(val) {
             this.multipleSelection = val

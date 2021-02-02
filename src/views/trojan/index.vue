@@ -60,6 +60,7 @@ export default {
             isFollow: true,
             ws: null,
             scrollHeight: 0,
+            fontSize: 13,
             mainStyle: {
                 height: 0
             },
@@ -124,6 +125,9 @@ export default {
     mounted() {
         this.$store.commit('SET_NOERROR', true)
         this.mainStyle.height = (document.body.clientHeight - 85) + 'px'
+        window.onresize = () => {
+            this.mainStyle.height = (document.body.clientHeight - 85) + 'px'
+        }
         const textarea = document.getElementById('logshow')
         // 监听这个dom的scroll事件
         textarea.addEventListener('scroll', () => {
@@ -312,6 +316,22 @@ export default {
                     this.scrollHeight = textarea.scrollTop
                 }
             }, 1000)
+            // detect available wheel event
+            // 各个厂商的高版本浏览器都支持"wheel"
+            // Webkit 和 IE一定支持"mousewheel"
+            // "DOMMouseScroll" 用于低版本的firefox
+            const wheelSupport = 'onwheel' in document.createElement('div') ? 'wheel' : document.onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll'
+            const logshow = document.getElementById('logshow')
+            logshow.addEventListener(wheelSupport, (e) => {
+                if (e.ctrlKey) {
+                    e.preventDefault()
+                    if (e.deltaY < 0) {
+                        logshow.style.fontSize = ++this.fontSize + 'px'
+                    } else {
+                        logshow.style.fontSize = --this.fontSize + 'px'
+                    }
+                }
+            })
         }
     }
 }
