@@ -108,6 +108,7 @@ export default {
         success: '成功!',
         resetUser1: '重置用户',
         limitAdmin: '不能创建用户名为admin的用户!',
+        passLimit: '密码不支持中文!',
         addUser2: '新增用户',
         week: '单周',
         month: '单月',

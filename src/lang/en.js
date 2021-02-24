@@ -88,6 +88,7 @@ export default {
         success: ' success!',
         resetUser1: 'reset user ',
         limitAdmin: "can't create username is admin",
+        passLimit: "password can't support chinese!",
         addUser2: 'add user ',
         week: 'a week',
         month: 'a month',

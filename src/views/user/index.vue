@@ -280,22 +280,22 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val
         },
-        passwordFormatter(row, column) {
+        passwordFormatter(row) {
             return atob(row.Password)
         },
-        quotaFormatter(row, column) {
+        quotaFormatter(row) {
             return row.Quota === -1 ? this.$t('user.unlimit') : readablizeBytes(row.Quota)
         },
-        expiryFormatter(row, column) {
+        expiryFormatter(row) {
             return row.ExpiryDate === '' ? this.$t('user.unlimit') : row.ExpiryDate
         },
-        uploadFormatter(row, column) {
+        uploadFormatter(row) {
             return readablizeBytes(row.Upload)
         },
-        downloadFormatter(row, column) {
+        downloadFormatter(row) {
             return readablizeBytes(row.Download)
         },
-        totalFormatter(row, column) {
+        totalFormatter(row) {
             return readablizeBytes(row.Download + row.Upload)
         },
         uploadSort(a, b) {
@@ -460,7 +460,12 @@ export default {
             const formData = new FormData()
             formData.set('id', this.userItem.ID)
             formData.set('username', this.userInfo.username)
-            formData.set('password', btoa(this.userInfo.password))
+            try {
+                formData.set('password', btoa(this.userInfo.password))
+            } catch (e) {
+                this.$message.error(this.$t('user.passLimit'))
+                return
+            }
             const result = await updateUser(formData)
             if (result.Msg === 'success') {
                 this.$store.commit('SET_NPROGRESS', false)
@@ -488,7 +493,12 @@ export default {
             }
             const formData = new FormData()
             formData.set('username', this.userInfo.username)
-            formData.set('password', btoa(this.userInfo.password))
+            try {
+                formData.set('password', btoa(this.userInfo.password))
+            } catch (e) {
+                this.$message.error(this.$t('user.passLimit'))
+                return
+            }
             const result = await addUser(formData)
             if (result.Msg === 'success') {
                 this.$message({
