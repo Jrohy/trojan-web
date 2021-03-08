@@ -92,7 +92,7 @@
         </el-table-column>
     </el-table>
     <el-dialog :title="commonTitle" :visible.sync="userVisible" :width="dialogWidth">
-        <el-input type="text" v-model="userInfo.username" :placeholder="$t('user.inputUsername')"/>
+        <el-input type="text" v-model="userInfo.username" :placeholder="$t('user.inputUsername')" @keyup.enter.native="commonType === 2? handleAddUser(): handleUpdateUser()"/>
         <el-input type="text" v-model="userInfo.password" :placeholder="$t('user.inputPassword')" @keyup.enter.native="commonType === 2? handleAddUser(): handleUpdateUser()"/>
         <div slot="footer" class="dialog-footer">
             <el-button @click="userVisible = false">{{ $t('cancel') }}</el-button>
@@ -406,10 +406,17 @@ export default {
         async handlePatchOpera() {
             let successText = ''
             let result = null
+            if (this.commonType === 0) {
+                this.$store.commit('SET_NOERROR', true)
+            }
             for (let i = 0; i < this.copySelection.length; i++) {
                 this.userItem = this.copySelection[i]
                 if (this.commonType === 0) {
-                    result = await delUser(this.userItem.ID)
+                    try {
+                        result = await delUser(this.userItem.ID)
+                    } catch {
+                        result = { Msg: 'success' }
+                    }
                     successText = `${this.$t('user.delUser1')}${this.userItem.Username}${this.$t('user.success')}`
                 } else if (this.commonType === 1) {
                     result = await cleanData(this.userItem.ID)
@@ -425,13 +432,22 @@ export default {
                     this.$message.error(result.Msg)
                 }
             }
+            if (this.commonType === 0) {
+                this.$store.commit('SET_NOERROR', false)
+            }
             this.refresh()
         },
         async handleOpera() {
             let successText = ''
             let result = null
             if (this.commonType === 0) {
-                result = await delUser(this.userItem.ID)
+                this.$store.commit('SET_NOERROR', true)
+                try {
+                    result = await delUser(this.userItem.ID)
+                } catch {
+                    result = { Msg: 'success' }
+                }
+                this.$store.commit('SET_NOERROR', false)
                 successText = `${this.$t('user.delUser1')}${this.userItem.Username}${this.$t('user.success')}`
             } else if (this.commonType === 1) {
                 result = await cleanData(this.userItem.ID)
