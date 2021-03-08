@@ -13,7 +13,7 @@
     "dll": "webpack -p --progress --config ./webpack.dll.conf.js"
   },
   "dependencies": {
-    "core-js": "^3.9.0",
+    "core-js": "^3.9.1",
     "crypto-js": "^3.2.1",
     "dayjs": "^1.10.4",
     "nprogress": "^0.2.0",
