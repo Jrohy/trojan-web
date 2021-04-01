@@ -1,5 +1,3 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-    .BundleAnalyzerPlugin
 const path = require('path')
 
 function resolve(dir) {
@@ -123,10 +121,6 @@ module.exports = {
             config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
             config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = true
             config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log']
-
-            if (process.env.npm_lifecycle_event === 'analyze') {
-                config.plugins.push(new BundleAnalyzerPlugin())
-            }
         } else {
             // 为开发环境修改配置...
         }
