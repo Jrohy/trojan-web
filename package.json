@@ -9,11 +9,10 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "analyze": "vue-cli-service build",
-    "dll": "webpack -p --progress --config ./webpack.dll.conf.js"
+    "analyze": "vue-cli-service build"
   },
   "dependencies": {
-    "core-js": "^3.9.1",
+    "core-js": "^3.10.0",
     "crypto-js": "^3.2.1",
     "dayjs": "^1.10.4",
     "nprogress": "^0.2.0",
@@ -26,11 +25,9 @@
     "@vue/cli-service": "~4.3.1",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/test-utils": "1.0.0-beta.29",
-    "add-asset-html-webpack-plugin": "^3.2.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^23.6.0",
-    "clean-webpack-plugin": "^1.0.1",
     "compression-webpack-plugin": "^3.1.0",
     "cross-env": "^5.2.1",
     "eslint": "^6.7.2",

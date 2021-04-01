@@ -10,7 +10,6 @@
 2. 开发运行  
    `npm run serve:dev`
 3. 生产打包  
-   `npm run dll` (仅需运行一次)  
    `npm run build`
 
 **欢迎fork以改进优化页面**
