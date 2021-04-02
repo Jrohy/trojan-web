@@ -47,6 +47,8 @@ module.exports = {
             'vue-i18n': 'VueI18n',
             'vue-router': 'VueRouter',
             axios: 'axios',
+            'crypto-js': 'CryptoJS',
+            'dayjs': 'dayjs',
             'element-ui': 'ELEMENT',
             en: 'ELEMENT.lang.en',
             'zh-cn': 'ELEMENT.lang.zhCN'
