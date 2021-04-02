@@ -35,9 +35,9 @@
     "eslint-plugin-standard": "^4.1.0",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.32.8",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^10.1.1",
     "svg-sprite-loader": "^3.9.2",
     "vue-template-compiler": "^2.6.12",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^4.6.0"
   }
 }
