@@ -3,7 +3,6 @@ import store from '@/store/index.js'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress'
 import i18n from '@/lang'
-import 'nprogress/nprogress.css'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 

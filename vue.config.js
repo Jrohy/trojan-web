@@ -49,6 +49,8 @@ module.exports = {
             axios: 'axios',
             'crypto-js': 'CryptoJS',
             'dayjs': 'dayjs',
+            'qrcodejs2': 'QRCode',
+            'nprogress': 'NProgress',
             'element-ui': 'ELEMENT',
             en: 'ELEMENT.lang.en',
             'zh-cn': 'ELEMENT.lang.zhCN'
