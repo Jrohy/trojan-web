@@ -73,9 +73,9 @@
                     <el-dropdown-item @click.native="userItem=scope.row; patchButton=false; quotaVisible=true">{{ $t('user.limitData') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">{{ $t('user.reset') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; handelEditUser()">{{ $t('user.modifyUser') }}</el-dropdown-item>
-                    <el-dropdown-item @click.native="userItem=scope.row; expiryVisible=true" v-if="scope.row.ExpiryDate === ''">{{ $t('user.setExpire') }}</el-dropdown-item>
+                    <el-dropdown-item @click.native="userItem=scope.row; expiryShow=$t('user.setExpire'); expiryVisible=true" v-if="scope.row.ExpiryDate === ''">{{ $t('user.setExpire') }}</el-dropdown-item>
                     <div v-else>
-                        <el-dropdown-item @click.native="userItem=scope.row; expiryVisible=true">{{ $t('user.editExpire') }}</el-dropdown-item>
+                        <el-dropdown-item @click.native="userItem=scope.row; expiryShow=$t('user.editExpire'); expiryVisible=true">{{ $t('user.editExpire') }}</el-dropdown-item>
                         <el-dropdown-item @click.native="userItem=scope.row; cancelUserExpire()">{{ $t('user.cancelExpire') }}</el-dropdown-item>
                     </div>
                 </el-dropdown-menu>
@@ -132,7 +132,7 @@
         <div id="qrcode" ref="qrcode" class="qrcodeCenter"></div>
         <p class="qrcodeCenter"> {{ shareLink }} </p>
     </el-dialog>
-    <el-dialog :title="$t('user.setExpire')" :visible.sync="expiryVisible" :width="dialogWidth">
+    <el-dialog :title="expiryShow" :visible.sync="expiryVisible" :width="dialogWidth">
         <el-form>
             <el-form-item :label="$t('user.preset')">
                 <el-select size="mini" v-model="useDays" :placeholder="$t('choice')" filterable style="width: 130px;">
@@ -181,6 +181,7 @@ export default {
             quotaVisible: false,
             qrcodeVisible: false,
             expiryVisible: false,
+            expiryShow: '',
             patchButton: false,
             // 确认框类型: 0删除, 1重置流量, 2新增用户, 3修改用户
             commonType: 0,
