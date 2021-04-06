@@ -81,6 +81,7 @@ export default {
         quota: '流量限制',
         expiryDate: '到期日期',
         setExpire: '设置限期',
+        editExpire: '修改限期',
         cancelExpire: '取消限期',
         reset: '重置流量',
         unlimit: '无',

@@ -60,6 +60,7 @@ export default {
         quota: 'quota',
         expiryDate: 'expiryDate',
         setExpire: 'setExpire',
+        editExpire: 'editExpire',
         cancelExpire: 'cancelExpire',
         reset: 'reset data',
         unlimit: 'unlimit',

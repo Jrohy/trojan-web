@@ -74,7 +74,10 @@
                     <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">{{ $t('user.reset') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; handelEditUser()">{{ $t('user.modifyUser') }}</el-dropdown-item>
                     <el-dropdown-item @click.native="userItem=scope.row; expiryVisible=true" v-if="scope.row.ExpiryDate === ''">{{ $t('user.setExpire') }}</el-dropdown-item>
-                    <el-dropdown-item @click.native="userItem=scope.row; cancelUserExpire()" v-else>{{ $t('user.cancelExpire') }}</el-dropdown-item>
+                    <div v-else>
+                        <el-dropdown-item @click.native="userItem=scope.row; expiryVisible=true">{{ $t('user.editExpire') }}</el-dropdown-item>
+                        <el-dropdown-item @click.native="userItem=scope.row; cancelUserExpire()">{{ $t('user.cancelExpire') }}</el-dropdown-item>
+                    </div>
                 </el-dropdown-menu>
             </el-dropdown>
             <el-button
