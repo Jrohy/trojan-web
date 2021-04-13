@@ -12,9 +12,17 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="systemVersion(); versionVisible=true">{{ $t('navbar.version') }}</el-dropdown-item>
-                    <el-dropdown-item @click.native="getTitle(); loginVisible=true" v-if="isAdmin" divided>{{ $t('navbar.title') }}</el-dropdown-item>
-                    <el-dropdown-item @click.native="dialogVisible=true" v-if="isAdmin">{{ $t('navbar.password') }}</el-dropdown-item>
-                    <el-dropdown-item @click.native="getResetDay(); resetDayVisible=true" v-if="isAdmin">{{ $t('navbar.resetDay') }}</el-dropdown-item>
+                    <el-dropdown placement='right-start' class="el-dropdown-menu__item" v-if="isAdmin">
+                        <span>
+                            {{ $t('navbar.setting') }}
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item @click.native="getTitle(); loginVisible=true">{{ $t('navbar.title') }}</el-dropdown-item>
+                            <el-dropdown-item @click.native="dialogVisible=true">{{ $t('navbar.password') }}</el-dropdown-item>
+                            <el-dropdown-item @click.native="importExportVisible=true">{{ $t('navbar.importExport') }}</el-dropdown-item>
+                            <el-dropdown-item @click.native="getResetDay(); resetDayVisible=true">{{ $t('navbar.resetDay') }}</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                     <el-dropdown-item @click.native="handleSetLanguage('zh')" divided>中文</el-dropdown-item>
                     <el-dropdown-item @click.native="handleSetLanguage('en')">English</el-dropdown-item>
                 </el-dropdown-menu>
@@ -43,6 +51,16 @@
                     <el-button @click="resetDayVisible = false">{{ $t('cancel') }}</el-button>
                     <el-button type="primary" @click="handleResetDay()">{{ $t('ok') }}</el-button>
                 </div>
+            </el-dialog>
+            <el-dialog :modal="false" :title="$t('navbar.importExport')" :visible.sync="importExportVisible" :width="dialogWidth">
+                <el-tooltip effect="dark" :content="$t('navbar.exportTip')" placement="top">
+                    <el-button type="primary" @click="downloadCsv(); importExportVisible=false">{{ $t('navbar.exportCsv') }}</el-button>
+                </el-tooltip>
+                <el-tooltip effect="dark" :content="$t('navbar.importTip')" placement="top">
+                    <el-upload accept=".csv" :action="uploadUrl" :on-success="uploadSuccess">
+                        <el-button type="primary">{{ $t('navbar.importCsv') }}</el-button>
+                    </el-upload>
+                </el-tooltip>
             </el-dialog>
             <el-dialog :modal="false" :title="$t('navbar.passwordTitle')" :visible.sync="dialogVisible" :width="dialogWidth">
                 <el-form  :model="form" :rules="registerRules" ref="form" label-position="left">
@@ -105,6 +123,7 @@ export default {
             dialogVisible: false,
             versionVisible: false,
             resetDayVisible: false,
+            importExportVisible: false,
             loginVisible: false,
             dialogWidth: '25%',
             title: '',
@@ -140,7 +159,10 @@ export default {
         ...mapState(['docTitle', 'isAdmin']),
         ...mapGetters([
             'sidebar'
-        ])
+        ]),
+        uploadUrl: () => {
+            return `${process.env.NODE_ENV === 'production' ? `${location.origin}` : 'api'}/trojan/import`
+        }
     },
     methods: {
         toggleSideBar() {
@@ -156,6 +178,21 @@ export default {
                 this.dialogWidth = '25%'
             }
             this.$store.commit('SET_WIDTH', this.dialogWidth)
+        },
+        downloadCsv() {
+            const prefix = process.env.NODE_ENV === 'production' ? `${location.origin}` : 'api'
+            const downloadUrl = `${prefix}/trojan/export?token=${this.$store.state.UserToken}`
+            window.open(downloadUrl)
+        },
+        uploadSuccess(res) {
+            if (res.Msg === 'success') {
+                this.$message({
+                    message: this.$t('navbar.importSuccess'),
+                    type: 'success'
+                })
+            } else {
+                this.$message.error(res.Msg)
+            }
         },
         async getTitle() {
             const result = await check()

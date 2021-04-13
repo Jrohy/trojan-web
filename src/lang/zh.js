@@ -35,8 +35,10 @@ export default {
     },
     navbar: {
         version: '系统版本',
+        setting: '系统设置',
         password: '修改密码',
         title: '修改标题',
+        importExport: '导入导出',
         resetDay: '改重置日',
         resetTitle: '修改流量重置日',
         changeTitle: '修改登录页标题',
@@ -47,7 +49,12 @@ export default {
         versionTitle: 'trojan管理程序版本',
         passwordTitle: '变更管理员密码',
         resetSuccess: '重置密码成功!',
-        meanClose: '0代表关闭流量重置'
+        meanClose: '0代表关闭流量重置',
+        exportTip: '导出数据库里所有记录到csv文件',
+        importTip: '导入csv文件数据到数据库',
+        importSuccess: '导入成功',
+        importCsv: '导入csv文件',
+        exportCsv: '导出csv文件'
     },
     dashboard: {
         memory: '内存',

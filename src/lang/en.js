@@ -14,8 +14,10 @@ export default {
     },
     navbar: {
         version: 'System Version',
+        setting: 'System Setting',
         password: 'Reset Password',
         title: 'Change Title',
+        importExport: 'Import Export',
         resetDay: 'Change Resetday',
         resetTitle: 'Change data reset day',
         changeTitle: 'Change login page title',
@@ -26,7 +28,12 @@ export default {
         versionTitle: 'Trojan-manager Version',
         passwordTitle: 'change admin password',
         resetSuccess: 'reset password success!',
-        meanClose: '0 mean close data reset'
+        meanClose: '0 mean close data reset',
+        exportTip: 'export all database record to csv file',
+        importTip: 'import csv to database',
+        importSuccess: 'Import Success',
+        importCsv: 'import csv file',
+        exportCsv: 'export csv file'
     },
     dashboard: {
         memory: 'memory',
