@@ -105,7 +105,7 @@ export default {
                 this.$message.error(this.$t('inputNotNull'))
                 return
             }
-            let loginInfo = Object.assign({}, this.loginForm)
+            const loginInfo = Object.assign({}, this.loginForm)
             loginInfo.password = CryptoJS.SHA224(this.loginForm.password).toString()
             const data = await login(loginInfo)
             const token = data.token
