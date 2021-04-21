@@ -105,8 +105,9 @@ export default {
                 this.$message.error(this.$t('inputNotNull'))
                 return
             }
-            this.loginForm.password = CryptoJS.SHA224(this.loginForm.password).toString()
-            const data = await login(this.loginForm)
+            let loginInfo = Object.assign({}, this.loginForm)
+            loginInfo.password = CryptoJS.SHA224(this.loginForm.password).toString()
+            const data = await login(loginInfo)
             const token = data.token
             let isAdmin = false
             if (this.loginForm.username === 'admin') {
