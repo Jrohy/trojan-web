@@ -1,13 +1,9 @@
 const path = require('path')
+const proxyTarget = 'https://xxooo.art'
 
 function resolve(dir) {
     return path.join(__dirname, dir)
 }
-const proxyTargetMap = {
-    prod: 'https://xxx.xxx.com/',
-    dev: 'https://xxoox.club'
-}
-const proxyTarget = proxyTargetMap[process.env.API_TYPE] || proxyTargetMap.prod
 const wsTarget = proxyTarget.replace('http', 'ws')
 const publicPath = process.env.NODE_ENV === 'production' ? '/' : '/'
 module.exports = {
@@ -21,10 +17,6 @@ module.exports = {
     // 有效的值：`ture` | `false` | `"error"`
     // 当设置为 `"error"` 时，检查出的错误会触发编译失败。
     lintOnSave: true,
-
-    // 使用带有浏览器内编译器的完整构建版本
-    // 查阅 https://cn.vuejs.org/v2/guide/installation.html#运行时-编译器-vs-只包含运行时
-    // compiler: false,
 
     // babel-loader 默认会跳过 node_modules 依赖。
     // 通过这个选项可以显式转译一个依赖。
