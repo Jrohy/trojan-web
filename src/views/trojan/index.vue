@@ -264,6 +264,8 @@ export default {
                         message: this.$t('trojan.switchSuccess'),
                         type: 'success'
                     })
+                } else {
+                    this.$message.error(result.Msg)
                 }
             } catch (e) {
                 this.getLog()
