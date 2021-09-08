@@ -33,20 +33,20 @@ module.exports = {
         // 移除 prefetch 插件,解决组件懒加载失效的问题
         config.plugins.delete('prefetch')
         // 用cdn方式引入
-        config.externals({
-            vue: 'Vue',
-            vuex: 'Vuex',
-            'vue-i18n': 'VueI18n',
-            'vue-router': 'VueRouter',
-            axios: 'axios',
-            'crypto-js': 'CryptoJS',
-            'dayjs': 'dayjs',
-            'qrcodejs2': 'QRCode',
-            'nprogress': 'NProgress',
-            'element-ui': 'ELEMENT',
-            en: 'ELEMENT.lang.en',
-            'zh-cn': 'ELEMENT.lang.zhCN'
-        })
+        // config.externals({
+        //     vue: 'Vue',
+        //     vuex: 'Vuex',
+        //     'vue-i18n': 'VueI18n',
+        //     'vue-router': 'VueRouter',
+        //     axios: 'axios',
+        //     'crypto-js': 'CryptoJS',
+        //     'dayjs': 'dayjs',
+        //     'qrcodejs2': 'QRCode',
+        //     'nprogress': 'NProgress',
+        //     'element-ui': 'ELEMENT',
+        //     en: 'ELEMENT.lang.en',
+        //     'zh-cn': 'ELEMENT.lang.zhCN'
+        // })
         // 添加新的svg-sprite-loader处理svgIcon
         config.module
             .rule('svgIcon')

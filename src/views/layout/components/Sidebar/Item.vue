@@ -12,16 +12,15 @@ export default {
             default: ''
         }
     },
-    render(h, context) {
-        const { icon, title } = context.props
+    render() {
         const vnodes = []
 
-        if (icon) {
-            vnodes.push(<svg-icon icon-class={icon}/>)
+        if (this.icon) {
+            vnodes.push(<svg-icon icon-class={this.icon}/>)
         }
 
-        if (title) {
-            vnodes.push(<span slot='title'>{(title)}</span>)
+        if (this.title) {
+            vnodes.push(<span slot='title'>{(this.title)}</span>)
         }
         return vnodes
     }

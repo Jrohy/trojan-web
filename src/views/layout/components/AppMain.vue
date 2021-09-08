@@ -1,8 +1,12 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
-      <router-view :key="key" />
-    </transition>
+      <router-view v-slot="{ Component }">
+            <transition name="el-fade-in-linear" mode="out-in">
+              <keep-alive>
+                <component :is="Component" :key="key"/>
+              </keep-alive>
+            </transition>
+      </router-view>
   </section>
 </template>
 

@@ -3,11 +3,11 @@
     <el-form :inline="true" label-width="80px" style="height: 29px;">
     <el-form-item size="mini">
         <el-button-group>
-            <el-button type="primary" icon="el-icon-refresh" @click.native="refresh()">{{ textShow($t('refresh')) }}</el-button>
-            <el-button type="primary" icon="el-icon-plus" @click.native="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">{{ textShow($t('add')) }}</el-button>
-            <el-button type="primary" icon="el-icon-refresh-left" @click.native="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">{{ textShow($t('user.reset')) }}</el-button>
-            <el-button type="primary" icon="el-icon-scissors" @click.native="copySelection=multipleSelection;patchButton=true;quotaVisible=true" v-if="isAdmin">{{ textShow($t('user.limitData')) }}</el-button>
-            <el-button type="danger" icon="el-icon-delete" @click.native="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">{{ textShow($t('delete')) }}</el-button>
+            <el-button type="primary" icon="el-icon-refresh" @click="refresh()">{{ textShow($t('refresh')) }}</el-button>
+            <el-button type="primary" icon="el-icon-plus" @click="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">{{ textShow($t('add')) }}</el-button>
+            <el-button type="primary" icon="el-icon-refresh-left" @click="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">{{ textShow($t('user.reset')) }}</el-button>
+            <el-button type="primary" icon="el-icon-scissors" @click="copySelection=multipleSelection;patchButton=true;quotaVisible=true" v-if="isAdmin">{{ textShow($t('user.limitData')) }}</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">{{ textShow($t('delete')) }}</el-button>
         </el-button-group>
     </el-form-item>
     </el-form>
@@ -44,72 +44,78 @@
         </el-table-column>
         <el-table-column
         :label="$t('user.expiryDate')">
-        <template slot-scope="scope">
+        <template #scope>
             <div v-if="scope.row.ExpiryDate === ''">{{ $t('user.unlimit') }}</div>
             <el-popover trigger="hover" placement="top" v-else>
             <p>{{ $t('user.remaining') }}: {{ calculateDay(scope.row.ExpiryDate) }}</p>
-            <div slot="reference" class="name-wrapper">
-                <el-tag size="medium">{{ scope.row.ExpiryDate === '' ? $t('user.unlimit') : scope.row.ExpiryDate }}</el-tag>
-            </div>
+            <template #reference>
+                <div class="name-wrapper">
+                    <el-tag size="medium">{{ scope.row.ExpiryDate === '' ? $t('user.unlimit') : scope.row.ExpiryDate }}</el-tag>
+                </div>
+            </template>
             </el-popover>
       </template>
         </el-table-column>
         <el-table-column
         width="170"
         align="center">
-        <template slot="header">
+        <template #header>
             <el-input
                 v-model="search"
                 size="small"
                 :placeholder="$t('user.search')" v-if="isAdmin"/>
             <div v-if="!isAdmin">{{ $t('user.operate') }}</div>
         </template>
-        <template slot-scope="scope">
+        <template #scope>
             <el-dropdown v-if="isAdmin" style="margin-right: 5px;">
                 <span class="el-dropdown-link">
                     {{ $t('edit') }}<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="userItem=scope.row; patchButton=false; quotaVisible=true">{{ $t('user.limitData') }}</el-dropdown-item>
-                    <el-dropdown-item @click.native="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">{{ $t('user.reset') }}</el-dropdown-item>
-                    <el-dropdown-item @click.native="userItem=scope.row; handelEditUser()">{{ $t('user.modifyUser') }}</el-dropdown-item>
-                    <el-dropdown-item @click.native="userItem=scope.row; expiryShow=$t('user.setExpire'); expiryVisible=true" v-if="scope.row.ExpiryDate === ''">{{ $t('user.setExpire') }}</el-dropdown-item>
-                    <div v-else>
-                        <el-dropdown-item @click.native="userItem=scope.row; expiryShow=$t('user.editExpire'); expiryVisible=true">{{ $t('user.editExpire') }}</el-dropdown-item>
-                        <el-dropdown-item @click.native="userItem=scope.row; cancelUserExpire()">{{ $t('user.cancelExpire') }}</el-dropdown-item>
-                    </div>
-                </el-dropdown-menu>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item @click="userItem=scope.row; patchButton=false; quotaVisible=true">{{ $t('user.limitData') }}</el-dropdown-item>
+                        <el-dropdown-item @click="userItem=scope.row; commonType=1; patchButton=false; confirmVisible=true">{{ $t('user.reset') }}</el-dropdown-item>
+                        <el-dropdown-item @click="userItem=scope.row; handelEditUser()">{{ $t('user.modifyUser') }}</el-dropdown-item>
+                        <el-dropdown-item @click="userItem=scope.row; expiryShow=$t('user.setExpire'); expiryVisible=true" v-if="scope.row.ExpiryDate === ''">{{ $t('user.setExpire') }}</el-dropdown-item>
+                        <div v-else>
+                            <el-dropdown-item @click="userItem=scope.row; expiryShow=$t('user.editExpire'); expiryVisible=true">{{ $t('user.editExpire') }}</el-dropdown-item>
+                            <el-dropdown-item @click="userItem=scope.row; cancelUserExpire()">{{ $t('user.cancelExpire') }}</el-dropdown-item>
+                        </div>
+                    </el-dropdown-menu>
+                </template>
             </el-dropdown>
             <el-button
             size="mini"
             type="text"
-            @click.native="userItem=scope.row;handleShare()"
+            @click="userItem=scope.row;handleShare()"
             >{{ $t('share') }}</el-button>
             <el-button
             v-if="isAdmin"
             size="mini"
             type="text"
-            @click.native="userItem=scope.row;commonType=0;patchButton=false;confirmVisible=true"
+            @click="userItem=scope.row;commonType=0;patchButton=false;confirmVisible=true"
             >{{ $t('delete') }}</el-button>
         </template>
         </el-table-column>
     </el-table>
-    <el-dialog :title="commonTitle" :visible.sync="userVisible" :width="dialogWidth">
-        <el-input type="text" v-model="userInfo.username" :placeholder="$t('user.inputUsername')" @keyup.enter.native="commonType === 2? handleAddUser(): handleUpdateUser()"/>
-        <el-input type="text" v-model="userInfo.password" :placeholder="$t('user.inputPassword')" @keyup.enter.native="commonType === 2? handleAddUser(): handleUpdateUser()"/>
-        <div slot="footer" class="dialog-footer">
+    <el-dialog :title="commonTitle"  v-model="userVisible" :width="dialogWidth">
+        <el-input type="text" v-model="userInfo.username" :placeholder="$t('user.inputUsername')" @keyup.enter="commonType === 2? handleAddUser(): handleUpdateUser()"/>
+        <el-input type="text" v-model="userInfo.password" :placeholder="$t('user.inputPassword')" @keyup.enter="commonType === 2? handleAddUser(): handleUpdateUser()"/>
+        <template #footer class="dialog-footer">
             <el-button @click="userVisible = false">{{ $t('cancel') }}</el-button>
             <el-button type="primary" @click="commonType === 2? handleAddUser(): handleUpdateUser()">{{ $t('ok') }}</el-button>
-        </div>
+        </template>
     </el-dialog>
-    <el-dialog :title="commonTitle" :visible.sync="confirmVisible" :width="dialogWidth">
+    <el-dialog :title="commonTitle"  v-model="confirmVisible" :width="dialogWidth">
         {{ editUser }}
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="confirmVisible = false;copySelection=[];">{{ $t('cancel') }}</el-button>
-            <el-button type="primary" @click="confirmVisible = false; patchButton ? handlePatchOpera(): handleOpera()">{{ $t('ok') }}</el-button>
-        </div>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="confirmVisible = false;copySelection=[];">{{ $t('cancel') }}</el-button>
+                <el-button type="primary" @click="confirmVisible = false; patchButton ? handlePatchOpera(): handleOpera()">{{ $t('ok') }}</el-button>
+            </span>
+        </template>
     </el-dialog>
-    <el-dialog :title="quotaText" :visible.sync="quotaVisible" :width="dialogWidth">
+    <el-dialog :title="quotaText" v-model="quotaVisible" :width="dialogWidth">
         {{ editUser }}
         <el-divider v-if="editUser != ''"></el-divider>
         <el-tooltip effect="dark" :content="$t('user.meanUnlimit')" placement="top">
@@ -123,16 +129,18 @@
             :value="item.value">
             </el-option>
         </el-select>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="quotaVisible=false">{{ $t('cancel') }}</el-button>
-            <el-button type="primary" @click="quotaVisible=false; handleSetQuota()">{{ $t('ok') }}</el-button>
-        </div>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="quotaVisible=false">{{ $t('cancel') }}</el-button>
+                <el-button type="primary" @click="quotaVisible=false; handleSetQuota()">{{ $t('ok') }}</el-button>
+            </span>
+        </template>
     </el-dialog>
-    <el-dialog :title="$t('user.shareLink')" :visible.sync="qrcodeVisible" :width="dialogWidth" @close="closeQRCode">
+    <el-dialog :title="$t('user.shareLink')" v-model="qrcodeVisible" :width="dialogWidth" @close="closeQRCode">
         <div id="qrcode" ref="qrcode" class="qrcodeCenter"></div>
         <p class="qrcodeCenter"> {{ shareLink }} </p>
     </el-dialog>
-    <el-dialog :title="expiryShow" :visible.sync="expiryVisible" :width="dialogWidth">
+    <el-dialog :title="expiryShow" v-model="expiryVisible" :width="dialogWidth">
         <el-form>
             <el-form-item :label="$t('user.preset')">
                 <el-select size="mini" v-model="useDays" :placeholder="$t('choice')" filterable style="width: 130px;">
@@ -148,10 +156,12 @@
                 <el-input-number size="small" v-model="useDays" :min=0></el-input-number>
             </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="expiryVisible = false">{{ $t('cancel') }}</el-button>
-            <el-button type="primary" @click="expiryVisible=false; setUserExpire()">{{ $t('ok') }}</el-button>
-        </div>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="expiryVisible = false">{{ $t('cancel') }}</el-button>
+                <el-button type="primary" @click="expiryVisible=false; setUserExpire()">{{ $t('ok') }}</el-button>
+            </span>
+        </template>
     </el-dialog>
   </div>
 </template>
@@ -389,11 +399,12 @@ export default {
             }
         },
         async handleSetQuota() {
-            if (this.quota === -1) {
-            } else if (this.quotaUnit === 'MB') {
-                this.quota = this.quota * 1024 * 1024
-            } else if (this.quotaUnit === 'GB') {
-                this.quota = this.quota * 1024 * 1024 * 1024
+            if (this.quota !== -1) {
+                if (this.quotaUnit === 'MB') {
+                    this.quota = this.quota * 1024 * 1024
+                } else if (this.quotaUnit === 'GB') {
+                    this.quota = this.quota * 1024 * 1024 * 1024
+                }
             }
             if (this.patchButton) {
                 for (let i = 0; i < this.copySelection.length; i++) {
@@ -493,7 +504,7 @@ export default {
                     message: `${this.$t('user.modifyUser2')}${this.userInfo.username}${this.$t('user.success')}`,
                     type: 'success'
                 })
-                await restart().catch(e => {})
+                await restart().catch()
                 this.$store.commit('SET_NOERROR', false)
                 this.$store.commit('SET_NPROGRESS', true)
             } else {

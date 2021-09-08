@@ -1,10 +1,8 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 /* Layout */
 import Layout from '@/views/layout'
 
-Vue.use(Router)
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -85,20 +83,21 @@ export const constantRoutes = [
         ]
     },
     // 404 page must be placed at the end !!!
-    { path: '*', redirect: '/404', hidden: true }
+    { path: '/:pathMatch(.*)*', redirect: '/404', hidden: true }
 ]
 
-const createRouter = () => new Router({
+const createNewRouter = () => createRouter({
     // mode: 'history', // require service support
+    history: createWebHistory(process.env.BASE_URL),
     scrollBehavior: () => ({ y: 0 }),
     routes: constantRoutes
 })
 
-const router = createRouter()
+const router = createNewRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-    const newRouter = createRouter()
+    const newRouter = createNewRouter()
     router.matcher = newRouter.matcher // reset router
 }
 

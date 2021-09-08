@@ -14,10 +14,10 @@
                 <span class="svg-container">
                     <svg-icon icon-class="password"></svg-icon>
                 </span>
-                <el-input name="password2" :type="pwdType" @keyup.enter.native="register" v-model="form.password2" :placeholder="$t('inputPassAgain')" show-password/>
+                <el-input name="password2" :type="pwdType" @keyup.enter="register" v-model="form.password2" :placeholder="$t('inputPassAgain')" show-password/>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="register">
+                <el-button type="primary" style="width:100%;" :loading="loading" @click.prevent="register">
                 {{ $t('register') }}
                 </el-button>
             </el-form-item>
@@ -63,7 +63,7 @@ export default {
         check().then((res) => {
             if (res.code === 200) {
                 this.$store.commit('LOGIN_OUT')
-                this.$router.replace('/login').catch(e => {})
+                this.$router.replace('/login').catch()
             }
         })
     },
@@ -77,7 +77,7 @@ export default {
                 formData.set('password', CryptoJS.SHA224(this.form.password1).toString())
             }
             await register(formData)
-            this.$router.replace('/login').catch(e => {})
+            this.$router.replace('/login').catch()
         }
     }
 }

@@ -1,31 +1,56 @@
 {
-  "name": "trojan-web",
+  "name": "hello-vue3",
   "version": "0.1.0",
   "private": true,
-  "author": "Jrohy",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.21.4",
+    "core-js": "^3.17.2",
+    "crypto-js": "^4.1.1",
+    "dayjs": "^1.10.6",
+    "element-plus": "^1.0.2-beta.71",
+    "nprogress": "^0.2.0",
+    "qrcodejs2": "0.0.2",
+    "vue": "^3.2.10",
+    "vue-i18n": "^9.1.7",
+    "vue-router": "^4.0.11",
+    "vuex": "^4.0.0-0"
+  },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.3.1",
-    "@vue/cli-plugin-eslint": "~4.3.1",
-    "@vue/cli-service": "~4.3.1",
-    "@vue/eslint-config-standard": "^5.1.2",
-    "babel-core": "^6.26.3",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "^4.5.13",
+    "@vue/cli-plugin-vuex": "^4.5.13",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.2.10",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1",
-    "eslint-plugin-standard": "^5.0.0",
-    "eslint-plugin-vue": "^7.16.0",
-    "sass": "^1.38.1",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.17.0",
+    "sass": "^1.39.0",
     "sass-loader": "^10.2.0",
-    "svg-sprite-loader": "^6.0.9",
-    "vue-template-compiler": "^2.6.14",
-    "webpack-cli": "^4.8.0"
-  }
+    "svg-sprite-loader": "^6.0.9"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }

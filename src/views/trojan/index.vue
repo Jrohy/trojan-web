@@ -168,7 +168,7 @@ export default {
             }
         }
     },
-    destroyed() {
+    unmounted() {
         this.$store.commit('SET_NOERROR', false)
         clearInterval(this.timer)
         this.timer = null
@@ -298,7 +298,7 @@ export default {
             this.ws.onerror = function(e) {
                 console.log('ws error: ' + e)
             }
-            this.ws.onclose = function(e) {
+            this.ws.onclose = function() {
                 console.log('ws closed')
             }
             let firstRun = true

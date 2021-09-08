@@ -35,9 +35,9 @@
             name="password"
             tabindex="2"
             auto-complete="on"
-            @keyup.native="checkCapslock"
+            @keyup="checkCapslock"
             @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
+            @keyup.enter="handleLogin"
           />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
@@ -45,7 +45,7 @@
         </el-form-item>
       </el-tooltip>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">{{ $t('login') }}</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.prevent="handleLogin">{{ $t('login') }}</el-button>
     </el-form>
   </div>
 </template>
@@ -71,7 +71,7 @@ export default {
         document.title = this.docTitle
         check().then((res) => {
             if (res.code === 201) {
-                this.$router.replace('/register').catch(e => {})
+                this.$router.replace('/register').catch()
             } else {
                 this.title = res.data.title
                 document.title = this.title
@@ -115,7 +115,7 @@ export default {
             }
             this.$store.commit('SET_ADMIN', isAdmin)
             this.$store.commit('LOGIN_IN', token)
-            this.$router.replace('/').catch(e => {})
+            this.$router.replace('/').catch()
         }
     }
 }

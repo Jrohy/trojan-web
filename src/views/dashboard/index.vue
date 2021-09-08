@@ -52,7 +52,7 @@
                         <b>{{ $t('dashboard.trojanUser') }}:</b>
                     </el-col>
                     <el-col :span="12" style="padding-top:1px">
-                        <el-link type='primary' @click.native="navigate('/user')">{{ userList.length }}</el-link>
+                        <el-link type='primary' @click="navigate('/user')">{{ userList.length }}</el-link>
                     </el-col>
                 </el-row>
             </el-card>
@@ -225,7 +225,7 @@ export default {
             })()
         }
     },
-    destroyed() {
+    unmounted() {
         this.$store.commit('SET_NPROGRESS', true)
         clearInterval(this.timer)
     },

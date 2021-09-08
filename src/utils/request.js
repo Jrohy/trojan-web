@@ -1,19 +1,20 @@
 import axios from 'axios'
 import store from '@/store/index.js'
-import { Message } from 'element-ui'
+import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'
 import i18n from '@/lang'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 function validateStatus(status) {
+    const { t } = i18n.global
     switch (status) {
     case 400:
-        Message.error(i18n.t('request.requestError'))
+        ElMessage.error(t('request.requestError'))
         break
     case 401:
-        Message.warning({
-            message: i18n.t('request.authFail')
+        ElMessage.warning({
+            message: t('request.authFail')
         })
         store.commit('LOGIN_OUT')
         setTimeout(() => {
@@ -21,19 +22,19 @@ function validateStatus(status) {
         }, 1000)
         return
     case 403:
-        Message.warning({
-            message: i18n.t('request.accessDenied')
+        ElMessage.warning({
+            ElMessage: t('request.accessDenied')
         })
         break
     case 404:
-        Message.warning({
-            message: i18n.t('request.notFound')
+        ElMessage.warning({
+            ElMessage: t('request.notFound')
         })
         break
     case 500:
         if (!store.state.noerror) {
-            Message.warning({
-                message: i18n.t('request.serverError')
+            ElMessage.warning({
+                ElMessage: t('request.serverError')
             })
         }
         break
@@ -73,7 +74,7 @@ instance.interceptors.response.use(
     },
     err => {
         if (store.state.nprogress && err.response === undefined && !store.state.noerror) {
-            Message.error(i18n.t('request.connectError'))
+            ElMessage.error(i18n.global.t('request.connectError'))
         }
         NProgress.done()
         return Promise.reject(err.response)

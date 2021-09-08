@@ -10,49 +10,59 @@
                 <span class="el-dropdown-link">
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="systemVersion(); versionVisible=true">{{ $t('navbar.version') }}</el-dropdown-item>
-                    <el-dropdown placement='right-start' class="el-dropdown-menu__item" v-if="isAdmin">
-                        <span>
-                            {{ $t('navbar.setting') }}
-                        </span>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item @click.native="getTitle(); loginVisible=true">{{ $t('navbar.title') }}</el-dropdown-item>
-                            <el-dropdown-item @click.native="dialogVisible=true">{{ $t('navbar.password') }}</el-dropdown-item>
-                            <el-dropdown-item @click.native="importExportVisible=true">{{ $t('navbar.importExport') }}</el-dropdown-item>
-                            <el-dropdown-item @click.native="getResetDay(); resetDayVisible=true">{{ $t('navbar.resetDay') }}</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                    <el-dropdown-item @click.native="handleSetLanguage('zh')" divided>中文</el-dropdown-item>
-                    <el-dropdown-item @click.native="handleSetLanguage('en')">English</el-dropdown-item>
-                </el-dropdown-menu>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item @click="systemVersion(); versionVisible=true">{{ $t('navbar.version') }}</el-dropdown-item>
+                        <el-dropdown placement='right-start' class="el-dropdown-menu__item" v-if="isAdmin">
+                            <span>
+                                {{ $t('navbar.setting') }}
+                            </span>
+                            <template #dropdown>
+                                <el-dropdown-menu>
+                                    <el-dropdown-item @click="getTitle(); loginVisible=true">{{ $t('navbar.title') }}</el-dropdown-item>
+                                    <el-dropdown-item @click="dialogVisible=true">{{ $t('navbar.password') }}</el-dropdown-item>
+                                    <el-dropdown-item @click="importExportVisible=true">{{ $t('navbar.importExport') }}</el-dropdown-item>
+                                    <el-dropdown-item @click="getResetDay(); resetDayVisible=true">{{ $t('navbar.resetDay') }}</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </template>
+                        </el-dropdown>
+                        <el-dropdown-item @click="handleSetLanguage('zh')" divided>中文</el-dropdown-item>
+                        <el-dropdown-item @click="handleSetLanguage('en')">English</el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
             </el-dropdown>
-            <el-dialog :modal="false" :title="$t('navbar.changeTitle')" :visible.sync="loginVisible" :width="dialogWidth">
-                <el-input type="text" v-model="title" :placeholder="$t('navbar.inputTitle')" @keyup.enter.native="handleLoginInfo"/>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="loginVisible = false">{{ $t('cancel') }}</el-button>
-                    <el-button type="primary" @click="handleLoginInfo()">{{ $t('ok') }}</el-button>
-                </div>
+            <el-dialog :modal="false" :title="$t('navbar.changeTitle')" v-model="loginVisible" :width="dialogWidth">
+                <el-input type="text" v-model="title" :placeholder="$t('navbar.inputTitle')" @keyup.enter="handleLoginInfo"/>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button @click="loginVisible = false">{{ $t('cancel') }}</el-button>
+                        <el-button type="primary" @click="handleLoginInfo()">{{ $t('ok') }}</el-button>
+                    </span>
+                </template>
             </el-dialog>
-            <el-dialog :modal="false" :title="$t('navbar.versionTitle')" :visible.sync="versionVisible" :width="dialogWidth">
+            <el-dialog :modal="false" :title="$t('navbar.versionTitle')" v-model="versionVisible" :width="dialogWidth">
                 <p> version: {{ versionList.version }} </p>
                 <p> gitVersion: {{ versionList.gitVersion.slice(0,7) }} </p>
                 <p> buildDate: {{ versionList.buildDate }} </p>
                 <p> goVersion: {{ versionList.goVersion }} </p>
-                <div slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="versionVisible = false">{{ $t('ok') }}</el-button>
-                </div>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button type="primary" @click="versionVisible = false">{{ $t('ok') }}</el-button>
+                    </span>
+                </template>
             </el-dialog>
-            <el-dialog :modal="false" :title="$t('navbar.resetTitle')" :visible.sync="resetDayVisible" :width="dialogWidth">
+            <el-dialog :modal="false" :title="$t('navbar.resetTitle')" v-model="resetDayVisible" :width="dialogWidth">
                 <el-tooltip effect="dark" :content="$t('navbar.meanClose')" placement="top">
                     <el-input-number size="small" v-model="resetDay" :min=0 :max=31></el-input-number>
                 </el-tooltip>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="resetDayVisible = false">{{ $t('cancel') }}</el-button>
-                    <el-button type="primary" @click="handleResetDay()">{{ $t('ok') }}</el-button>
-                </div>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button @click="resetDayVisible = false">{{ $t('cancel') }}</el-button>
+                        <el-button type="primary" @click="handleResetDay()">{{ $t('ok') }}</el-button>
+                    </span>
+                </template>
             </el-dialog>
-            <el-dialog :modal="false" :title="$t('navbar.importExport')" :visible.sync="importExportVisible" :width="dialogWidth">
+            <el-dialog :modal="false" :title="$t('navbar.importExport')" v-model="importExportVisible" :width="dialogWidth">
                 <el-tooltip effect="dark" :content="$t('navbar.exportTip')" placement="top">
                     <el-button type="primary" @click="downloadCsv(); importExportVisible=false">{{ $t('navbar.exportCsv') }}</el-button>
                 </el-tooltip>
@@ -62,19 +72,21 @@
                     </el-upload>
                 </el-tooltip>
             </el-dialog>
-            <el-dialog :modal="false" :title="$t('navbar.passwordTitle')" :visible.sync="dialogVisible" :width="dialogWidth">
+            <el-dialog :modal="false" :title="$t('navbar.passwordTitle')" v-model="dialogVisible" :width="dialogWidth">
                 <el-form  :model="form" :rules="registerRules" ref="form" label-position="left">
                     <el-form-item prop="password1">
                         <el-input name="password1" :type="pwdType" v-model="form.password1" :placeholder="$t('inputPass')" show-password/>
                     </el-form-item>
                     <el-form-item prop="password2">
-                        <el-input name="password2" :type="pwdType" @keyup.enter.native="register" v-model="form.password2" :placeholder="$t('inputPassAgain')" show-password/>
+                        <el-input name="password2" :type="pwdType" @keyup.enter="register" v-model="form.password2" :placeholder="$t('inputPassAgain')" show-password/>
                     </el-form-item>
                 </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">{{ $t('cancel') }}</el-button>
-                    <el-button type="primary" @click="dialogVisible = false; changePass()">{{ $t('ok') }}</el-button>
-                </div>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button @click="dialogVisible = false">{{ $t('cancel') }}</el-button>
+                        <el-button type="primary" @click="dialogVisible = false; changePass()">{{ $t('ok') }}</el-button>
+                    </span>
+                </template>
             </el-dialog>
         </div>
         <div @click="loginOut">
@@ -85,6 +97,7 @@
 </template>
 
 <script>
+import { ElMessage } from "element-plus"
 import { mapGetters, mapState } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
@@ -104,15 +117,6 @@ export default {
             }
         }
         return {
-            handleSetLanguage(lang) {
-                const successTip = lang === 'zh' ? '切换语言成功' : 'Switch Language Success'
-                this.$i18n.locale = lang
-                this.$store.dispatch('app/setLanguage', lang)
-                this.$message({
-                    message: successTip,
-                    type: 'success'
-                })
-            },
             versionList: {
                 version: '',
                 buildDate: '',
@@ -165,6 +169,14 @@ export default {
         }
     },
     methods: {
+        handleSetLanguage(lang) {
+            this.$i18n.locale = lang
+            this.$store.dispatch('app/setLanguage', lang)
+            ElMessage({
+                message: lang === 'zh' ? '切换语言成功' : 'Switch Language Success',
+                type: 'success'
+            })
+        },
         toggleSideBar() {
             this.$store.dispatch('app/toggleSideBar')
         },
@@ -186,12 +198,12 @@ export default {
         },
         uploadSuccess(res) {
             if (res.Msg === 'success') {
-                this.$message({
+                ElMessage({
                     message: this.$t('navbar.importSuccess'),
                     type: 'success'
                 })
             } else {
-                this.$message.error(res.Msg)
+                ElMessage.error(res.Msg)
             }
         },
         async getTitle() {
@@ -208,18 +220,18 @@ export default {
             const result = await updateResetDay(formData)
             if (result.Msg === 'success') {
                 if (this.resetDay === 0) {
-                    this.$message({
+                    ElMessage({
                         message: this.$t('navbar.closeResetSuccess'),
                         type: 'success'
                     })
                 } else {
-                    this.$message({
+                    ElMessage({
                         message: this.$t('navbar.changeDaySuccess'),
                         type: 'success'
                     })
                 }
             } else {
-                this.$message.error(result.Msg)
+                ElMessage.error(result.Msg)
             }
             this.resetDayVisible = false
         },
@@ -228,14 +240,14 @@ export default {
             formData.set('title', this.title)
             const result = await setLoginInfo(formData)
             if (result.Msg === 'success') {
-                this.$message({
+                ElMessage({
                     message: this.$t('navbar.changeTitleSuccess'),
                     type: 'success'
                 })
                 document.title = this.title
                 this.$store.commit('SET_TITLE', this.title)
             } else {
-                this.$message.error(result.Msg)
+                ElMessage.error(result.Msg)
             }
             this.loginVisible = false
         },
@@ -246,20 +258,20 @@ export default {
         async changePass() {
             const formData = new FormData()
             if (this.form.password1 !== this.form.password2) {
-                this.$message.error(this.$t('passDifferentError'))
+                ElMessage.error(this.$t('passDifferentError'))
                 return
             } else {
                 formData.set('password', CryptoJS.SHA224(this.form.password1).toString())
             }
             try {
                 await resetPass(formData)
-                this.$message({
+                ElMessage({
                     message: this.$t('navbar.resetSuccess'),
                     type: 'success'
                 })
                 await sleep(1000 * 2)
                 this.$store.commit('LOGIN_OUT')
-                this.$router.replace('/login').catch(e => {})
+                this.$router.replace('/login').catch()
             } catch (e) {
                 console.log(e)
             }

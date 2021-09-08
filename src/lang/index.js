@@ -1,11 +1,8 @@
-import Vue from 'vue'
-import VueI18n from 'vue-i18n'
-import elementEnLocale from 'en' // element-ui lang
-import elementZhLocale from 'zh-cn'// element-ui lang
+import { createI18n } from 'vue-i18n'
+import elementEnLocale from 'element-plus/lib/locale/lang/en' // element-ui lang
+import elementZhLocale from 'element-plus/lib/locale/lang/zh-cn'// element-ui lang
 import enLocale from './en'
 import zhLocale from './zh'
-
-Vue.use(VueI18n)
 
 const messages = {
     en: {
@@ -29,14 +26,16 @@ export function getLanguage() {
             return locale
         }
     }
-    return 'zh'
+    return 'en'
 }
-const i18n = new VueI18n({
+const i18n = createI18n({
     // set locale
     // options: en | zh
     locale: getLanguage(),
     // set locale messages
-    messages,
+    messages: messages,
+    fallbackLocale: 'en',
+    silentFallbackWarn: true,
     silentTranslationWarn: true
 })
 
