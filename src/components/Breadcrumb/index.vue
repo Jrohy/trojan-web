@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import { generateTitle } from '@/utils/i18n'
 export default {
     data() {
         return {
@@ -28,7 +27,14 @@ export default {
         this.getBreadcrumb()
     },
     methods: {
-        generateTitle,
+        generateTitle(title) {
+            const hasKey = this.$t('route.' + title)
+            if (hasKey) {
+                const translatedTitle = this.$t('route.' + title)
+                return translatedTitle
+            }
+            return title
+        },
         getBreadcrumb() {
             // only show routes with meta.title
             let matched = this.$route.matched.filter(item => item.meta && item.meta.title)

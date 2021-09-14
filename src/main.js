@@ -3,7 +3,7 @@ import App from '@/App'
 import store from '@/store/index'
 import router from '@/router/index'
 import ElementPlus from 'element-plus'
-import 'element-plus/lib/theme-chalk/index.css'
+import 'element-plus/dist/index.css'
 import i18n from './lang/index' // internationalization
 import '@/styles/index.scss' // global css
 import SvgIcon from '@/components/SvgIcon'// svg组件

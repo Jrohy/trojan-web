@@ -26,7 +26,6 @@
 
 <script>
 import path from 'path'
-import { generateTitle } from '@/utils/i18n'
 import { isExternal } from '@/utils/validate'
 import Item from './Item'
 import AppLink from './Link'
@@ -58,6 +57,14 @@ export default {
         return {}
     },
     methods: {
+        generateTitle(title) {
+            const hasKey = this.$t('route.' + title)
+            if (hasKey) {
+                const translatedTitle = this.$t('route.' + title)
+                return translatedTitle
+            }
+            return title
+        },
         hasOneShowingChild(children = [], parent) {
             const showingChildren = children.filter(item => {
                 if (item.hidden) {
@@ -90,8 +97,7 @@ export default {
                 return this.basePath
             }
             return path.resolve(this.basePath, routePath)
-        },
-        generateTitle
+        }
     }
 }
 </script>

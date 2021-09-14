@@ -108,20 +108,15 @@ module.exports = {
         },
         before: app => {}
     },
-    // eslint-disable-next-line no-dupe-keys
-    configureWebpack: config => {
-        if (process.env.NODE_ENV === 'production') {
-            // 为生产环境修改配置...
-            // 去除console.log、debugger等调试代码
-            config.optimization.minimizer[0].options.terserOptions.compress.warnings = false
-            config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
-            config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = true
-            config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log']
-        } else {
-            // 为开发环境修改配置...
+    configureWebpack:  {
+        module: {
+            rules: [{
+                test: /\.mjs$/,
+                include: /node_modules/,
+                type: "javascript/auto"
+            }]
         }
     },
-
     // 第三方插件的选项
     pluginOptions: {}
 }
