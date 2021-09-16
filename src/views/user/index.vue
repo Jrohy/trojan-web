@@ -44,7 +44,7 @@
         </el-table-column>
         <el-table-column
         :label="$t('user.expiryDate')">
-        <template #scope>
+        <template #default="scope">
             <div v-if="scope.row.ExpiryDate === ''">{{ $t('user.unlimit') }}</div>
             <el-popover trigger="hover" placement="top" v-else>
             <p>{{ $t('user.remaining') }}: {{ calculateDay(scope.row.ExpiryDate) }}</p>
@@ -54,7 +54,7 @@
                 </div>
             </template>
             </el-popover>
-      </template>
+        </template>
         </el-table-column>
         <el-table-column
         width="170"
@@ -66,7 +66,7 @@
                 :placeholder="$t('user.search')" v-if="isAdmin"/>
             <div v-if="!isAdmin">{{ $t('user.operate') }}</div>
         </template>
-        <template #scope>
+        <template #default="scope">
             <el-dropdown v-if="isAdmin" style="margin-right: 5px;">
                 <span class="el-dropdown-link">
                     {{ $t('edit') }}<i class="el-icon-arrow-down el-icon--right"></i>
