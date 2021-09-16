@@ -202,13 +202,13 @@ export default {
         ...mapState(['isAdmin'])
     },
     created() {
+        this.$store.commit('SET_NPROGRESS', false)
         this.setOffset()
         this.getVersion()
         this.getUserList()
         this.randomIcon()
     },
     mounted() {
-        this.$store.commit('SET_NPROGRESS', false)
         if (this.isAdmin) {
             this.getServerInfo()
         }

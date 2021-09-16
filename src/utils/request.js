@@ -2,6 +2,7 @@ import axios from 'axios'
 import store from '@/store/index.js'
 import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'
+import "nprogress/nprogress.css"
 import i18n from '@/lang'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
