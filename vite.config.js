@@ -2,6 +2,7 @@ import path, { resolve } from 'path'
 import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import viteSvgIcons from 'vite-plugin-svg-icons'
+import externalGlobals from 'rollup-plugin-external-globals'
 
 export default defineConfig(({ command }) => {
   let vueI18n = {}
@@ -57,26 +58,28 @@ export default defineConfig(({ command }) => {
               drop_console: true,
               drop_debugger: true
             }
+        },
+        rollupOptions:{
+            external: ['vue', 'element-plus', 'vuex', 'vue-i18n', 
+            'vue-router', 'axios', 'crypto-js', 'dayjs', 'easyqrcodejs', 
+            'nprogress', 'element-plus'],
+            plugins: [
+                externalGlobals({
+                    vue: 'Vue',
+                    vuex: 'Vuex',
+                    'vue-i18n': 'VueI18n',
+                    'vue-router': 'VueRouter',
+                    axios: 'axios',
+                    'crypto-js': 'CryptoJS',
+                    'dayjs': 'dayjs',
+                    'easyqrcodejs': 'easyqrcodejs',
+                    'nprogress': 'NProgress',
+                    'element-plus': 'ElementPlus',
+                    en: 'ElementPlus.lang.en',
+                    'zh-cn': 'ElementPlus.lang.zhCN'
+                }),
+            ]
         }
-        // rollupOptions:{
-        //     external: ['vue', 'element-plus', 'vuex', 'vue-i18n', 
-        //     'vue-router', 'axios', 'crypto-js', 'dayjs', 'easyqrcodejs', 
-        //     'nprogress', 'element-plus'],
-        //     plugins: [
-        //         externalGlobals({
-        //             vue: 'Vue',
-        //             vuex: 'Vuex',
-        //             'vue-i18n': 'VueI18n',
-        //             'vue-router': 'VueRouter',
-        //             axios: 'axios',
-        //             'crypto-js': 'CryptoJS',
-        //             'dayjs': 'dayjs',
-        //             'easyqrcodejs': 'easyqrcodejs',
-        //             'nprogress': 'NProgress',
-        //             'element-plus': 'element-plus'
-        //         }),
-        //     ]
-        // }
     }
   }
 })
