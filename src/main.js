@@ -3,7 +3,6 @@ import App from '@/App'
 import store from '@/store/index'
 import router from '@/router/index'
 import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
 import i18n from './lang/index' // internationalization
 import '@/styles/index.scss' // global css
 import 'virtual:svg-icons-register'
