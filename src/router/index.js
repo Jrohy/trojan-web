@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 /* Layout */
 import Layout from '@/views/layout'
@@ -87,7 +87,7 @@ export const constantRoutes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHashHistory(),
     scrollBehavior: () => ({ y: 0 }),
     routes: constantRoutes
 })

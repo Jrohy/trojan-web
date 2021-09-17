@@ -172,7 +172,7 @@ import { setQuota, cleanData } from '@/api/data'
 import { setDomain, restart } from '@/api/trojan'
 import { readablizeBytes, isValidIP } from '@/utils/common'
 import { mapState } from 'vuex'
-import QRCode from 'qrcodejs2'
+import * as QRCode from 'easyqrcodejs'   
 import dayjs from 'dayjs'
 
 export default {
@@ -336,7 +336,7 @@ export default {
         },
         createQRCode() {
             // eslint-disable-next-line
-            new QRCode('qrcode', {
+            new QRCode(this.$refs.qrcode, {
                 width: 200,
                 height: 200,
                 text: this.shareLink

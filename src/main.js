@@ -6,6 +6,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import i18n from './lang/index' // internationalization
 import '@/styles/index.scss' // global css
+import 'virtual:svg-icons-register'
 import SvgIcon from '@/components/SvgIcon'// svg组件
 import '@/icons'
 

@@ -4,7 +4,7 @@
 // // register globally
 // Vue.component('svg-icon', SvgIcon)
 
-const requireAll = requireContext => requireContext.keys().map(requireContext)
-const req = require.context('./svg', false, /\.svg$/)
-// console.log(req)
-requireAll(req)
+const Mixins = import.meta.globEager("./svg/*.svg")
+export default {
+    mixins: Object.values(Mixins).map((v) => v.default)
+}
