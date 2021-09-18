@@ -13,7 +13,7 @@ export default defineConfig(({ command }) => {
     if (command === "serve") {
         vueI18n["vue-i18n"] = "vue-i18n/dist/vue-i18n.cjs.js" //解决dev运行警告You are running the esm-bundler build of vue-i18n.
     }
-    
+
     return {
         base: "./",
         define: {
@@ -43,17 +43,17 @@ export default defineConfig(({ command }) => {
             open: true,
             // 反向代理
             proxy: {
-            "/api": {
-                target: proxyTarget,
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, "")
-            },
-            "/ws": {
-                target: proxyTarget,
-                changeOrigin: true,
-                ws: true,
-                rewrite: (path) => path.replace(/^\/ws/, "")
-            },
+                "/api": {
+                    target: proxyTarget,
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace(/^\/api/, "")
+                },
+                "/ws": {
+                    target: proxyTarget,
+                    changeOrigin: true,
+                    ws: true,
+                    rewrite: (path) => path.replace(/^\/ws/, "")
+                },
             }
         },
         build:{
@@ -79,9 +79,7 @@ export default defineConfig(({ command }) => {
                         'dayjs': 'dayjs',
                         'easyqrcodejs': 'easyqrcodejs',
                         'nprogress': 'NProgress',
-                        'element-plus': 'ElementPlus',
-                        en: 'ElementPlus.lang.en',
-                        'zh-cn': 'ElementPlus.lang.zhCN'
+                        'element-plus': 'ElementPlus'
                     }),
                 ]
             }
