@@ -21,39 +21,13 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.6.2",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-router": "^4.5.13",
-    "@vue/cli-plugin-vuex": "^4.5.13",
-    "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.2.12",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
+    "eslint": "^7.32.0",
     "eslint-plugin-vue": "^7.18.0",
     "rollup-plugin-external-globals": "^0.6.1",
     "sass": "^1.41.1",
-    "sass-loader": "^10.2.0",
-    "svg-sprite-loader": "^6.0.9",
     "vite": "^2.5.8",
     "vite-plugin-svg-icons": "^1.0.4"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  }
 }
