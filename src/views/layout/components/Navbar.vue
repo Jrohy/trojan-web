@@ -129,7 +129,6 @@ export default {
             resetDayVisible: false,
             importExportVisible: false,
             loginVisible: false,
-            dialogWidth: '25%',
             title: '',
             resetDay: 1,
             form: {
@@ -153,14 +152,8 @@ export default {
     created() {
         document.title = this.docTitle
     },
-    mounted() {
-        this.setDialogWidth()
-        window.onresize = () => {
-            this.setDialogWidth()
-        }
-    },
     computed: {
-        ...mapState(['docTitle', 'isAdmin']),
+        ...mapState(['docTitle', 'isAdmin', 'dialogWidth']),
         ...mapGetters([
             'sidebar'
         ]),
@@ -179,17 +172,6 @@ export default {
         },
         toggleSideBar() {
             this.$store.dispatch('app/toggleSideBar')
-        },
-        setDialogWidth() {
-            const clientWith = document.body.clientWidth
-            if (clientWith < 600) {
-                this.dialogWidth = '80%'
-            } else if (clientWith >= 600 && clientWith < 1000) {
-                this.dialogWidth = '50%'
-            } else {
-                this.dialogWidth = '25%'
-            }
-            this.$store.commit('SET_WIDTH', this.dialogWidth)
         },
         downloadCsv() {
             const prefix = process.env.NODE_ENV === 'production' ? `${location.origin}` : 'api'

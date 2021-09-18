@@ -39,9 +39,26 @@ export default {
             }
         }
     },
+    mounted() {
+        this.setDialogWidth()
+        window.onresize = () => {
+            this.setDialogWidth()
+        }
+    },
     methods: {
         handleClickOutside() {
             this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+        },
+        setDialogWidth() {
+            const clientWith = document.body.clientWidth
+            if (clientWith < 600) {
+                this.dialogWidth = '80%'
+            } else if (clientWith >= 600 && clientWith < 1000) {
+                this.dialogWidth = '50%'
+            } else {
+                this.dialogWidth = '25%'
+            }
+            this.$store.commit('SET_WIDTH', this.dialogWidth)
         }
     }
 }

@@ -13,30 +13,30 @@ const whiteList = ['/login', '/register'] // no redirect whitelist
 const adminList = ['/trojan'] // need admin role
 
 router.beforeEach(async (to, from, next) => {
-  if (store.state.UserToken) {
-    if (store.state.isAdmin === null) {
-      await store.dispatch('loginUser')
-    }
-    if (!store.state.isAdmin) {
-      router.options.routes.map((x) => {
-        if (adminList.indexOf(x.path) !== -1) {
-          x.hidden = true
+    if (store.state.UserToken) {
+        if (store.state.isAdmin === null) {
+            await store.dispatch('loginUser')
         }
-      })
-    }
-    if (to.path === '/login') {
-      // if is logged in, redirect to the home page
-      next({ path: '/' })
+        if (!store.state.isAdmin) {
+            router.options.routes.map((x) => {
+                if (adminList.indexOf(x.path) !== -1) {
+                    x.hidden = true
+                }
+            })
+        }
+        if (to.path === '/login') {
+            // if is logged in, redirect to the home page
+            next({ path: '/' })
+        } else {
+            next()
+        }
     } else {
-      next()
+        if (whiteList.indexOf(to.path) !== -1) {
+            next()
+        } else {
+            next('/login')
+        }
     }
-  } else {
-    if (whiteList.indexOf(to.path) !== -1) {
-      next()
-    } else {
-      next('/login')
-    }
-  }
 })
 
 createApp(App).use(ElementPlus).use(router).use(store).use(i18n).component('svg-icon', SvgIcon).mount('#app')
