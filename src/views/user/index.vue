@@ -99,19 +99,19 @@
         </el-table-column>
     </el-table>
     <el-dialog :title="commonTitle"  v-model="userVisible" :width="dialogWidth">
-        <el-input type="text" v-model="userInfo.username" :placeholder="$t('user.inputUsername')" @keyup.enter="commonType === 2? handleAddUser(): handleUpdateUser()"/>
-        <el-input type="text" v-model="userInfo.password" :placeholder="$t('user.inputPassword')" @keyup.enter="commonType === 2? handleAddUser(): handleUpdateUser()"/>
+        <el-input type="text" v-model="userInfo.username" :placeholder="$root.$t('user.inputUsername')" @keyup.enter="commonType === 2? handleAddUser(): handleUpdateUser()"/>
+        <el-input type="text" v-model="userInfo.password" :placeholder="$root.$t('user.inputPassword')" @keyup.enter="commonType === 2? handleAddUser(): handleUpdateUser()"/>
         <template #footer class="dialog-footer">
-            <el-button @click="userVisible = false">{{ $t('cancel') }}</el-button>
-            <el-button type="primary" @click="commonType === 2? handleAddUser(): handleUpdateUser()">{{ $t('ok') }}</el-button>
+            <el-button @click="userVisible = false">{{ $root.$t('cancel') }}</el-button>
+            <el-button type="primary" @click="commonType === 2? handleAddUser(): handleUpdateUser()">{{ $root.$t('ok') }}</el-button>
         </template>
     </el-dialog>
     <el-dialog :title="commonTitle"  v-model="confirmVisible" :width="dialogWidth">
         {{ editUser }}
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="confirmVisible = false;copySelection=[];">{{ $t('cancel') }}</el-button>
-                <el-button type="primary" @click="confirmVisible = false; patchButton ? handlePatchOpera(): handleOpera()">{{ $t('ok') }}</el-button>
+                <el-button @click="confirmVisible = false;copySelection=[];">{{ $root.$t('cancel') }}</el-button>
+                <el-button type="primary" @click="confirmVisible = false; patchButton ? handlePatchOpera(): handleOpera()">{{ $root.$t('ok') }}</el-button>
             </span>
         </template>
     </el-dialog>
@@ -131,8 +131,8 @@
         </el-select>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="quotaVisible=false">{{ $t('cancel') }}</el-button>
-                <el-button type="primary" @click="quotaVisible=false; handleSetQuota()">{{ $t('ok') }}</el-button>
+                <el-button @click="quotaVisible=false">{{ $root.$t('cancel') }}</el-button>
+                <el-button type="primary" @click="quotaVisible=false; handleSetQuota()">{{ $root.$t('ok') }}</el-button>
             </span>
         </template>
     </el-dialog>
@@ -158,8 +158,8 @@
         </el-form>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="expiryVisible = false">{{ $t('cancel') }}</el-button>
-                <el-button type="primary" @click="expiryVisible=false; setUserExpire()">{{ $t('ok') }}</el-button>
+                <el-button @click="expiryVisible = false">{{ $root.$t('cancel') }}</el-button>
+                <el-button type="primary" @click="expiryVisible=false; setUserExpire()">{{ $root.$t('ok') }}</el-button>
             </span>
         </template>
     </el-dialog>
