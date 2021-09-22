@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 import App from '@/App'
+import ElementPlus from 'element-plus'
+import '@/styles/index.scss' // global css
 import store from '@/store/index'
 import router from '@/router/index'
-import ElementPlus from 'element-plus'
 import i18n from './lang/index' // internationalization
-import '@/styles/index.scss' // global css
 import 'virtual:svg-icons-register'
 import SvgIcon from '@/components/SvgIcon'// svg组件
 import '@/icons'

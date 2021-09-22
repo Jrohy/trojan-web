@@ -13,7 +13,7 @@
 
 <script>
 import path from 'path'
-import { isExternal } from '@/utils/validate'
+import { isExternal } from '@/utils/common'
 import AppLink from './Link'
 
 export default {
