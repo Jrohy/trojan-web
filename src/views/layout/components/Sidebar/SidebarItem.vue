@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import path from 'path'
 import { isExternal } from '@/utils/common'
 import AppLink from './Link'
 
@@ -80,7 +79,7 @@ export default {
             if (isExternal(this.basePath)) {
                 return this.basePath
             }
-            return path.resolve(this.basePath, routePath)
+            return `${this.basePath}/${routePath}`.replace('//', '/')
         }
     }
 }
