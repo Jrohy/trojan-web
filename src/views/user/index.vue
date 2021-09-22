@@ -597,6 +597,9 @@ export default {
 .el-icon-arrow-down {
     font-size: 10px;
 }
+.el-table .el-table__cell {
+    padding: 7px 0;
+}
 .tableShow {
     ::-webkit-scrollbar {
         display: none;
