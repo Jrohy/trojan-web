@@ -55,7 +55,6 @@ import { start, stop, restart, update, getLoglevel, setLoglevel, trojanSwitch } 
 export default {
     data() {
         return {
-            queue: [],
             timer: null,
             isFollow: true,
             ws: null,
@@ -282,7 +281,6 @@ export default {
                 this.ws.close()
                 clearInterval(this.timer)
                 this.timer = null
-                this.queue = []
             }
             const textarea = document.getElementById('logshow')
             textarea.innerText = ''
@@ -293,7 +291,7 @@ export default {
                 console.log('ws connected!')
             }
             this.ws.onmessage = function(e) {
-                self.queue.push(e.data)
+                textarea.append(e.data)
             }
             this.ws.onerror = function(e) {
                 console.log('ws error: ' + e)
@@ -301,18 +299,9 @@ export default {
             this.ws.onclose = function() {
                 console.log('ws closed')
             }
-            let firstRun = true
+            textarea.scrollTop = textarea.scrollHeight
+            this.scrollHeight = textarea.scrollTop
             this.timer = setInterval(() => {
-                let message = ''
-                while (this.queue.length > 0) {
-                    message = message + this.queue.shift()
-                }
-                textarea.append(message)
-                if (firstRun) {
-                    textarea.scrollTop = textarea.scrollHeight
-                    this.scrollHeight = textarea.scrollTop
-                    firstRun = !firstRun
-                }
                 if (this.isFollow) {
                     textarea.scrollTop = textarea.scrollHeight
                     this.scrollHeight = textarea.scrollTop
@@ -333,7 +322,7 @@ export default {
                         logshow.style.fontSize = --this.fontSize + 'px'
                     }
                 }
-            })
+            }, { passive: false })
         }
     }
 }
