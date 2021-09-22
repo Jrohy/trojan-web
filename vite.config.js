@@ -77,7 +77,7 @@ export default defineConfig(({ command }) => {
                         axios: 'axios',
                         'crypto-js': 'CryptoJS',
                         'dayjs': 'dayjs',
-                        'easyqrcodejs': 'easyqrcodejs',
+                        'easyqrcodejs': 'QRCode',
                         'nprogress': 'NProgress',
                         'element-plus': 'ElementPlus'
                     }),
