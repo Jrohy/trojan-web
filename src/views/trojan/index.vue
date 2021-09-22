@@ -276,7 +276,6 @@ export default {
         },
         getLog() {
             this.isFollow = true
-            const self = this
             if (this.ws != null) {
                 this.ws.close()
                 clearInterval(this.timer)
