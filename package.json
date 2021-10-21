@@ -7,26 +7,26 @@
     "build": "vite build"
   },
   "dependencies": {
-    "axios": "^0.21.4",
+    "axios": "^0.23.0",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.10.7",
     "easyqrcodejs": "^4.4.6",
-    "element-plus": "^1.1.0-beta.12",
+    "element-plus": "^1.1.0-beta.24",
     "nprogress": "^0.2.0",
-    "vue": "^3.2.14",
-    "vue-i18n": "^9.1.7",
-    "vue-router": "^4.0.11",
+    "vue": "^3.2.20",
+    "vue-i18n": "^9.1.9",
+    "vue-router": "^4.0.12",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.9.0",
-    "@vue/compiler-sfc": "^3.2.14",
+    "@vitejs/plugin-vue": "^1.9.3",
+    "@vue/compiler-sfc": "^3.2.20",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^7.18.0",
+    "eslint-plugin-vue": "^7.20.0",
     "rollup-plugin-external-globals": "^0.6.1",
-    "sass": "^1.42.1",
-    "vite": "^2.5.10",
-    "vite-plugin-svg-icons": "^1.0.4"
+    "sass": "^1.43.2",
+    "vite": "^2.6.10",
+    "vite-plugin-svg-icons": "^1.0.5"
   }
 }
