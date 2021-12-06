@@ -75,6 +75,7 @@ export default {
         limitData: 'limit data',
         modifyUser: 'modify user',
         shareLink: 'trojan share link',
+        importClash: 'import to clash',
         meanUnlimit: '-1 mean unlimit',
         inputUsername: 'username',
         inputPassword: 'password',

@@ -84,11 +84,17 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-            <el-button
-            size="mini"
-            type="text"
-            @click="userItem=scope.row;handleShare()"
-            >{{ $t('share') }}</el-button>
+            <el-dropdown style="margin-left:1px; margin-right:10px">
+                <span class="el-dropdown-link">
+                    {{ $t('share') }} 
+                </span>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item @click="userItem=scope.row;handleShare()">{{ $t('user.shareLink') }}</el-dropdown-item>
+                        <el-dropdown-item @click="userItem=scope.row;handleClash()">{{ $t('user.importClash') }}</el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
             <el-button
             v-if="isAdmin"
             size="mini"
@@ -327,6 +333,11 @@ export default {
                 this.createQRCode()
             })
             this.qrcodeVisible = true
+        },
+        handleClash() {
+            let userInfo = btoa(`{"user": "${this.userItem.Username}", "pass": "${atob(this.userItem.Password)}"}`)
+            let url = `${window.location.origin}/trojan/user/subscribe?token=${userInfo}`
+            window.location.href = `clash://install-config?url=${url}`
         },
         handelEditUser() {
             this.userInfo.username = this.userItem.Username
