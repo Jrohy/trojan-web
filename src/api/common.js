@@ -11,3 +11,11 @@ export function serverInfo() {
 export function setLoginInfo(data) {
     return request.post('/common/loginInfo', data)
 }
+
+export function setClashRules(data) {
+    return request.post('/common/clashRules', data)
+}
+
+export function getClashRules() {
+    return request.get('/common/clashRules')
+}

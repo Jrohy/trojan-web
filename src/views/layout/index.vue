@@ -50,10 +50,10 @@ export default {
             this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
         },
         setDialogWidth() {
-            const clientWith = document.body.clientWidth
-            if (clientWith < 600) {
+            const clientWidth = document.body.clientWidth
+            if (clientWidth < 600) {
                 this.dialogWidth = '80%'
-            } else if (clientWith >= 600 && clientWith < 1000) {
+            } else if (clientWidth >= 600 && clientWidth < 1000) {
                 this.dialogWidth = '50%'
             } else {
                 this.dialogWidth = '25%'

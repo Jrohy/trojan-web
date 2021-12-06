@@ -21,6 +21,7 @@
                                 <el-dropdown-menu>
                                     <el-dropdown-item @click="getTitle(); loginVisible=true">{{ $t('navbar.title') }}</el-dropdown-item>
                                     <el-dropdown-item @click="dialogVisible=true">{{ $t('navbar.password') }}</el-dropdown-item>
+                                    <el-dropdown-item @click="getRules(); rulesVisible=true">{{ $t('navbar.clashRules') }}</el-dropdown-item>
                                     <el-dropdown-item @click="importExportVisible=true">{{ $t('navbar.importExport') }}</el-dropdown-item>
                                     <el-dropdown-item @click="getResetDay(); resetDayVisible=true">{{ $t('navbar.resetDay') }}</el-dropdown-item>
                                 </el-dropdown-menu>
@@ -37,6 +38,15 @@
                     <span class="dialog-footer">
                         <el-button @click="loginVisible = false">{{ $t('cancel') }}</el-button>
                         <el-button type="primary" @click="handleLoginInfo()">{{ $t('ok') }}</el-button>
+                    </span>
+                </template>
+            </el-dialog>
+            <el-dialog custom-class="ruleDialog" :modal="false" :title="$t('navbar.changeRules')" v-model="rulesVisible" :width="clashDialogWidth" :show-close="false">
+                <el-input type="textarea" v-model="rules" :rows="12" :placeholder="$t('navbar.inputTitle')"/>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button @click="rulesVisible = false">{{ $t('cancel') }}</el-button>
+                        <el-button type="primary" @click="handleClashRules()">{{ $t('ok') }}</el-button>
                     </span>
                 </template>
             </el-dialog>
@@ -73,12 +83,12 @@
                 </el-tooltip>
             </el-dialog>
             <el-dialog :modal="false" :title="$t('navbar.passwordTitle')" v-model="dialogVisible" :width="dialogWidth">
-                <el-form  :model="form" :rules="registerRules" ref="form" label-position="left">
+                <el-form :model="form" :rules="registerRules" ref="form" label-position="left">
                     <el-form-item prop="password1">
                         <el-input name="password1" :type="pwdType" v-model="form.password1" :placeholder="$t('inputPass')" show-password/>
                     </el-form-item>
                     <el-form-item prop="password2">
-                        <el-input name="password2" :type="pwdType" @keyup.enter="register" v-model="form.password2" :placeholder="$t('inputPassAgain')" show-password/>
+                        <el-input name="password2" :type="pwdType" v-model="form.password2" :placeholder="$t('inputPassAgain')" show-password/>
                     </el-form-item>
                 </el-form>
                 <template #footer>
@@ -104,7 +114,7 @@ import Hamburger from '@/components/Hamburger'
 import CryptoJS from 'crypto-js'
 import { sleep } from '@/utils/common'
 import { resetPass, check } from '@/api/permission'
-import { version, setLoginInfo } from '@/api/common'
+import { version, setLoginInfo, getClashRules, setClashRules } from '@/api/common'
 import { getResetDay, updateResetDay } from '@/api/data'
 
 export default {
@@ -129,7 +139,9 @@ export default {
             resetDayVisible: false,
             importExportVisible: false,
             loginVisible: false,
+            rulesVisible: false,
             title: '',
+            rules: '',
             resetDay: 1,
             form: {
                 password1: '',
@@ -157,6 +169,16 @@ export default {
         ...mapGetters([
             'sidebar'
         ]),
+        clashDialogWidth: () => {
+            const clientWidth = document.body.clientWidth
+            let clashWidth = '42%'
+            if (clientWidth < 600) {
+                clashWidth = '95%'
+            } else if (clientWidth >= 600 && clientWidth < 1000) {
+                clashWidth = '80%'
+            }
+            return clashWidth
+        },
         uploadUrl: () => {
             return `${process.env.NODE_ENV === 'production' ? `${location.origin}` : 'api'}/trojan/import`
         }
@@ -187,6 +209,10 @@ export default {
             } else {
                 ElMessage.error(res.Msg)
             }
+        },
+        async getRules() {
+            const result = await getClashRules()
+            this.rules = result.Data
         },
         async getTitle() {
             const result = await check()
@@ -232,6 +258,22 @@ export default {
                 ElMessage.error(result.Msg)
             }
             this.loginVisible = false
+        },
+        async handleClashRules() {
+            const formData = new FormData()
+            formData.set('rules', this.rules)
+            const result = await setClashRules(formData)
+            if (result.Msg === 'success') {
+                ElMessage({
+                    message: this.$t('navbar.changeRulesSuccess'),
+                    type: 'success'
+                })
+                document.title = this.title
+                this.$store.commit('SET_TITLE', this.title)
+            } else {
+                ElMessage.error(result.Msg)
+            }
+            this.rulesVisible = false
         },
         async systemVersion() {
             const result = await version()
