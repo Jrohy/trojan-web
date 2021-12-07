@@ -490,7 +490,6 @@ export default {
             this.refresh()
         },
         async handleUpdateUser() {
-            this.$store.commit('SET_NOERROR', true)
             if (this.userInfo.username === '' || this.userInfo.password === '') {
                 this.$message.error(this.$t('inputNotNull'))
                 return
@@ -509,20 +508,22 @@ export default {
                 return
             }
             const result = await updateUser(formData)
+            this.userVisible = false
+            this.refresh()
             if (result.Msg === 'success') {
-                this.$store.commit('SET_NPROGRESS', false)
                 this.$message({
                     message: `${this.$t('user.modifyUser2')}${this.userInfo.username}${this.$t('user.success')}`,
                     type: 'success'
                 })
-                await restart().catch()
-                this.$store.commit('SET_NOERROR', false)
-                this.$store.commit('SET_NPROGRESS', true)
+                this.$store.commit('SET_NOERROR', true)
+                try {
+                    await restart().catch()
+                } catch(e) {
+                    this.$store.commit('SET_NOERROR', false)
+                }
             } else {
                 this.$message.error(result.Msg)
             }
-            this.userVisible = false
-            this.refresh()
         },
         async handleAddUser() {
             if (this.userInfo.username === '' || this.userInfo.password === '') {
