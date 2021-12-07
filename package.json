@@ -13,14 +13,14 @@
     "easyqrcodejs": "^4.4.6",
     "element-plus": "^1.1.0-beta.24",
     "nprogress": "^0.2.0",
-    "vue": "^3.2.23",
+    "vue": "^3.2.24",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.10.1",
-    "@vue/compiler-sfc": "^3.2.23",
+    "@vue/compiler-sfc": "^3.2.24",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^7.20.0",
