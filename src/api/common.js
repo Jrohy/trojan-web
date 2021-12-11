@@ -19,3 +19,7 @@ export function setClashRules(data) {
 export function getClashRules() {
     return request.get('/common/clashRules')
 }
+
+export function resetClashRules() {
+    return request.delete('/common/clashRules')
+}

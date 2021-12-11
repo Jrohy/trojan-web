@@ -1,6 +1,7 @@
 export default {
     ok: '确定',
     cancel: '取消',
+    reset: '重置',
     login: '登录',
     register: '注册',
     log: '日志',
@@ -47,6 +48,7 @@ export default {
         inputTitle: '输入登录页标题',
         changeTitleSuccess: '修改登录页标题成功!',
         changeRulesSuccess: '修改clash规则成功!',
+        resetRulesSuccess: '重置clash规则成功!',
         changeDaySuccess: '修改流量重置日成功!',
         closeResetSuccess: '关闭流量重置成功',
         versionTitle: 'trojan管理程序版本',

@@ -46,6 +46,7 @@
                 <template #footer>
                     <span class="dialog-footer">
                         <el-button @click="rulesVisible = false">{{ $t('cancel') }}</el-button>
+                        <el-button @click="resetClashRules()">{{ $t('reset') }}</el-button>
                         <el-button type="primary" @click="handleClashRules()">{{ $t('ok') }}</el-button>
                     </span>
                 </template>
@@ -114,7 +115,7 @@ import Hamburger from '@/components/Hamburger'
 import CryptoJS from 'crypto-js'
 import { sleep } from '@/utils/common'
 import { resetPass, check } from '@/api/permission'
-import { version, setLoginInfo, getClashRules, setClashRules } from '@/api/common'
+import { version, setLoginInfo, getClashRules, setClashRules, resetClashRules } from '@/api/common'
 import { getResetDay, updateResetDay } from '@/api/data'
 
 export default {
@@ -210,10 +211,6 @@ export default {
                 ElMessage.error(res.Msg)
             }
         },
-        async getRules() {
-            const result = await getClashRules()
-            this.rules = result.Data
-        },
         async getTitle() {
             const result = await check()
             this.title = result.data.title
@@ -259,6 +256,22 @@ export default {
             }
             this.loginVisible = false
         },
+        async getRules() {
+            const result = await getClashRules()
+            this.rules = result.Data
+        },
+        async resetClashRules() {
+            const result = await resetClashRules()
+            if (result.Msg === 'success') {
+                ElMessage({
+                    message: this.$t('navbar.resetRulesSuccess'),
+                    type: 'success'
+                })
+                this.rules = result.Data
+            } else {
+                ElMessage.error(result.Msg)
+            }
+        },
         async handleClashRules() {
             const formData = new FormData()
             formData.set('rules', this.rules)
@@ -268,8 +281,6 @@ export default {
                     message: this.$t('navbar.changeRulesSuccess'),
                     type: 'success'
                 })
-                document.title = this.title
-                this.$store.commit('SET_TITLE', this.title)
             } else {
                 ElMessage.error(result.Msg)
             }

@@ -1,6 +1,7 @@
 export default {
     ok: 'ok',
     cancel: 'cancel',
+    reset: 'reset',
     inputPass: 'input password',
     inputPassAgain: 'input password again',
     passLessError: "password number can't less than 5",
@@ -25,6 +26,7 @@ export default {
         changeRules: 'Change clash rules',
         changeTitleSuccess: 'Change title success!',
         changeRulesSuccess: 'Change clash rules success!',
+        resetRulesSuccess: 'Reset clash rules success!',
         changeDaySuccess: 'Change data reset day success!',
         closeResetSuccess: 'Close data reset success!',
         inputTitle: 'input login page title',
