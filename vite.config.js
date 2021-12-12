@@ -56,7 +56,7 @@ export default defineConfig(({ command }) => {
                 },
             }
         },
-        build:{
+        build: {
             assetsDir: 'static',
             terserOptions: {
                 compress: {
