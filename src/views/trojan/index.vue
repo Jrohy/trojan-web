@@ -1,16 +1,16 @@
 <template>
   <div :style="mainStyle">
     <el-form :inline="true" style="margin-top: 15px">
-        <el-form-item  size="small">
+        <el-form-item>
             <el-button-group>
-                <el-button type="primary" icon="el-icon-refresh" @click="update()">{{ $t('update') }}</el-button>
-                <el-button type="primary" icon="el-icon-video-play" @click="start()">{{ $t('start') }}</el-button>
-                <el-button type="primary" icon="el-icon-video-pause" @click="stop()">{{ $t('stop') }}</el-button>
-                <el-button type="primary" icon="el-icon-refresh-right" @click="restart()">{{ $t('restart') }}</el-button>
+                <el-button type="primary" :icon="Refresh" @click="update()">{{ $t('update') }}</el-button>
+                <el-button type="primary" :icon="VideoPlay" @click="start()">{{ $t('start') }}</el-button>
+                <el-button type="primary" :icon="VideoPause" @click="stop()">{{ $t('stop') }}</el-button>
+                <el-button type="primary" :icon="RefreshRight" @click="restart()">{{ $t('restart') }}</el-button>
             </el-button-group>
         </el-form-item>
-        <el-form-item  size="small" :label="$t('type')">
-            <el-select size="mini" v-model="type" :placeholder="$t('choice')" filterable @change="trojanSwitch()" style="width: 110px;">
+        <el-form-item :label="$t('type')">
+            <el-select v-model="type" :placeholder="$t('choice')" filterable @change="trojanSwitch()" style="width: 110px;">
             <el-option
                 v-for="item in typeOptions"
                 :key="item.label"
@@ -19,8 +19,8 @@
             </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item  size="small" :label="$t('loglevel')">
-            <el-select size="mini" v-model="loglevel" :placeholder="$t('choice')" filterable @change="setLoglevel()" style="width: 110px;">
+        <el-form-item  :label="$t('loglevel')">
+            <el-select v-model="loglevel" :placeholder="$t('choice')" filterable @change="setLoglevel()" style="width: 110px;">
             <el-option
                 v-for="item in loglevelOptions"
                 :key="item.label"
@@ -29,8 +29,8 @@
             </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item  size="small" :label="$t('line')">
-            <el-select size="mini" v-model="line" :placeholder="$t('choice')" filterable @change="getLog()" style="width: 110px;">
+        <el-form-item :label="$t('line')">
+            <el-select v-model="line" :placeholder="$t('choice')" filterable @change="getLog()" style="width: 110px;">
             <el-option
                 v-for="item in logLineOptions"
                 :key="item.label"
@@ -39,7 +39,7 @@
             </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item  size="small" :label="$t('latest')">
+        <el-form-item :label="$t('latest')">
             <el-switch v-model="isFollow"></el-switch>
         </el-form-item>
     </el-form>
@@ -51,8 +51,17 @@
 import store from '@/store/index.js'
 import { mapState } from 'vuex'
 import { version } from '@/api/common'
+import { Refresh, VideoPlay, VideoPause, RefreshRight } from '@element-plus/icons-vue'
 import { start, stop, restart, update, getLoglevel, setLoglevel, trojanSwitch } from '@/api/trojan'
 export default {
+    setup() {
+        return {
+            Refresh,
+            VideoPlay,
+            VideoPause,
+            RefreshRight
+        }
+    },
     data() {
         return {
             timer: null,
