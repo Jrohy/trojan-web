@@ -26,7 +26,7 @@
     "eslint-plugin-vue": "^8.4.1",
     "rollup-plugin-external-globals": "^0.6.1",
     "sass": "^1.49.7",
-    "vite": "^2.8.2",
+    "vite": "^2.8.3",
     "vite-plugin-svg-icons": "^1.1.0"
   }
 }
