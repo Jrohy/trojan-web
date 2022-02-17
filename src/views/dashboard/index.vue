@@ -118,20 +118,23 @@
     <el-row style="margin-top:10px">
         <el-col :span='7'>
             <el-card shadow="hover">
+                <i v-if="iconShow" :class="uploadIcon" class="home-icon"></i>
                 {{ $t('dashboard.upload') }}:
-                <el-tag effect="dark" type="success">{{ uploadData }}</el-tag>
+                <el-tag effect="dark" size="mini" type="success">{{ uploadData }}</el-tag>
             </el-card>
         </el-col>
         <el-col :span='7' :offset='1'>
             <el-card shadow="hover">
+                <i v-if="iconShow" :class="downloadIcon" class="home-icon"></i>
                 {{ $t('dashboard.download') }}:
-                <el-tag effect="dark" type="success">{{ downloadData }}</el-tag>
+                <el-tag effect="dark" size="mini" type="success">{{ downloadData }}</el-tag>
             </el-card>
         </el-col>
         <el-col :span='7' :offset='1'>
             <el-card shadow="hover">
+                <i v-if="iconShow" :class="totalIcon" class="home-icon"></i>
                 {{ $t('dashboard.total') }}:
-                <el-tag effect="dark" type="success">{{ totalData }}</el-tag>
+                <el-tag effect="dark" size="mini" type="success">{{ totalData }}</el-tag>
             </el-card>
         </el-col>
     </el-row>
@@ -148,14 +151,44 @@ export default {
     data() {
         return {
             timer: null,
+            iconShow: true,
             trojanVersion: '',
             trojanRuntime: '',
             keyOffset: 0,
             valueOffset: 0,
             userList: [],
+            downloadIcon: '',
+            uploadIcon: '',
+            totalIcon: '',
             downloadData: 0,
             uploadData: 0,
             totalData: 0,
+            foodIcon: [
+                'food',
+                'chicken',
+                'ice-cream',
+                'dessert',
+                'sugar',
+                'tableware',
+                'burger',
+                'coffee-cup',
+                'cold-drink',
+                'goblet-full',
+                'grape',
+                'watermelon',
+                'cherry',
+                'apple',
+                'pear',
+                'orange',
+                'coffee',
+                'ice-tea',
+                'ice-drink',
+                'milk-tea',
+                'potato-strips',
+                'lollipop',
+                'ice-cream-square',
+                'ice-cream-round'
+            ],
             cpu: { percentage: 0, color: '' },
             memory: { percentage: 0, used: 0, total: 0, color: '' },
             swap: { percentage: 0, used: 0, total: 0, color: '' },
@@ -173,6 +206,7 @@ export default {
         this.setOffset()
         this.getVersion()
         this.getUserList()
+        this.randomIcon()
     },
     mounted() {
         if (this.isAdmin) {
@@ -196,14 +230,22 @@ export default {
         clearInterval(this.timer)
     },
     methods: {
+        randomIcon() {
+            const size = this.foodIcon.length
+            this.downloadIcon = 'el-icon-' + this.foodIcon[Math.floor(Math.random() * size)]
+            this.uploadIcon = 'el-icon-' + this.foodIcon[Math.floor(Math.random() * size)]
+            this.totalIcon = 'el-icon-' + this.foodIcon[Math.floor(Math.random() * size)]
+        },
         setOffset() {
             const clientWith = document.body.clientWidth
             if (clientWith < 1000) {
                 this.keyOffset = 1
                 this.valueOffset = 2
+                this.iconShow = false
             } else {
                 this.keyOffset = 0
                 this.valueOffset = 0
+                this.iconShow = true
             }
         },
         navigate(path) {
@@ -291,6 +333,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.home-icon {
+    font-size: 32px;
+    padding: 0;
+}
 .home-card {
     // margin-top:10px;
     padding:3px;

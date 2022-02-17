@@ -7,8 +7,8 @@
     <div class="right-menu">
         <div>
             <el-dropdown trigger="click" placement="top">
-                <span>
-                    <el-icon style="margin-top:18px"><ArrowDown/></el-icon>
+                <span class="el-dropdown-link">
+                    <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
@@ -106,10 +106,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ArrowDown } from '@element-plus/icons-vue'
-</script>
 
 <script>
 import { ElMessage } from "element-plus"

@@ -1,13 +1,13 @@
 <template>
   <div>
-    <el-form :inline="true" label-width="80px">
-    <el-form-item >
+    <el-form :inline="true" label-width="80px" style="height: 29px;">
+    <el-form-item size="mini">
         <el-button-group>
-            <el-button type="primary" :icon="Refresh" @click="refresh()">{{ textShow($t('refresh')) }}</el-button>
-            <el-button type="primary" :icon="Plus" @click="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">{{ textShow($t('add')) }}</el-button>
-            <el-button type="primary" :icon="RefreshLeft" @click="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">{{ textShow($t('user.reset')) }}</el-button>
-            <el-button type="primary" :icon="Scissor" @click="copySelection=multipleSelection;patchButton=true;quotaVisible=true" v-if="isAdmin">{{ textShow($t('user.limitData')) }}</el-button>
-            <el-button type="danger" :icon="Delete" @click="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">{{ textShow($t('delete')) }}</el-button>
+            <el-button type="primary" icon="el-icon-refresh" @click="refresh()">{{ textShow($t('refresh')) }}</el-button>
+            <el-button type="primary" icon="el-icon-plus" @click="commonType=2;userInfo.username='';userInfo.password='';userVisible=true" v-if="isAdmin">{{ textShow($t('add')) }}</el-button>
+            <el-button type="primary" icon="el-icon-refresh-left" @click="copySelection=multipleSelection;patchButton=true;commonType=1;confirmVisible=true" v-if="isAdmin">{{ textShow($t('user.reset')) }}</el-button>
+            <el-button type="primary" icon="el-icon-scissors" @click="copySelection=multipleSelection;patchButton=true;quotaVisible=true" v-if="isAdmin">{{ textShow($t('user.limitData')) }}</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click="copySelection=multipleSelection;patchButton=true;commonType=0;confirmVisible=true" v-if="isAdmin">{{ textShow($t('delete')) }}</el-button>
         </el-button-group>
     </el-form-item>
     </el-form>
@@ -50,7 +50,7 @@
             <p>{{ $t('user.remaining') }}: {{ calculateDay(scope.row.ExpiryDate) }}</p>
             <template #reference>
                 <div class="name-wrapper">
-                    <el-tag>{{ scope.row.ExpiryDate === '' ? $t('user.unlimit') : scope.row.ExpiryDate }}</el-tag>
+                    <el-tag size="medium">{{ scope.row.ExpiryDate === '' ? $t('user.unlimit') : scope.row.ExpiryDate }}</el-tag>
                 </div>
             </template>
             </el-popover>
@@ -62,14 +62,15 @@
         <template #header>
             <el-input
                 v-model="search"
+                size="small"
                 :placeholder="$t('user.search')" v-if="isAdmin"/>
             <div v-if="!isAdmin">{{ $t('user.operate') }}</div>
         </template>
         <template #default="scope">
-            <el-dropdown v-if="isAdmin">
-                <el-button type="text">
-                    {{ $t('edit') }}
-                </el-button>
+            <el-dropdown v-if="isAdmin" style="margin-right: 5px;">
+                <span class="el-dropdown-link">
+                    {{ $t('edit') }}<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item @click="userItem=scope.row; patchButton=false; quotaVisible=true">{{ $t('user.limitData') }}</el-dropdown-item>
@@ -83,10 +84,10 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-            <el-dropdown style="margin-left:5px;">
-                <el-button type="text">
+            <el-dropdown style="margin-left:1px; margin-right:10px">
+                <span class="el-dropdown-link">
                     {{ $t('share') }} 
-                </el-button>
+                </span>
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item @click="userItem=scope.row;handleShare()">{{ $t('user.shareLink') }}</el-dropdown-item>
@@ -94,7 +95,10 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-            <el-button style="margin-left:5px;" v-if="isAdmin" type="text"
+            <el-button
+            v-if="isAdmin"
+            size="mini"
+            type="text"
             @click="userItem=scope.row;commonType=0;patchButton=false;confirmVisible=true"
             >{{ $t('delete') }}</el-button>
         </template>
@@ -121,9 +125,9 @@
         {{ editUser }}
         <el-divider v-if="editUser != ''"></el-divider>
         <el-tooltip effect="dark" :content="$t('user.meanUnlimit')" placement="top">
-            <el-input-number v-model="quota" :min="-1" :precision="0"></el-input-number>
+            <el-input-number v-model="quota" :min="-1" :precision="0" size="mini"></el-input-number>
         </el-tooltip>
-        <el-select v-model="quotaUnit" :placeholder="$t('choice')" style="margin-left: 5px; width:80px">
+        <el-select v-model="quotaUnit" :placeholder="$t('choice')" size="mini" style="margin-left: 5px; width:80px">
             <el-option
             v-for="item in quotaOptions"
             :key="item.value"
@@ -145,7 +149,7 @@
     <el-dialog :title="expiryShow" v-model="expiryVisible" :width="dialogWidth">
         <el-form>
             <el-form-item :label="$t('user.preset')">
-                <el-select v-model="useDays" :placeholder="$t('choice')" filterable style="width: 130px;">
+                <el-select size="mini" v-model="useDays" :placeholder="$t('choice')" filterable style="width: 130px;">
                     <el-option
                         v-for="item in expiryDateOptions"
                         :key="item.label"
@@ -155,7 +159,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item :label="$t('user.days')">
-                <el-input-number v-model="useDays" :min=0></el-input-number>
+                <el-input-number size="small" v-model="useDays" :min=0></el-input-number>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -170,7 +174,6 @@
 
 <script>
 import { userList, addUser, delUser, updateUser, setExpire, cancelExpire } from '@/api/user'
-import { Refresh, Plus, RefreshLeft, Scissor, Delete } from '@element-plus/icons-vue'
 import { setQuota, cleanData } from '@/api/data'
 import { setDomain, restart } from '@/api/trojan'
 import { readablizeBytes, isValidIP } from '@/utils/common'
@@ -179,15 +182,6 @@ import * as QRCode from 'easyqrcodejs'
 import dayjs from 'dayjs'
 
 export default {
-    setup() {
-        return {
-            Refresh,
-            Plus,
-            RefreshLeft,
-            Scissor,
-            Delete
-        }
-    },
     data() {
         return {
             search: '',
@@ -295,11 +289,11 @@ export default {
     },
     created() {
         this.refresh()
-        this.clientHeight = document.body.clientHeight - 120
+        this.clientHeight = document.body.clientHeight - 100
     },
     mounted() {
         window.onresize = () => {
-            this.clientHeight = document.body.clientHeight - 120
+            this.clientHeight = document.body.clientHeight - 100
         }
     },
     methods: {
@@ -336,12 +330,7 @@ export default {
         handleShare() {
             this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:${this.port}`
             this.$nextTick(() => {
-                // eslint-disable-next-line
-                new QRCode(this.$refs.qrcode, {
-                    width: 200,
-                    height: 200,
-                    text: this.shareLink
-                }) 
+                this.createQRCode()
             })
             this.qrcodeVisible = true
         },
@@ -355,6 +344,14 @@ export default {
             this.userInfo.password = atob(this.userItem.Password)
             this.commonType = 3
             this.userVisible = true
+        },
+        createQRCode() {
+            // eslint-disable-next-line
+            new QRCode(this.$refs.qrcode, {
+                width: 200,
+                height: 200,
+                text: this.shareLink
+            })
         },
         textShow(text) {
             if (this.dialogWidth === '80%') {
@@ -603,6 +600,17 @@ export default {
 .qrcodeCenter {
     margin: 0 auto;
     width: 200px;
+}
+.el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+    font-size: 12px;
+}
+.el-icon-arrow-down {
+    font-size: 10px;
+}
+.el-table .el-table__cell {
+    padding: 7px 0;
 }
 .tableShow {
     ::-webkit-scrollbar {
