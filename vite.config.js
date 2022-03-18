@@ -58,6 +58,7 @@ export default defineConfig(({ command }) => {
         },
         build: {
             assetsDir: 'static',
+            minify: 'terser',
             terserOptions: {
                 compress: {
                     drop_console: true,
