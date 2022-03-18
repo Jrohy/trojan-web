@@ -328,7 +328,8 @@ export default {
             return (a.Download + a.Upload) - (b.Download + b.Upload)
         },
         handleShare() {
-            this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:${this.port}`
+            let remark = encodeURIComponent(`${this.domain}:${this.port}`)
+            this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:${this.port}#${remark}`
             this.$nextTick(() => {
                 this.createQRCode()
             })
