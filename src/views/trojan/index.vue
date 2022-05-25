@@ -3,10 +3,10 @@
     <el-form :inline="true" style="margin-top: 15px">
         <el-form-item>
             <el-button-group>
-                <el-button type="primary" :icon="Refresh" @click="update()">{{ $t('update') }}</el-button>
-                <el-button type="primary" :icon="VideoPlay" @click="start()">{{ $t('start') }}</el-button>
-                <el-button type="primary" :icon="VideoPause" @click="stop()">{{ $t('stop') }}</el-button>
-                <el-button type="primary" :icon="RefreshRight" @click="restart()">{{ $t('restart') }}</el-button>
+                <el-button type="primary" :icon="Refresh" @click="update()">{{ textShow($t('update')) }}</el-button>
+                <el-button type="primary" :icon="VideoPlay" @click="start()">{{ textShow($t('start')) }}</el-button>
+                <el-button type="primary" :icon="VideoPause" @click="stop()">{{ textShow($t('stop')) }}</el-button>
+                <el-button type="primary" :icon="RefreshRight" @click="restart()">{{ textShow($t('restart')) }}</el-button>
             </el-button-group>
         </el-form-item>
         <el-form-item :label="$t('type')">
@@ -150,7 +150,7 @@ export default {
         this.getTrojanType()
     },
     computed: {
-        ...mapState(['line', 'loglevel', 'type']),
+        ...mapState(['line', 'loglevel', 'type', 'dialogWidth']),
         line: {
             get() {
                 return this.$store.state.line
@@ -183,6 +183,13 @@ export default {
         this.ws.close()
     },
     methods: {
+        textShow(text) {
+            if (this.dialogWidth === '80%') {
+                return ''
+            } else {
+                return text
+            }
+        },
         async setLoglevel() {
             try {
                 const formData = new FormData()
