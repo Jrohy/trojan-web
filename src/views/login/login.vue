@@ -21,7 +21,7 @@
         />
       </el-form-item>
 
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+      <el-tooltip v-model:visible="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -122,29 +122,25 @@ export default {
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
 $light_gray:#fff;
 $cursor: #fff;
 
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-
 /* reset element-ui css */
 .login-container {
   .el-input {
-    display: inline-block;
     height: 47px;
-    width: 85%;
+    width: 92%;
     position: static;
 
+    .el-input__wrapper {
+      padding:0;
+      box-shadow:none;
+    }
+
     input {
-      background: transparent;
+      background: $bg;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;

@@ -91,22 +91,24 @@ $bg:#283443;
 $light_gray:#fff;
 $cursor: #fff;
 
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .register-container .el-input input {
-    color: $cursor;
-  }
-}
-
 /* reset element-ui css */
 .register-container {
   .el-input {
-    display: inline-block;
     height: 47px;
-    width: 85%;
+    width: 92%;
     position: static;
 
+    .el-input__wrapper {
+      padding:0;
+      box-shadow:none;
+    }
+
+    .el-input__suffix {
+        background: $bg;
+    }
+
     input {
-      background: transparent;
+      background: $bg;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;

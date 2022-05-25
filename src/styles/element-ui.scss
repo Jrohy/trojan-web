@@ -52,3 +52,11 @@
     padding: 3px;
   }
 }
+
+.el-menu-item .el-menu-tooltip__trigger {
+  display: inline
+}
+
+.el-form-item__content {
+  flex-wrap: nowrap
+}
