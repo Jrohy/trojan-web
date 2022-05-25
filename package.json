@@ -11,12 +11,12 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.2",
     "easyqrcodejs": "^4.4.10",
-    "element-plus": "2.1.11",
+    "element-plus": "2.2.2",
     "nprogress": "^0.2.0",
     "vue": "^3.2.36",
     "vue-i18n": "^9.1.10",
     "vue-router": "^4.0.15",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",

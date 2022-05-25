@@ -66,9 +66,8 @@ export default defineConfig(({ command }) => {
                 }
             },
             rollupOptions:{
-                external: ['vue', 'element-plus', 'vuex', 'vue-i18n', 
-                'vue-router', 'axios', 'crypto-js', 'dayjs', 'easyqrcodejs', 
-                'nprogress', 'element-plus'],
+                external: ['vue', 'vuex', 'vue-i18n', 'vue-router', 'element-plus',
+                'axios', 'crypto-js', 'dayjs', 'easyqrcodejs', 'nprogress'],
                 plugins: [
                     externalGlobals({
                         vue: 'Vue',

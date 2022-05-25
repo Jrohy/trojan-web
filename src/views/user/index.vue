@@ -67,7 +67,7 @@
         </template>
         <template #default="scope">
             <el-dropdown v-if="isAdmin">
-                <el-button type="text">
+                <el-button type="primary" link>
                     {{ $t('edit') }}
                 </el-button>
                 <template #dropdown>
@@ -84,7 +84,7 @@
                 </template>
             </el-dropdown>
             <el-dropdown style="margin-left:5px">
-                <el-button type="text">
+                <el-button type="primary" link>
                     {{ $t('share') }} 
                 </el-button>
                 <template #dropdown>
@@ -94,7 +94,7 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-            <el-button style="margin-left:5px;" v-if="isAdmin" type="text"
+            <el-button style="margin-left:5px;" v-if="isAdmin" type="primary" link
             @click="userItem=scope.row;commonType=0;patchButton=false;confirmVisible=true"
             >{{ $t('delete') }}</el-button>
         </template>

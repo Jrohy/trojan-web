@@ -6,10 +6,8 @@
 
     <div class="right-menu">
         <div>
-            <el-dropdown trigger="click" placement="top">
-                <span>
-                    <el-icon style="margin-top:18px"><ArrowDown/></el-icon>
-                </span>
+            <el-dropdown trigger="click" >
+                <el-button style="margin-top:7px" :icon="ArrowDown" link/>
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item @click="systemVersion(); versionVisible=true">{{ $t('navbar.version') }}</el-dropdown-item>
@@ -107,12 +105,9 @@
   </div>
 </template>
 
-<script setup>
-import { ArrowDown } from '@element-plus/icons-vue'
-</script>
-
 <script>
 import { ElMessage } from "element-plus"
+import { ArrowDown } from '@element-plus/icons-vue'
 import { mapGetters, mapState } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
@@ -123,6 +118,11 @@ import { version, setLoginInfo, getClashRules, setClashRules, resetClashRules } 
 import { getResetDay, updateResetDay } from '@/api/data'
 
 export default {
+    setup() {
+        return {
+            ArrowDown
+        }
+    },
     data() {
         const validatePass = (rule, value, callback) => {
             if (value.length < 5) {
