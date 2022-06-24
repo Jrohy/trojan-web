@@ -66,7 +66,7 @@ export default {
         disk: '硬盘',
         trojanVersion: 'trojan 版本',
         trojanUser: 'trojan 用户数',
-        trojanRuntime: 'trojan 已运行',
+        trojanUptime: 'trojan 已运行',
         netSpeed: '网速',
         netCount: '连接数',
         load: '服务器负载',

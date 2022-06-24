@@ -63,10 +63,10 @@
             <el-card class="home-card" shadow="hover">
                 <el-row>
                     <el-col :span="10">
-                        <b>{{ $t('dashboard.trojanRuntime') }}:</b>
+                        <b>{{ $t('dashboard.trojanUptime') }}:</b>
                     </el-col>
                     <el-col :span="12"  style="padding-top:1px">
-                        {{ trojanRuntime }}
+                        {{ trojanUptime }}
                     </el-col>
                 </el-row>
             </el-card>
@@ -149,7 +149,7 @@ export default {
         return {
             timer: null,
             trojanVersion: '',
-            trojanRuntime: '',
+            trojanUptime: '',
             keyOffset: 0,
             valueOffset: 0,
             userList: [],
@@ -264,19 +264,19 @@ export default {
             const result = await version()
             const data = result.Data
             this.trojanVersion = data.trojanVersion
-            this.trojanRuntime = this.parseRuntime(data.trojanRuntime)
+            this.trojanUptime = this.parseUptime(data.trojanUptime)
         },
-        parseRuntime(runtime) {
+        parseUptime(uptime) {
             let result = ''
-            if (runtime.indexOf('-') !== -1) {
-                const splitInfo = runtime.split('-')
+            if (uptime.indexOf('-') !== -1) {
+                const splitInfo = uptime.split('-')
                 result += splitInfo[0] + `${this.$t('dashboard.day')} `
                 const timeInfo = splitInfo[1].split(':')
                 result += timeInfo[0] + `${this.$t('dashboard.hour')} `
                 result += timeInfo[1] + `${this.$t('dashboard.minute')} `
                 result += timeInfo[2] + `${this.$t('dashboard.second')} `
             } else {
-                const splitInfo = runtime.split(':')
+                const splitInfo = uptime.split(':')
                 if (splitInfo.length === 3) {
                     result += splitInfo[0] + `${this.$t('dashboard.hour')} `
                     result += splitInfo[1] + `${this.$t('dashboard.minute')} `

@@ -45,7 +45,7 @@ export default {
         disk: 'disk',
         trojanVersion: 'Trojan Version',
         trojanUser: 'Trojan User',
-        trojanRuntime: 'Trojan Uptime',
+        trojanUptime: 'Trojan Uptime',
         netSpeed: 'Network Speed',
         netCount: 'Connection Count',
         load: 'Load',
