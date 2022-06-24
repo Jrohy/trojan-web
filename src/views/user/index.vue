@@ -67,7 +67,7 @@
         </template>
         <template #default="scope">
             <el-dropdown v-if="isAdmin">
-                <el-button type="primary" link>
+                <el-button type="primary" link style="margin-top:2.6px">
                     {{ $t('edit') }}
                 </el-button>
                 <template #dropdown>
@@ -84,7 +84,7 @@
                 </template>
             </el-dropdown>
             <el-dropdown style="margin-left:5px">
-                <el-button type="primary" link>
+                <el-button type="primary" link style="margin-top:2.6px">
                     {{ $t('share') }} 
                 </el-button>
                 <template #dropdown>

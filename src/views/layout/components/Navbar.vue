@@ -7,7 +7,7 @@
     <div class="right-menu">
         <div>
             <el-dropdown trigger="click" >
-                <el-button style="margin-top:7px" :icon="ArrowDown" link/>
+                <el-button style="margin-top:13px" :icon="ArrowDown" link/>
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item @click="systemVersion(); versionVisible=true">{{ $t('navbar.version') }}</el-dropdown-item>
