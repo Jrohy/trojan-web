@@ -11,7 +11,7 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.3",
     "easyqrcodejs": "^4.4.12",
-    "element-plus": "^2.2.6",
+    "element-plus": "^2.2.13",
     "nprogress": "^0.2.0",
     "vue": "^3.2.37",
     "vue-i18n": "^9.1.10",
