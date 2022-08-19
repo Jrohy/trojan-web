@@ -9,7 +9,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
-    "dayjs": "^1.11.3",
+    "dayjs": "^1.11.5",
     "easyqrcodejs": "^4.4.12",
     "element-plus": "^2.2.13",
     "nprogress": "^0.2.0",
