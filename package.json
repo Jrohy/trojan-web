@@ -27,6 +27,6 @@
     "rollup-plugin-external-globals": "^0.6.1",
     "sass": "^1.54.4",
     "vite": "^2.9.12",
-    "vite-plugin-svg-icons": "^1.1.0"
+    "vite-plugin-svg-icons": "^2.0.1"
   }
 }
