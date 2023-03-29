@@ -604,6 +604,7 @@ export default {
 .qrcodeCenter {
     margin: 0 auto;
     width: 200px;
+    overflow-wrap: anywhere;
 }
 .tableShow {
     ::-webkit-scrollbar {

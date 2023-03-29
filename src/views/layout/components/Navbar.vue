@@ -39,7 +39,7 @@
                     </span>
                 </template>
             </el-dialog>
-            <el-dialog custom-class="ruleDialog" :modal="false" :title="$t('navbar.changeRules')" v-model="rulesVisible" :width="clashDialogWidth" :show-close="false">
+            <el-dialog class="ruleDialog" :modal="false" :title="$t('navbar.changeRules')" v-model="rulesVisible" :width="clashDialogWidth" :show-close="false">
                 <el-input type="textarea" v-model="rules" :rows="12" :placeholder="$t('navbar.inputTitle')"/>
                 <template #footer>
                     <span class="dialog-footer">
