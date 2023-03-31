@@ -174,7 +174,7 @@ import { userList, addUser, delUser, updateUser, setExpire, cancelExpire } from 
 import { Refresh, Plus, RefreshLeft, Scissor, Delete } from '@element-plus/icons-vue'
 import { setQuota, cleanData } from '@/api/data'
 import { setDomain, restart } from '@/api/trojan'
-import { readablizeBytes, isValidIP } from '@/utils/common'
+import { readablizeBytes, isValidIP, base64Encode, base64Decode } from '@/utils/common'
 import { mapState } from 'vuex'
 import * as QRCode from 'easyqrcodejs'   
 import dayjs from 'dayjs'
@@ -312,7 +312,7 @@ export default {
             this.multipleSelection = val
         },
         passwordFormatter(row) {
-            return atob(row.Password)
+            return base64Decode(row.Password)
         },
         quotaFormatter(row) {
             return row.Quota === -1 ? this.$t('user.unlimit') : readablizeBytes(row.Quota)
@@ -341,9 +341,9 @@ export default {
         handleShare() {
             if (this.commonType === 4) {
                 let remark = encodeURIComponent(`${this.domain}:${this.port}`)
-                this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:${this.port}#${remark}`
+                this.shareLink = `trojan://${base64Decode(this.userItem.Password)}@${this.domain}:${this.port}#${remark}`
             } else if (this.commonType === 5) {
-                let userInfo = btoa(`{"user": "${this.userItem.Username}", "pass": "${atob(this.userItem.Password)}"}`)
+                let userInfo = base64Encode(`{"user": "${this.userItem.Username}", "pass": "${base64Decode(this.userItem.Password)}"}`)
                 let protocol = `${window.location.hostname}` === '127.0.0.1' ? 'https': `${window.location.protocol}`
                 this.shareLink = `${protocol}://${this.domain}:${this.port}/trojan/user/subscribe?token=${userInfo}`
             }
@@ -358,13 +358,13 @@ export default {
             this.qrcodeVisible = true
         },
         handleClash() {
-            let userInfo = btoa(`{"user": "${this.userItem.Username}", "pass": "${atob(this.userItem.Password)}"}`)
+            let userInfo = base64Encode(`{"user": "${this.userItem.Username}", "pass": "${base64Decode(this.userItem.Password)}"}`)
             let url = `${window.location.origin}/trojan/user/subscribe?token=${userInfo}`
             window.location.href = `clash://install-config?url=${url}`
         },
         handelEditUser() {
             this.userInfo.username = this.userItem.Username
-            this.userInfo.password = atob(this.userItem.Password)
+            this.userInfo.password = base64Decode(this.userItem.Password)
             this.commonType = 3
             this.userVisible = true
         },
@@ -517,7 +517,7 @@ export default {
             formData.set('id', this.userItem.ID)
             formData.set('username', this.userInfo.username)
             try {
-                formData.set('password', btoa(this.userInfo.password))
+                formData.set('password', base64Encode(this.userInfo.password))
             } catch (e) {
                 this.$message.error(this.$t('user.passLimit'))
                 return
@@ -552,7 +552,7 @@ export default {
             const formData = new FormData()
             formData.set('username', this.userInfo.username)
             try {
-                formData.set('password', btoa(this.userInfo.password))
+                formData.set('password', base64Encode(this.userInfo.password))
             } catch (e) {
                 this.$message.error(this.$t('user.passLimit'))
                 return

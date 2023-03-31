@@ -21,6 +21,14 @@ export function isValidIP(ip) {
  * @param {string} path
  * @returns {Boolean}
  */
- export function isExternal(path) {
+export function isExternal(path) {
     return /^(https?:|mailto:|tel:)/.test(path)
+}
+
+export function base64Encode(str) {
+    return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(str))
+}
+
+export function base64Decode(str) {
+    return CryptoJS.enc.Base64.parse(str).toString(CryptoJS.enc.Utf8)
 }
