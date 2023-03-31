@@ -89,7 +89,8 @@
                 </el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item @click="userItem=scope.row;handleShare()">{{ $t('user.shareLink') }}</el-dropdown-item>
+                        <el-dropdown-item @click="userItem=scope.row;commonType=4;handleShare()">{{ $t('user.trojanShareLink') }}</el-dropdown-item>
+                        <el-dropdown-item @click="userItem=scope.row;commonType=5;handleShare()">{{ $t('user.clashShareLink') }}</el-dropdown-item>
                         <el-dropdown-item @click="userItem=scope.row;handleClash()">{{ $t('user.importClash') }}</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
@@ -103,7 +104,7 @@
     <el-dialog :title="commonTitle"  v-model="userVisible" :width="dialogWidth">
         <el-input type="text" v-model="userInfo.username" :placeholder="$root.$t('user.inputUsername')" @keyup.enter="commonType === 2? handleAddUser(): handleUpdateUser()"/>
         <el-input type="text" v-model="userInfo.password" :placeholder="$root.$t('user.inputPassword')" @keyup.enter="commonType === 2? handleAddUser(): handleUpdateUser()"/>
-        <template #footer class="dialog-footer">
+        <template #footer>
             <el-button @click="userVisible = false">{{ $root.$t('cancel') }}</el-button>
             <el-button type="primary" @click="commonType === 2? handleAddUser(): handleUpdateUser()">{{ $root.$t('ok') }}</el-button>
         </template>
@@ -138,7 +139,7 @@
             </span>
         </template>
     </el-dialog>
-    <el-dialog :title="$t('user.shareLink')" v-model="qrcodeVisible" :width="dialogWidth" @close="closeQRCode">
+    <el-dialog :title="commonTitle" v-model="qrcodeVisible" :width="dialogWidth" @close="closeQRCode">
         <div id="qrcode" ref="qrcode" class="qrcodeCenter"></div>
         <p class="qrcodeCenter"> {{ shareLink }} </p>
     </el-dialog>
@@ -205,7 +206,7 @@ export default {
             expiryVisible: false,
             expiryShow: '',
             patchButton: false,
-            // 确认框类型: 0删除, 1重置流量, 2新增用户, 3修改用户
+            // 确认框类型: 0 删除, 1 重置流量, 2 新增用户, 3 修改用户, 4 trojan链接, 5 clash链接
             commonType: 0,
             userItem: null,
             quota: -1,
@@ -251,7 +252,11 @@ export default {
         ...mapState(['dialogWidth', 'isAdmin']),
         commonTitle: function() {
             let text = ''
-            if (this.commonType === 2) {
+            if (this.commonType === 4) {
+                text = this.$t('user.trojanShareLink')
+            } else if (this.commonType === 5) {
+                text = this.$t('user.clashShareLink')
+            } else if (this.commonType === 2) {
                 text = this.$t('user.addUser')
             } else if (this.commonType === 3) {
                 text = this.$t('user.modifyUser2') + this.userItem.Username + this.$t('user.userpass')
@@ -334,8 +339,14 @@ export default {
             return (a.Download + a.Upload) - (b.Download + b.Upload)
         },
         handleShare() {
-            let remark = encodeURIComponent(`${this.domain}:${this.port}`)
-            this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:${this.port}#${remark}`
+            if (this.commonType === 4) {
+                let remark = encodeURIComponent(`${this.domain}:${this.port}`)
+                this.shareLink = `trojan://${atob(this.userItem.Password)}@${this.domain}:${this.port}#${remark}`
+            } else if (this.commonType === 5) {
+                let userInfo = btoa(`{"user": "${this.userItem.Username}", "pass": "${atob(this.userItem.Password)}"}`)
+                let protocol = `${window.location.hostname}` === '127.0.0.1' ? 'https': `${window.location.protocol}`
+                this.shareLink = `${protocol}://${this.domain}:${this.port}/trojan/user/subscribe?token=${userInfo}`
+            }
             this.$nextTick(() => {
                 // eslint-disable-next-line
                 new QRCode(this.$refs.qrcode, {
