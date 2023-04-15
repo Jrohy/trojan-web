@@ -344,8 +344,8 @@ export default {
                 this.shareLink = `trojan://${base64Decode(this.userItem.Password)}@${this.domain}:${this.port}#${remark}`
             } else if (this.commonType === 5) {
                 let userInfo = base64Encode(`{"user": "${this.userItem.Username}", "pass": "${base64Decode(this.userItem.Password)}"}`)
-                let protocol = `${window.location.hostname}` === '127.0.0.1' ? 'https': `${window.location.protocol}`
-                this.shareLink = `${protocol}://${this.domain}:${this.port}/trojan/user/subscribe?token=${userInfo}`
+                let protocol = `${window.location.hostname}` === '127.0.0.1' ? 'https:': `${window.location.protocol}`
+                this.shareLink = `${protocol}//${this.domain}:${this.port}/trojan/user/subscribe?token=${userInfo}`
             }
             this.$nextTick(() => {
                 // eslint-disable-next-line
